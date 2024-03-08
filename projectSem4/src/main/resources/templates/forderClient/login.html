@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout"
+    layout:decorate="~{Client/index}"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style th:replace="/common/_Head_tag_client"></style>
+</head>
+<body>
+    <header  th:replace="common/_Header_Client"></header>
+    <div layout:fragment="content">nguyen vi khang</div>
+    <footer   th:replace="common/_footer_Client"></footer>
+</body>
+</html>
