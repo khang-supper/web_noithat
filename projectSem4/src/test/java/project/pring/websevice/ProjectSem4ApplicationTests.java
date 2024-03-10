@@ -9,5 +9,4 @@ class ProjectSem4ApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

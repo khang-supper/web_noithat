@@ -1,4 +1,4 @@
-package project.pring.websevice;
+package project.spring;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -10,4 +10,8 @@ public class ServletInitializer extends SpringBootServletInitializer {
 		return application.sources(ProjectSem4Application.class);
 	}
 
+
+
+
+	
 }
