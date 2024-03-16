@@ -11,11 +11,11 @@ public class Order {
     private double total;  // Tổng tiền
     private String status;  // Trạng thái đơn hàng(Chờ xác nhận - Đã hủy- Đang giao hàng - Đã hoàn thành)
     private int accountId;  // Người dùng tạo đơn hàng - Khóa ngoại
-    private String paymentStatus;  // Trạng thái thanh toán hay chưa
+    private boolean paymentStatus;  // Trạng thái thanh toán hay chưa
     private String paymentGateway;  // Cổng thanh toán trực tuyến
     
 	public Order(int id, String code, Date orderDate, String shippingAddress, String shippingPhone, double total,
-			String status, int accountId, String paymentStatus, String paymentGateway) {
+			String status, int accountId, boolean paymentStatus, String paymentGateway) {
 		super();
 		this.id = id;
 		this.code = code;
@@ -97,11 +97,11 @@ public class Order {
 		this.accountId = accountId;
 	}
 
-	public String getPaymentStatus() {
+	public boolean getPaymentStatus() {
 		return paymentStatus;
 	}
 
-	public void setPaymentStatus(String paymentStatus) {
+	public void setPaymentStatus(boolean paymentStatus) {
 		this.paymentStatus = paymentStatus;
 	}
 
