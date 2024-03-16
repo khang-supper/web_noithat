@@ -10,10 +10,7 @@ public class HomeController {
 	public String index() {
 		return "Client/index";
 	}	
-	@RequestMapping("/login")
-	public String login() {
-		return "forderClient/login";
-	}	
+	
 	@RequestMapping("/pages")
 	public String pages() {
 		return "forderClient/pages";
