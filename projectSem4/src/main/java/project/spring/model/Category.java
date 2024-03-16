@@ -1,16 +1,20 @@
 package project.spring.model;
 
-public class Categorie {
+public class Category {
 	private int id;
     private String name;  // Tên loại
     private String image;  // Đường dẫn ảnh
     private boolean isDelete;  // Trạng thái xóa
     
-    
-	public Categorie() {
+    public static String ID = "id";
+	public static String NAME = "name";
+	public static String IMAGE = "image";
+	public static String ISDELETE = "isDelete";
+
+	public Category() {
 		super();
 	}
-	public Categorie(int id, String name, String image, boolean isDelete) {
+	public Category(int id, String name, String image, boolean isDelete) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -35,10 +39,10 @@ public class Categorie {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public boolean isDelete() {
+	public boolean getIsDelete() {
 		return isDelete;
 	}
-	public void setDelete(boolean isDelete) {
+	public void setIsDelete(boolean isDelete) {
 		this.isDelete = isDelete;
 	}
     

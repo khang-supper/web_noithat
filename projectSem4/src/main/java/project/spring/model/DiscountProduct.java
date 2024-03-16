@@ -2,11 +2,11 @@ package project.spring.model;
 
 public class DiscountProduct {
     private int id;
-    private String discountId;  // Mã chương trình khuyến mãi - Khóa ngoại
+    private int discountId;  // Mã chương trình khuyến mãi - Khóa ngoại
     private int productId;  // Mã sản phẩm - Khóa ngoại
     private double discountPrice;  // Giá khuyến mãi
     
-	public DiscountProduct(int id, String discountId, int productId, double discountPrice) {
+	public DiscountProduct(int id, int discountId, int productId, double discountPrice) {
 		super();
 		this.id = id;
 		this.discountId = discountId;
@@ -26,11 +26,11 @@ public class DiscountProduct {
 		this.id = id;
 	}
 
-	public String getDiscountId() {
+	public int getDiscountId() {
 		return discountId;
 	}
 
-	public void setDiscountId(String discountId) {
+	public void setDiscountId(int discountId) {
 		this.discountId = discountId;
 	}
 
