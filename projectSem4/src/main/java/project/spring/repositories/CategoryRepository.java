@@ -44,7 +44,7 @@ public final class CategoryRepository {
     }
 
     public List<Category> findAll() {
-        return db.query("select * fron categories", new CategoryRowMapper());
+        return db.query("select * from categories", new CategoryRowMapper());
     }
 
     public Category findById(int id) {
@@ -61,8 +61,9 @@ public final class CategoryRepository {
     }
 
     public int update(Category upCategory) {
-        return db.update("update categories" + " set Name = ?, set Image = ?, set IsDelete = ?" + "where Id = ?",
+        return db.update("update categories set Name = ?, Image = ?, IsDelete = ? where Id = ?",
                 new Object[] { upCategory.getName(), upCategory.getImage(), upCategory.getIsDelete(),
                         upCategory.getId() });
     }
+    
 }

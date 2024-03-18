@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Category</title>
+  </head>
+  <body>
+    <h1>Add Category</h1>
+    <form action="/admin/categories/add" method="post" th:object="${category}">
+      <label>Name: <input type="text" th:field="*{name}" /></label><br />
+      <label>Image: <input type="text" th:field="*{image}" /></label><br />
+      <label>Is Delete: <input type="checkbox" th:field="*{isDelete}" /></label
+      ><br />
+      <button type="submit">Add Category</button>
+    </form>
+  </body>
+</html>

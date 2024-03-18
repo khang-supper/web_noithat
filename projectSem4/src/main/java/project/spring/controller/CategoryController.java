@@ -11,43 +11,45 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin/categories")
-public class CategoryController {@GetMapping("/")
-public String getAllCategories(Model model) {
-    List<Category> categories = CategoryRepository.Instance().findAll();
-    model.addAttribute("categories", categories);
-    return "Admin/categories";
-}
+public class CategoryController {
 
-// @GetMapping("/add")
-// public String showAddForm(Model model) {
-// model.addAttribute("category", new Category());
-// return "add-category";
-// }
+    @GetMapping("")
+    public String getAllCategories(Model model) {
+        List<Category> categories = CategoryRepository.Instance().findAll();
+        model.addAttribute("categories", categories);
+        return "Admin/categories";
+    }
 
-// @PostMapping("/add")
-// public String addCategory(@ModelAttribute("category") Category category) {
-// categoryRepository.insert(category);
-// return "redirect:/categories";
-// }
+    @GetMapping("/add")
+    public String showAddForm(Model model) {
+        model.addAttribute("category", new Category());
+        return "Admin/add-category";
+    }
 
-// @GetMapping("/edit/{id}")
-// public String showEditForm(@PathVariable("id") int id, Model model) {
-// Category category = categoryRepository.findById(id);
-// model.addAttribute("category", category);
-// return "edit-category";
-// }
+    @PostMapping("/add")
+    public String addCategory(@ModelAttribute("category") Category category) {
+        CategoryRepository.Instance().insert(category);
+        return "redirect:/admin/categories";
+    }
 
-// @PostMapping("/edit/{id}")
-// public String updateCategory(@PathVariable("id") int id,
-// @ModelAttribute("category") Category category) {
-// category.setId(id);
-// categoryRepository.update(category);
-// return "redirect:/categories";
-// }
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") int id, Model model) {
+        Category category = CategoryRepository.Instance().findById(id);
+        model.addAttribute("category", category);
+        return "Admin/edit-category";
+    }
 
-// @GetMapping("/delete/{id}")
-// public String deleteCategory(@PathVariable("id") int id) {
-// categoryRepository.deleteById(id);
-// return "redirect:/categories";
-// }
+    @PostMapping("/edit/{id}")
+    public String updateCategory(@PathVariable("id") int id,
+            @ModelAttribute("category") Category category) {
+        category.setId(id);
+        CategoryRepository.Instance().update(category);
+        return "redirect:/admin/categories";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteCategory(@PathVariable("id") int id) {
+        CategoryRepository.Instance().deleteById(id);
+        return "redirect:/admin/categories";
+    }
 }

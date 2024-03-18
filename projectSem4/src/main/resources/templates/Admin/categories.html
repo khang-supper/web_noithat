@@ -15,10 +15,10 @@
       <div class="page-inner">
         <!-- breadcrumbs -->
         <div class="page-header">
-          <h4 class="page-title">Avatars</h4>
+          <h4 class="page-title">Loại sản phẩm</h4>
           <ul class="breadcrumbs">
             <li class="nav-home">
-              <a href="#">
+              <a href="/admin">
                 <i class="flaticon-home"></i>
               </a>
             </li>
@@ -26,13 +26,7 @@
               <i class="flaticon-right-arrow"></i>
             </li>
             <li class="nav-item">
-              <a href="#">Base</a>
-            </li>
-            <li class="separator">
-              <i class="flaticon-right-arrow"></i>
-            </li>
-            <li class="nav-item">
-              <a href="#">Avatars</a>
+              <a href="#">Loại sản phẩm</a>
             </li>
           </ul>
         </div>
@@ -48,24 +42,32 @@
               </div>
               <!-- content body -->
               <div class="card-body">
-                <table border="1">
+                <table class="table table-hover">
+                  <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Is Delete</th>
-                        <th>Actions</th>
+                      <!-- <th>ID</th> -->
+                      <th>Hình ảnh</th>
+                      <th>Tên</th>
+                      <th>Hành động</th>
                     </tr>
+                  </thead>
+                  <tbody>
                     <tr th:each="category : ${categories}">
-                        <td th:text="${category.id}"></td>
-                        <td th:text="${category.name}"></td>
-                        <td th:text="${category.image}"></td>
-                        <td th:text="${category.isDelete}"></td>
-                        <td>
-                            <a th:href="@{/categories/edit/{id}(id=${category.id})}">Edit</a>
-                            <a th:href="@{/categories/delete/{id}(id=${category.id})}">Delete</a>
-                        </td>
+                      <!-- <td th:text="${category.id}"></td> -->
+                      <td th:text="${category.name}"></td>
+                      <td th:text="${category.image}"></td>
+                      <td>
+                        <a
+                          th:href="@{/admin/categories/edit/{id}(id=${category.id})}"
+                         ><i class="icon-pencil" color="red"></i></a
+                        > &nbsp | &nbsp
+                        <a
+                          th:href="@{/admin/categories/delete/{id}(id=${category.id})}"
+                          ><i class="icon-trash"></i></a
+                        >
+                      </td>
                     </tr>
+                  </tbody>
                 </table>
               </div>
               <!-- end content body -->
