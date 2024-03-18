@@ -1,17 +1,53 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout"
-    layout:decorate="~{Client/index}"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout"
+    th:decorate="~{Client/index}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>login</title>
     <style th:replace="/common/_Head_tag_client"></style>
+
+    <link rel="stylesheet" href="../../static/client/css/login.css">
 </head>
+
 <body>
-    <header  th:replace="common/_Header_Client"></header>
-    <div layout:fragment="content">nguyen vi khang</div>
-    <footer   th:replace="common/_footer_Client"></footer>
+    <header th:replace="common/_Header_Client"></header>
+    <div class="header">
+        <div class="header-main">
+            <h1>Login </h1>
+            <div class="header-bottom">
+                <div class="header-right w3agile">
+
+                    <div class="header-left-bottom agileinfo">
+
+                        <form action="#" method="post">
+                            <input type="text" value="User name" name="name" onfocus="this.value = '';"
+                                onblur="if (this.value == '') {this.value = 'User name';}" />
+                            <input type="password" value="Password" name="password" onfocus="this.value = '';"
+                                onblur="if (this.value == '') {this.value = 'password';}" />
+                            <div class="remember">
+                                <span class="checkbox1">
+                                    <label class="checkbox"><input type="checkbox" name="" checked=""><i> </i>Remember
+                                        me</label>
+                                </span>
+                                <div class="forgot">
+                                    <h6><a href="#">Forgot Password?</a></h6>
+                                </div>
+                                <div class="clear"> </div>
+                            </div>
+                            <div class="form-group btn-container">
+                                <button type="submit">Login</button>
+                                <button type="submit"><a href="./createAccount.html">Create Account</a></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <footer th:replace="common/_footer_Client"></footer>
 </body>
+
 </html>
