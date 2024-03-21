@@ -1,52 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title th:fragment="TitlePage">Home</title>
-	<style th:replace="/common/_Head_tag"></style>
-</head>
-<body>	
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title th:fragment="TitlePage">Home</title>
+		<style th:replace="/common/_Head_tag"></style>
+	</head>
+	<body>
+		<!-- header-->
+		<header th:replace="common/_Header_admin"></header>
+		<!-- footer-->
+		<div class="content">
+			<div class="page-inner">
+				<!-- breadcrumbs -->
+				<div class="page-header">
+					<h4 class="page-title">Avatars</h4>
+					<ul class="breadcrumbs">
+						<li class="nav-home">
+							<a href="#">
+								<i class="flaticon-home"></i>
+							</a>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow"></i>
+						</li>
+						<li class="nav-item">
+							<a href="#">Base</a>
+						</li>
+						<li class="separator">
+							<i class="flaticon-right-arrow"></i>
+						</li>
+						<li class="nav-item">
+							<a href="#">Avatars</a>
+						</li>
+					</ul>
+				</div>
+				<!-- end breadcrumbs -->
 
-	<!-- header-->
-	<header th:replace="common/_Header_admin"></header>
+				<!-- body-->
 
-	 <div class="main-panel">
-			<div class="content">
-				<div align="center">
-					<h1>Products Records</h1>
-					<a th:href="@{/admin/create}">Enter New Product</a>
-					<br/><br/>
-					<table border="1" cellpadding="10">
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>Item Name</th>
-								<th>code</th>
-								<th>description</th>
-								<th>Actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="Product : ${listproduct}">
-								<td th:text="${Product.id}">ID</td>
-								<td th:text="${Product.name}">Item Name</td>
-								<td th:text="${Product.code}">Quantity</td>
-								<td th:text="${Product.description}">Amount</td>
-								<td>
-									<a th:href="@{'/edit/' + ${Product.id}}">Edit</a>
-									&nbsp;&nbsp;&nbsp;
-									<a th:href="@{'/delete/' + ${Product.id}}">Delete</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>  
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">Tiêu đề mục</h4>
+
+							</div>
+							<div class="card-body">
+								<table class="table table-hover">
+									<thead>
+										<h1>Products Records</h1>
+										<a th:href="@{/admin/create}">thêm sản phẩm</a>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">First</th>
+											<th scope="col">Last</th>
+											<th scope="col">Handle</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="Product : ${listproduct}">
+											<td th:text="${Product.id}">ID</td>
+											<td th:text="${Product.name}">Item Name</td>
+											<td th:text="${Product.code}">Quantity</td>
+											<td th:text="${Product.description}">Amount</td>
+											<td>
+												<a th:href="@{'/edit/' + ${Product.id}}">Edit</a>
+												&nbsp;&nbsp;&nbsp;
+												<a th:href="@{'/delete/' + ${Product.id}}">Delete</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- content body -->
+							<!-- end content body -->
+						</div>
+					</div>
+				</div>
+				<!-- End body -->
+			</div>
 		</div>
-		</div>
-		
-	
+		<!-- ////// -->
 		<div class="custom-template">
 			<div class="title">Settings</div>
 			<div class="custom-content">
@@ -54,60 +90,97 @@
 					<div class="switch-block">
 						<h4>Logo Header</h4>
 						<div class="btnSwitch">
-							<button type="button" class="changeLogoHeaderColor" data-color="dark"></button>
-							<button type="button" class="selected changeLogoHeaderColor" data-color="blue"></button>
-							<button type="button" class="changeLogoHeaderColor" data-color="purple"></button>
-							<button type="button" class="changeLogoHeaderColor" data-color="light-blue"></button>
-							<button type="button" class="changeLogoHeaderColor" data-color="green"></button>
-							<button type="button" class="changeLogoHeaderColor" data-color="orange"></button>
-							<button type="button" class="changeLogoHeaderColor" data-color="red"></button>
-							<button type="button" class="changeLogoHeaderColor" data-color="white"></button>
-							<br/>
-							<button type="button" class="changeLogoHeaderColor" data-color="dark2"></button>
-							<button type="button" class="changeLogoHeaderColor" data-color="blue2"></button>
-							<button type="button" class="changeLogoHeaderColor" data-color="purple2"></button>
-							<button type="button" class="changeLogoHeaderColor" data-color="light-blue2"></button>
-							<button type="button" class="changeLogoHeaderColor" data-color="green2"></button>
-							<button type="button" class="changeLogoHeaderColor" data-color="orange2"></button>
-							<button type="button" class="changeLogoHeaderColor" data-color="red2"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="dark"></button>
+							<button type="button" class="selected changeLogoHeaderColor"
+								data-color="blue"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="purple"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="light-blue"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="green"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="orange"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="red"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="white"></button>
+							<br />
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="dark2"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="blue2"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="purple2"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="light-blue2"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="green2"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="orange2"></button>
+							<button type="button" class="changeLogoHeaderColor"
+								data-color="red2"></button>
 						</div>
 					</div>
 					<div class="switch-block">
 						<h4>Navbar Header</h4>
 						<div class="btnSwitch">
-							<button type="button" class="changeTopBarColor" data-color="dark"></button>
-							<button type="button" class="changeTopBarColor" data-color="blue"></button>
-							<button type="button" class="changeTopBarColor" data-color="purple"></button>
-							<button type="button" class="changeTopBarColor" data-color="light-blue"></button>
-							<button type="button" class="changeTopBarColor" data-color="green"></button>
-							<button type="button" class="changeTopBarColor" data-color="orange"></button>
-							<button type="button" class="changeTopBarColor" data-color="red"></button>
-							<button type="button" class="changeTopBarColor" data-color="white"></button>
-							<br/>
-							<button type="button" class="changeTopBarColor" data-color="dark2"></button>
-							<button type="button" class="selected changeTopBarColor" data-color="blue2"></button>
-							<button type="button" class="changeTopBarColor" data-color="purple2"></button>
-							<button type="button" class="changeTopBarColor" data-color="light-blue2"></button>
-							<button type="button" class="changeTopBarColor" data-color="green2"></button>
-							<button type="button" class="changeTopBarColor" data-color="orange2"></button>
-							<button type="button" class="changeTopBarColor" data-color="red2"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="dark"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="blue"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="purple"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="light-blue"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="green"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="orange"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="red"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="white"></button>
+							<br />
+							<button type="button" class="changeTopBarColor"
+								data-color="dark2"></button>
+							<button type="button" class="selected changeTopBarColor"
+								data-color="blue2"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="purple2"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="light-blue2"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="green2"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="orange2"></button>
+							<button type="button" class="changeTopBarColor"
+								data-color="red2"></button>
 						</div>
 					</div>
 					<div class="switch-block">
 						<h4>Sidebar</h4>
 						<div class="btnSwitch">
-							<button type="button" class="selected changeSideBarColor" data-color="white"></button>
-							<button type="button" class="changeSideBarColor" data-color="dark"></button>
-							<button type="button" class="changeSideBarColor" data-color="dark2"></button>
+							<button type="button" class="selected changeSideBarColor"
+								data-color="white"></button>
+							<button type="button" class="changeSideBarColor"
+								data-color="dark"></button>
+							<button type="button" class="changeSideBarColor"
+								data-color="dark2"></button>
 						</div>
 					</div>
 					<div class="switch-block">
 						<h4>Background</h4>
 						<div class="btnSwitch">
-							<button type="button" class="changeBackgroundColor" data-color="bg2"></button>
-							<button type="button" class="changeBackgroundColor selected" data-color="bg1"></button>
-							<button type="button" class="changeBackgroundColor" data-color="bg3"></button>
-							<button type="button" class="changeBackgroundColor" data-color="dark"></button>
+							<button type="button" class="changeBackgroundColor"
+								data-color="bg2"></button>
+							<button type="button" class="changeBackgroundColor selected"
+								data-color="bg1"></button>
+							<button type="button" class="changeBackgroundColor"
+								data-color="bg3"></button>
+							<button type="button" class="changeBackgroundColor"
+								data-color="dark"></button>
 						</div>
 					</div>
 				</div>
@@ -115,59 +188,9 @@
 			<div class="custom-toggle">
 				<i class="flaticon-settings"></i>
 			</div>
-		</div> 
-		
-	<!-- footer-->
-	<div class="content">
-		<div class="page-inner">
-			<!-- breadcrumbs -->
-			<div class="page-header">
-				<h4 class="page-title">Avatars</h4>
-				<ul class="breadcrumbs">
-					<li class="nav-home">
-						<a href="#">
-							<i class="flaticon-home"></i>
-						</a>
-					</li>
-					<li class="separator">
-						<i class="flaticon-right-arrow"></i>
-					</li>
-					<li class="nav-item">
-						<a href="#">Base</a>
-					</li>
-					<li class="separator">
-						<i class="flaticon-right-arrow"></i>
-					</li>
-					<li class="nav-item">
-						<a href="#">Avatars</a>
-					</li>
-				</ul>
-			</div>
-			<!-- end breadcrumbs -->
-
-		<!-- body-->
-
-			<div class="row">
-				<div class="col-md-12">
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title">Tiêu đề mục</h4>
-							
-						</div>
-						<!-- content body -->
-						<div class="card-body">
-							Các khối nội dung ở đây
-						</div>
-						<!-- end content body -->
-					</div>
-				</div>
-			</div>
-			<!-- End body -->
 		</div>
-	</div>
 
+		<footer th:replace="common/_footer_admin"></footer>
 
-	<footer th:replace="common/_footer_admin"></footer>
-	
-</body>
+	</body>
 </html>

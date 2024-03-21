@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import project.spring.dao.ProductDao;
 import project.spring.model.Product;
-import project.spring.model.ProductDao;
 
 @Controller
 @RequestMapping("/admin")
@@ -23,10 +23,6 @@ public class AdminController {
 		return ("Admin/index");
 	}
 
-	// @RequestMapping("/")
-	// public String lint() {
-	// return ("forderAdmin/Create");
-	// }
 	@RequestMapping("/Product")
 	public String product(Model model) {
 		List<Product> listProduct = dao.list();
@@ -39,10 +35,10 @@ public class AdminController {
 		Product product = new Product();
 		model.addAttribute("product", product);
 
-		return "forderAdmin/create";
+		return "forderAdmin/CreateProduct";
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	@RequestMapping("/save")
 	public String save(@ModelAttribute("product") Product product) {
 		dao.save(product);
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style th:replace="/common/_Head_tag_client"></style>
+    <link rel="stylesheet" href="../../register/register.css">
+</head>
+<body>
+    <header th:replace="common/_Header_Client"></header>
+    <div class="header-main">
+        <h1>Create Account</h1>
+        <div class="header-bottom">
+            <div class="header-right w3agile">
+                <div class="header-left-bottom agileinfo">
+                    <div th:if="${message}">
+                        <p style="color: green;" th:text="${message}"></p>
+                    </div>
+                    
+                    <div th:if="${error}">
+                        <p style="color: red;" th:text="${error}"></p>
+                    </div>
+                    <form th:action="@{/processRegister}" th:object="${register}" method="post">
+                        <input type="text" placeholder="User name" name="username"  onblur="if (this.value == '') {this.value = 'username';}"/>
+                        <input type="text" placeholder="Email" name="email"  onblur="if (this.value == '') {this.value = 'email';}"/>
+                        <input type="password" placeholder="Enter password" name="password" onblur="if (this.value == '') {this.value = 'password';}" required>
+                        <div class="remember">
+                            <span class="checkbox1">
+                                <input type="checkbox" name="remember" id="remember" checked>
+                                <label for="remember">Remember me</label>
+                            </span>
+                            <div class="forgot">
+                                <h6><a th:href="@{/login}">Already have an account? Login here</a></h6>
+                            </div>
+                        </div>
+                        <div class="form-group btn-container">
+                            <button type="submit">Create Account</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="common/_footer_Client"></footer>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package project.spring.model;
+package project.spring.dao;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import project.spring.model.Product;
 
 @Repository
 @Transactional
@@ -28,7 +30,7 @@ public class ProductDao {
     }
    public void save(Product product) {
     SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
-    insertActor.withTableName("product").usingColumns("name", "code", "description");
+    insertActor.withTableName("product").usingColumns("id","name", "code", "description");
     BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(product);
      
     insertActor.execute(param);    

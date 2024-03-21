@@ -19,10 +19,10 @@
 					
 					<div class="header-left-bottom agileinfo">
 						
-					 <form th:action="@{/login}" th:object="${loginForm}" method="post">
+					 <form th:action="@{/admin}" th:object="${loginForm}" method="post">
 						
-						<input type="text"  value="UserName" name="userName" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'userName';}"/>
-						<input type="password"  value="Password" name="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}"/>
+						<input type="text"  value="Username" name="username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'username';}"/>
+						<input type="password"  value="" name="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}"/>
 						<div class="remember">
 			             <span class="checkbox1">
 							   <label class="checkbox"><input type="checkbox" name="" checked=""><i> </i>Remember me</label>
