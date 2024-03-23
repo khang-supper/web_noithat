@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Post</title>
+    <style th:replace="/common/_Head_tag"></style>
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.css">
+</head>
+<body>
+    <!-- Header -->
+    <header th:replace="common/_Header_admin"></header>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="page-inner">
+            <!-- Breadcrumbs -->
+            <div class="page-header">
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="/admin">
+                            <i class="flaticon-home"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/news">News</a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <span>Create New Post</span>
+                    </li>
+                </ul>
+            </div>
+            <!-- End Breadcrumbs -->
+
+            <!-- Body -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Create New Post</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- Form -->
+                            <form action="/admin/news/add" method="post" th:object="${news}">
+                                <div class="form-group">
+                                    <label for="name">Title</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Enter title" th:field="*{name}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Short Description</label>
+                                    <input type="text" class="form-control" id="description" placeholder="Enter short description" th:field="*{description}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="content">Content</label>
+                                    <textarea id="editor" name="content" th:field="*{content}"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+                            <!-- End Form -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Body -->
+        </div>
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+    <footer th:replace="common/_footer_admin"></footer>
+
+    <!-- CKEditor Script -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+</body>
+</html>

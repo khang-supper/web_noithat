@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:fragment="TitlePage">Tin tức</title>
+    <style th:replace="/common/_Head_tag"></style>
+  </head>
+
+  <body>
+    <!-- header-->
+    <header th:replace="common/_Header_admin"></header>
+
+    <div class="content">
+      <div class="page-inner">
+        <!-- breadcrumbs -->
+        <div class="page-header">
+          <ul class="breadcrumbs">
+            <li class="nav-home">
+              <a href="/admin">
+                <i class="flaticon-home"></i>
+              </a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="">Tin tức</a>
+            </li>
+          </ul>
+        </div>
+        <!-- end breadcrumbs -->
+
+        <!-- body-->
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Danh sách bài viết</h4>
+              </div>
+              <!-- content body -->
+
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table id="add-row" class="display table table-striped table-hover" >
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Tên bài viết</th>
+                        <th>Người tạo</th>
+                        <th style="width: 10%">Hành động</th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                      <tr>
+                        <th>Id</th>
+                        <th>Tên bài viết</th>
+                        <th>Người tạo</th>
+                        <th>Hành động</th>
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                      <tr th:each="news : ${news}">
+                        <td th:text="${news.id}"></td>
+                        <td th:text="${news.name}"></td>
+                        <td th:text="${news.accountId}"></td>
+                        <td>
+                          <div class="form-button-action">
+                              <button type="button" data-toggle="tooltip" title="Chỉnh sửa" class="btn btn-link btn-primary btn-lg edit-btn" data-original-title="Chỉnh sửa" th:data-news-id="${news.id}">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button type="button" title="Xóa" class="btn btn-link btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal" th:data-news-id="${news.id}">
+                              <i class="fa fa-times"></i>
+                            </button>
+                            </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+  
+              <!-- end content body -->
+            </div>
+          </div>
+        </div>
+        <!-- End body -->
+      </div>
+    </div>
+
+    <!-- Modal  Delete-->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Xóa bài viết</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+           
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-danger">Xóa</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--END Modal  Delete-->
+
+    <footer th:replace="common/_footer_admin"></footer>
+    <script>
+        // Xử lý sự kiện khi click vào nút chỉnh sửa
+        $('.edit-btn').on('click', function() {
+            var id = $(this).attr('data-news-id'); 
+            window.location.href = '/admin/news/edit?id=' + id; 
+        });
+
+        // Xử lý sự kiện khi click vào nút xóa
+        $('.delete-btn').on('click', function() {
+            var id = $(this).attr('data-news-id'); 
+            var name = $(this).closest('tr').find('td:nth-child(2)').text();
+            $('#deleteModal').modal('show'); // Hiển thị modal xác nhận xóa
+            $('#deleteModal .modal-body').text('Bạn có chắc muốn xóa "' + name + '"?'); // Đặt nội dung modal
+            // Xác nhận xóa
+            $('#deleteModal .btn-danger').on('click', function() { 
+                window.location.href = '/admin/news/delete/' + id; // Gửi yêu cầu xóa với id tương ứng
+            });
+        });
+        
+    </script>
+</body>
+</html>
