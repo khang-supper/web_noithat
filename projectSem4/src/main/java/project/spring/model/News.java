@@ -6,6 +6,12 @@ public class News {
     private String description;  // Mô tả ngắn
     private String content;  // Nội dung bài viết
     private int accountId;  // Mã người tạo
+
+	public static String ID = "id";
+	public static String NAME = "name";
+	public static String DESCRIPTION = "description";
+	public static String CONTENT = "content";
+	public static String ACCOUNTID = "accountId";
     
 	public News(int id, String name, String description, String content, int accountId) {
 		super();
