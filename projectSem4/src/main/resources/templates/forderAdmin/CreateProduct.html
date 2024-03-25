@@ -48,25 +48,25 @@
                             <div align="center">
                                 <h1>create</h1>
                                 <br />
-                                <form  th:action="@{/admin/Product}" th:object="${product}"
+                                <form  th:action="@{/admin/save}" th:object="${products}"
                                     method="post">
                                     <table border="0" cellpadding="10">
-                                        <tr>
-                                            <td>Item id:</td>
-                                            <td><input type="text" th:field="*{id}" /></td>
-                                        </tr>
                                         <tr>
                                             <td>Item Name:</td>
                                             <td><input type="text" th:field="*{name}" /></td>
                                         </tr>
                                         <tr>
-                                            <td>Quantity:</td>
+                                            <td>code:</td>
                                             <td><input type="text" th:field="*{code}" /></td>
                                         </tr>
-                                        <tr>
-                                            <td>Amount (USD):</td>
+                                        <tr>	
+                                            <td>description :</td>
                                             <td><input type="text" th:field="*{description}" /></td>
-                                        </tr>                           
+                                        </tr>     
+										<tr>	
+                                            <td>content :</td>
+                                            <td><input type="text" th:field="*{content}" /></td>
+                                        </tr>                        
                                         <tr>
                                             <td colspan="2"><button type="submit">Save</button> </td>
                                         </tr>

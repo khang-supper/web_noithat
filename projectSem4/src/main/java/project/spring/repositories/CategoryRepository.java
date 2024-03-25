@@ -44,7 +44,19 @@ public final class CategoryRepository {
     }
 
     public List<Category> findAll() {
-        return db.query("select * fron categories", new CategoryRowMapper());
+        return db.query("select * from categories order by id asc", new CategoryRowMapper());
+    }
+
+    @SuppressWarnings("deprecation")
+    public List<Category> findAllByPage(int page, int pageSize) { // lấy phần tử trong 1 trang
+        int start = page * pageSize;
+        return db.query("SELECT * FROM categories LIMIT ?, ? ", new Object[] { start, pageSize },
+                new CategoryRowMapper());
+    }
+
+    public int getTotalPages(int pageSize) { // tổng số trang
+        int totalCount = db.queryForObject("SELECT COUNT(*) FROM categories", Integer.class);
+        return (int) Math.ceil((double) totalCount / pageSize);
     }
 
     public Category findById(int id) {
@@ -52,8 +64,11 @@ public final class CategoryRepository {
     }
 
     public int deleteById(int id) {
-        return db.update("delete from categories where Id=?", new Object[] { id });
+        return db.update("update categories set IsDelete = true where Id = ?", new Object[] { id });
     }
+    // public int deleteById(int id) {
+    // return db.update("delete from categories where Id=?", new Object[] { id });
+    // }
 
     public int insert(Category newCategory) {
         return db.update("insert into categories (Name, Image, IsDelete)" + "value(?,?,?)",
@@ -61,8 +76,9 @@ public final class CategoryRepository {
     }
 
     public int update(Category upCategory) {
-        return db.update("update categories" + " set Name = ?, set Image = ?, set IsDelete = ?" + "where Id = ?",
-                new Object[] { upCategory.getName(), upCategory.getImage(), upCategory.getIsDelete(),
+        return db.update("update categories set Name = ?, Image = ? where Id = ?",
+                new Object[] { upCategory.getName(), upCategory.getImage(),
                         upCategory.getId() });
     }
+
 }

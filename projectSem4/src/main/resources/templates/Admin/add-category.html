@@ -51,24 +51,32 @@
                   method="post"
                   th:object="${category}"
                 >
-                <div class="form-group">
-                  <label for="name_c">Tên loại</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="name_c"
-                    placeholder="Nhập tên loại"
-                    th:field="*{name}"
-                  />
-                </div>
                   <div class="form-group">
-                    <label for="exampleFormControlFile1">Ảnh đại diện</label>
+                    <label for="name_c">Tên loại</label>
                     <input
+                      type="text"
+                      class="form-control"
+                      id="name_c"
+                      placeholder="Nhập tên loại"
+                      th:field="*{name}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleFormControlFile1">Hình đại diện</label>
+                    <!-- <input
                       type="file"
                       class="form-control-file"
                       id="exampleFormControlFile1"
                       th:field="*{image}"
-                    />
+                    /> -->
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      data-toggle="modal"
+                      data-target="#image"
+                    >
+                      Chọn hình
+                    </button>
                   </div>
                   <hr />
                   <button class="btn btn-info" type="submit">Lưu</button>
@@ -79,6 +87,42 @@
           </div>
         </div>
         <!-- End body -->
+      </div>
+    </div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="image"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="imageModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="imageModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">...</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
       </div>
     </div>
 

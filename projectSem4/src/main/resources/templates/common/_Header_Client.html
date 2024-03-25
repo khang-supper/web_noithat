@@ -35,7 +35,7 @@
                                 <a th:href="@{/login}" onclick="checkUserRole()"><i class="fa fa-user"></i> Login</a>
                             </div>
                             <div class="header__top__right__auth" id="registerSection" th:if="${session.role == null}">
-                                <a th:href="@{/register}" onclick="checkUserRole()"><i class="fa fa-user"></i> Register</a>
+                                <a href="#" onclick="checkUserRole()"><i class="fa fa-user"></i> Register</a>
                             </div>
 
                             <div class="header__top__right__auth" th:if="${session.role != null}">
@@ -71,7 +71,6 @@
                                     <li><a th:href="@{/cart}">Shoping Cart</a></li>
                                     <li><a th:href="@{/checkout}">Check Out</a></li>
                                     <li><a href="./blog-details.html">Blog Details</a></li>
-
                                 </ul>
                             </li>
                             <li><a th:href="@{/Blog}">Blog</a></li>

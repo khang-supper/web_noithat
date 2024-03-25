@@ -24,22 +24,22 @@ public class LoginController {
     }
    
     @PostMapping("/admin")
-    public String login(@ModelAttribute(name = "loginForm") Account account, Model model, HttpSession session, HttpServletRequest request) {
-        String username = account.getUsername();
-        String password = account.getPassword();
+    public String login(@ModelAttribute(name = "loginForm") Account accounts, Model model, HttpSession session, HttpServletRequest request) {
+        String username = accounts.getUsername();
+        String password = accounts.getPassword();
 
         String role = checkUserRole(username, password);
         if (role != null) {
             model.addAttribute("username", username);
+            session.setAttribute("username", username); // Lưu username vào session
             session.setAttribute("role", role);
-            return (role.equals("1")) ? "/Admin/indexadmin" : "/Client/index";
+            return (role.equals("1")) ? "/admin/indexadmin" : "/Client/index";
         } else {
             model.addAttribute("error", "Incorrect UserName & Password");
             return "/forderClient/login";
         }
         
     }
-    
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
@@ -55,7 +55,7 @@ public class LoginController {
 
     // Phương thức kiểm tra thông tin đăng nhập
     private String checkUserRole(String username, String password) {
-        String sql = "SELECT role FROM account WHERE username = ? AND password = ?";
+        String sql = "SELECT role FROM accounts WHERE username = ? AND password = ?";
         try {
             return jdbcTemplate.queryForObject(sql, String.class, username, password);
         } catch (Exception e) {

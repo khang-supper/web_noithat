@@ -35,7 +35,7 @@
 <!-- <script src="/admin/assets/js/plugin/chart-circle/circles.min.js"></script> -->
 
 <!-- Datatables -->
-<!-- <script src="/admin/assets/js/plugin/datatables/datatables.min.js"></script> -->
+<script src="/admin/assets/js/plugin/datatables/datatables.min.js"></script>
 
 <!-- Bootstrap Notify -->
 <!-- <script src="/admin/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script> -->
@@ -51,3 +51,48 @@
 <!-- Atlantis DEMO methods, don't include it in your project! -->
 <!-- <script src="/admin/assets/js/setting-demo.js"></script>
 <script src="/admin/assets/js/demo.js"></script> -->
+<script >
+	$(document).ready(function() {
+	  $('#basic-datatables').DataTable({
+	  });
+
+	  $('#multi-filter-select').DataTable( {
+		"pageLength": 5,
+		initComplete: function () {
+		  this.api().columns().every( function () {
+			var column = this;
+			var select = $('<select class="form-control"><option value=""></option></select>')
+			.appendTo( $(column.footer()).empty() )
+			.on( 'change', function () {
+			  var val = $.fn.dataTable.util.escapeRegex(
+				$(this).val()
+				);
+
+			  column
+			  .search( val ? '^'+val+'$' : '', true, false )
+			  .draw();
+			} );
+
+			column.data().unique().sort().each( function ( d, j ) {
+			  select.append( '<option value="'+d+'">'+d+'</option>' )
+			} );
+		  } );
+		}
+	  });
+
+	  // Add Row
+	  $('#add-row').DataTable({
+		"pageLength": 5,
+	  });
+	  //xác định trang hiện tại và thêm lớp active 
+	  var currentLocation = window.location.pathname; // Lấy đường dẫn của trang hiện tại
+        $('.nav-item').removeClass('active'); // Loại bỏ lớp active từ tất cả các mục điều hướng
+        $('.nav-item a').each(function() {
+            var link = $(this).attr('href');
+            if (link === currentLocation) {
+                $(this).closest('.nav-item').addClass('active'); // Thêm lớp active cho mục điều hướng chứa liên kết đang xem
+                $(this).parents('.collapse').addClass('show'); // Mở collapsible nếu liên kết là con của nó
+            }
+        });
+	});
+  </script>

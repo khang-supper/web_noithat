@@ -166,18 +166,12 @@
 									<div class="user-box">
 										<div class="avatar-lg"><img src="/admin/assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
 										<div class="u-text">
-											<h4>Hi, <span th:text="${username}"></span></h4>
-											<p class="text-muted">hello@example.com</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+											<h4>Hi, <span th:text="${session.username}"></span></h4>
+											<p class="text-muted"><span th:text="${session.email}"></span></p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
 										</div>
 									</div>
 								</li>
 								<li>
-									<!-- <div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#">My Profile</a>
-									<a class="dropdown-item" href="#">My Balance</a>
-									<a class="dropdown-item" href="#">Inbox</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#">Account Setting</a> -->
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" th:href="@{/logout}">Logout</a>
 								</li>
@@ -197,8 +191,8 @@
 				
 				<ul class="nav nav-primary">
 					
-					<li class="nav-item active">
-						<a href="/indexadmin">
+					<li class="nav-item">
+						<a href="/admin">
 							<i class="fas fa-home"></i>
 							<p>Quản lý chung</p>
 						</a>
@@ -218,18 +212,23 @@
 						<div class="collapse" id="product">
 							<ul class="nav nav-collapse">
 								<li>
-									<a href="components/avatars.html">
+									<a href="/admin/product/add">
 										<span class="sub-item">Tạo sản phẩm</span>
 									</a>
 								</li>
 								<li>
-									<a href="components/buttons.html">
+									<a href="/admin/products">
 										<span class="sub-item">Tất cả sản phẩm</span>
 									</a>
 								</li>
 								<li>
-									<a href="components/gridsystem.html">
+									<a href="/admin/categories">
 										<span class="sub-item">Thể loại sản phẩm</span>
+									</a>
+								</li>
+								<li>
+									<a href="/admin/categories/add">
+										<span class="sub-item">Tạo loại sản phẩm</span>
 									</a>
 								</li>
 								
@@ -245,12 +244,12 @@
 						<div class="collapse" id="news">
 							<ul class="nav nav-collapse">
 								<li>
-									<a href="sidebar-style-1.html">
+									<a href="/admin/news/add">
 										<span class="sub-item">Tạo bài viết</span>
 									</a>
 								</li>
 								<li>
-									<a href="overlay-sidebar.html">
+									<a href="/admin/news">
 										<span class="sub-item">Tất cả bài viết</span>
 									</a>
 								</li>
@@ -266,12 +265,12 @@
 						<div class="collapse" id="order">
 							<ul class="nav nav-collapse">
 								<li>
-									<a href="forms/forms.html">
+									<a href="order/add">
 										<span class="sub-item">Tạo đơn hàng mới</span>
 									</a>
 								</li>
 								<li>
-									<a href="forms/forms.html">
+									<a href="orders">
 										<span class="sub-item">Quản lý đơn hàng</span>
 									</a>
 								</li>

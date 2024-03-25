@@ -45,7 +45,7 @@ public class NewsRepository {
     }
 
     public List<News> findAll() {
-        return db.query("select * from news", new NewsRowMapper());
+        return db.query("select * from news order by id asc", new NewsRowMapper());
     }
 
     @SuppressWarnings("deprecation")

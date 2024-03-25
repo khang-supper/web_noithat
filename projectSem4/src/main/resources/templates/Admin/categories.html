@@ -15,10 +15,9 @@
       <div class="page-inner">
         <!-- breadcrumbs -->
         <div class="page-header">
-          <h4 class="page-title">Avatars</h4>
           <ul class="breadcrumbs">
             <li class="nav-home">
-              <a href="#">
+              <a href="/admin">
                 <i class="flaticon-home"></i>
               </a>
             </li>
@@ -26,13 +25,7 @@
               <i class="flaticon-right-arrow"></i>
             </li>
             <li class="nav-item">
-              <a href="#">Base</a>
-            </li>
-            <li class="separator">
-              <i class="flaticon-right-arrow"></i>
-            </li>
-            <li class="nav-item">
-              <a href="#">Avatars</a>
+              <a href="">Loại sản phẩm</a>
             </li>
           </ul>
         </div>
@@ -47,27 +40,44 @@
                 <h4 class="card-title">Danh sách thể loại sản phẩm</h4>
               </div>
               <!-- content body -->
+
               <div class="card-body">
-                <table border="1">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Is Delete</th>
-                        <th>Actions</th>
-                    </tr>
-                    <tr th:each="category : ${categories}">
-                        <td th:text="${category.id}"></td>
-                        <td th:text="${category.name}"></td>
+                <div class="table-responsive">
+                  <table id="add-row" class="display table table-striped table-hover" >
+                    <thead>
+                      <tr>
+                        <th>Ảnh đại diện</th>
+                        <th>Tên loại</th>
+                        <th style="width: 10%">Hành động</th>
+                      </tr>
+                    </thead>
+                    <tfoot>
+                      <tr>
+                        <th>Ảnh đại diện</th>
+                        <th>Tên loại</th>
+                        <th>Hành động</th>
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                      <tr th:each="category : ${categories}" th:if="${category.isDelete == false}">
                         <td th:text="${category.image}"></td>
-                        <td th:text="${category.isDelete}"></td>
+                        <td th:text="${category.name}"></td>
                         <td>
-                            <a th:href="@{/categories/edit/{id}(id=${category.id})}">Edit</a>
-                            <a th:href="@{/categories/delete/{id}(id=${category.id})}">Delete</a>
+                          <div class="form-button-action">
+                              <button type="button" data-toggle="tooltip" title="Chỉnh sửa" class="btn btn-link btn-primary btn-lg edit-btn" data-original-title="Chỉnh sửa" th:data-category-id="${category.id}">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button type="button" title="Xóa" class="btn btn-link btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal" th:data-category-id="${category.id}">
+                              <i class="fa fa-times"></i>
+                            </button>
+                            </div>
                         </td>
-                    </tr>
-                </table>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
+  
               <!-- end content body -->
             </div>
           </div>
@@ -76,6 +86,29 @@
       </div>
     </div>
 
+    <!-- Modal  Delete-->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Xóa loại</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+           
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            <button type="button" class="btn btn-danger">Xóa</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--END Modal  Delete-->
+
     <footer th:replace="common/_footer_admin"></footer>
+    <script src="/admin/assets/js/categories.js"></script>
   </body>
 </html>

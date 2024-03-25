@@ -46,34 +46,7 @@
               </div>
               <!-- content body -->
               <div class="card-body">
-                <form
-                  action="/admin/categories/edit"
-                  method="post"
-                  th:object="${category}"
-                >
-                  <input type="hidden" th:field="*{id}" />
-                  <div class="form-group">
-                    <label for="name_c">Tên loại</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="name_c"
-                      placeholder="Nhập tên loại"
-                      th:field="*{name}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleFormControlFile1">Ảnh đại diện</label>
-                    <input
-                      type="text"
-                      class="form-control-file"
-                      id="exampleFormControlFile1"
-                      th:field="*{image}"
-                    />
-                  </div>
-                  <hr />
-                  <button class="btn btn-info" type="submit">Lưu</button>
-                </form>
+                
               </div>
               <!-- end content body -->
             </div>

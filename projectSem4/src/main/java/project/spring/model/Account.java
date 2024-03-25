@@ -2,7 +2,7 @@ package project.spring.model;
 
 public class Account {
 	private int id;
-    private String userName;
+    private String username;
     private String password;
     private String fullName;
     private String email;
@@ -10,17 +10,17 @@ public class Account {
     private String address;
     private String avatar;  // Đường dẫn ảnh đại diện
     private boolean status;  // Trạng thái tài khoản(xóa or đang hoạt động)
-    private boolean isAdmin;  // Là admin or người dùng web
+    private boolean role;  // Là admin or người dùng web
     
     
 	public Account() {
 		super();
 	}
-	public Account(int id, String userName, String password, String fullName, String email, int phone, String address,
-			String avatar, boolean status, boolean isAdmin) {
+	public Account(int id, String username, String password, String fullName, String email, int phone, String address,
+			String avatar, boolean status, boolean role) {
 		super();
 		this.id = id;
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 		this.fullName = fullName;
 		this.email = email;
@@ -28,7 +28,7 @@ public class Account {
 		this.address = address;
 		this.avatar = avatar;
 		this.status = status;
-		this.isAdmin = isAdmin;
+		this.role = role;
 	}
 	public int getId() {
 		return id;
@@ -36,11 +36,11 @@ public class Account {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setusername(String username) {
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
@@ -84,13 +84,13 @@ public class Account {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-	public boolean isAdmin() {
-		return isAdmin;
+	public boolean getRole() {
+		return role;
 	}
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
+	public void setRole(boolean role) {
+		this.role = role;
 	}
-
+	
     
 }
 

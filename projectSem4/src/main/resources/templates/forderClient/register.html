@@ -21,7 +21,7 @@
                     <div th:if="${error}">
                         <p style="color: red;" th:text="${error}"></p>
                     </div>
-                    <form th:action="@{/processRegister}" th:object="${register}" method="post">
+                    <form th:action="@{/processRegister}" th:object="${account}" method="post">
                         <input type="text" placeholder="User name" name="username"  onblur="if (this.value == '') {this.value = 'username';}"/>
                         <input type="text" placeholder="Email" name="email"  onblur="if (this.value == '') {this.value = 'email';}"/>
                         <input type="password" placeholder="Enter password" name="password" onblur="if (this.value == '') {this.value = 'password';}" required>
