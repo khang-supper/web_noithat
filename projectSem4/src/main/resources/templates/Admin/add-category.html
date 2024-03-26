@@ -69,6 +69,7 @@
                       id="exampleFormControlFile1"
                       th:field="*{image}"
                     /> -->
+                    <!-- Button mở modal tải hình đại diện  -->
                     <button
                       type="button"
                       class="btn btn-primary"
@@ -89,42 +90,84 @@
         <!-- End body -->
       </div>
     </div>
+
     <!-- Modal -->
-    <div
-      class="modal fade"
-      id="image"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="imageModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
+    <div class="modal fade" id="image" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="imageModalLabel">Modal title</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
+          <div class="modal-header no-bd">
+            <div>Chọn hình ảnh</div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">...</div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+          <div class="modal-body">
+            
+            <div class="row">
+              <div class="col-2">
+                <div class="nav flex-column nav-pills nav-secondary nav-pills-no-bd" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                  <a class="nav-link active" id="v-pills-home-tab-nobd" data-toggle="pill" href="#v-pills-home-nobd" role="tab" aria-controls="v-pills-home-nobd" aria-selected="true"><i class="flaticon-home"></i>Tải lên hình ảnh</a>
+                  <a class="nav-link" id="v-pills-profile-tab-nobd" data-toggle="pill" href="#v-pills-profile-nobd" role="tab" aria-controls="v-pills-profile-nobd" aria-selected="false">Chọn từ thư viện</a>
+                </div>
+              </div>
+              <div class="col-10">
+                <div class="tab-content" id="v-pills-tabContent">
+                  <div class="tab-pane fade show active" id="v-pills-home-nobd" role="tabpanel" aria-labelledby="v-pills-home-tab-nobd">
+                    <div class="col-12">
+                      <input type="file" id="fileInput" class="form-control-file" style="display: none;">
+                      <label for="fileInput" class="custom-file-upload">
+                        <i class="fas fa-cloud-upload-alt"></i> Chọn hoặc kéo thả file vào đây
+                      </label>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="v-pills-profile-nobd" role="tabpanel" aria-labelledby="v-pills-profile-tab-nobd">
+                    <div class="row">
+                      <div class="col-4 col-sm-2">
+                        <label class="imagecheck mb-4">
+                          <input name="imagecheck" type="checkbox" value="1" class="imagecheck-input">
+                          <figure class="imagecheck-figure">
+                            <img src="/admin/assets/img/examples/product1.jpg" alt="title" class="imagecheck-image" >
+                          </figure>
+                        </label>
+                      </div>
+                      <div class="col-4 col-sm-2">
+                        <label class="imagecheck mb-4">
+                          <input name="imagecheck" type="checkbox" value="2" class="imagecheck-input" checked="">
+                          <figure class="imagecheck-figure">
+                            <img src="/admin/assets/img/examples/product2.jpg" alt="title" class="imagecheck-image">
+                          </figure>
+                        </label>
+                      </div>
+                      <div class="col-4 col-sm-2">
+                        <label class="imagecheck mb-4"><input name="imagecheck" type="checkbox" value="3" class="imagecheck-input">
+                          <figure class="imagecheck-figure">
+                            <img src="/admin/assets/img/examples/product1.jpg" alt="title" class="imagecheck-image">
+                          </figure>
+                        </label>
+                      </div>
+                      <div class="col-4 col-sm-2">
+                        <label class="imagecheck mb-4">
+                          <input name="imagecheck" type="checkbox" value="3" class="imagecheck-input">
+                          <figure class="imagecheck-figure">
+                            <img src="/admin/assets/img/examples/product1.jpg" alt="title" class="imagecheck-image" width="150" height="150">
+                          </figure>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer no-bd">
+            <button type="button" id="addRowButton" class="btn btn-primary">Chọn hình</button>
           </div>
         </div>
       </div>
     </div>
+    <!-- End Modal -->
 
     <!-- footer-->
     <footer th:replace="common/_footer_admin"></footer>

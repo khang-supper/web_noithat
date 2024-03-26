@@ -303,3 +303,22 @@ body[data-background-color="dark"] .demo-icon .icon-class {
 		right: -85%;
 	}
 }
+
+
+/* Upload file  */
+.custom-file-upload {
+    border: 2px dashed #ccc;
+    display: block;
+    text-align: center;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.custom-file-upload:hover {
+    background-color: #f7f7f7;
+}
+.imagecheck-image{
+	width: 150px; 
+	height: 150px; 
+	object-fit: cover;
+}
