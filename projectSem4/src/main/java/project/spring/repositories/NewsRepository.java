@@ -39,6 +39,8 @@ public class NewsRepository {
             item.setName(rs.getString(News.NAME));
             item.setDescription(rs.getString(News.DESCRIPTION));
             item.setContent(rs.getString(News.CONTENT));
+            item.setImage(rs.getString(News.IMAGE));
+            item.setPath(rs.getString(News.PATH));
             item.setAccountId(rs.getInt(News.ACCOUNTID));
             return item;
         }
@@ -75,14 +77,18 @@ public class NewsRepository {
     }
 
     public int insert(News newNews) {
-        return db.update("insert into news (name, description, content, accountId) values (?, ?, ?, ?)",
-                new Object[] { newNews.getName(), newNews.getDescription(), newNews.getContent(),
+        return db.update(
+                "insert into news (name, description, content, image, path, accountId) values (?, ?, ?, ?, ?, ?)",
+                new Object[] { newNews.getName(), newNews.getDescription(), newNews.getContent(), newNews.getImage(),
+                        newNews.getPath(),
                         newNews.getAccountId() });
     }
-    
+
     public int update(News upNews) {
-        return db.update("update news set name = ?, description = ?, content = ?, accountId = ? where Id = ?",
-                new Object[] { upNews.getName(), upNews.getDescription(), upNews.getContent(), upNews.getAccountId(), upNews.getId() });
+        return db.update(
+                "update news set name = ?, description = ?, content = ?, image = ?, path = ?, accountId = ? where Id = ?",
+                new Object[] { upNews.getName(), upNews.getDescription(), upNews.getContent(), upNews.getImage(),
+                        upNews.getPath(), upNews.getAccountId(), upNews.getId() });
     }
-    
+
 }

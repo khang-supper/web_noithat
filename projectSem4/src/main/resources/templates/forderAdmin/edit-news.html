@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:fragment="TitlePage">Chỉnh sửa bài viết</title>
+    <style th:replace="/common/_Head_tag"></style>
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.css">
+  </head>
+  <body>
+    <!-- header-->
+    <header th:replace="common/_Header_admin"></header>
+
+    <div class="content">
+      <div class="page-inner">
+        <!-- breadcrumbs -->
+        <div class="page-header">
+          <ul class="breadcrumbs">
+              <li class="nav-home">
+                  <a href="/admin">
+                      <i class="flaticon-home"></i>
+                  </a>
+              </li>
+              <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+              </li>
+              <li class="nav-item">
+                  <a href="/admin/news">Tin tức</a>
+              </li>
+              <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+              </li>
+              <li class="nav-item">
+                  <span>Chỉnh sửa bài viết</span>
+              </li>
+          </ul>
+      </div>
+        <!-- end breadcrumbs -->
+        
+        <!-- body-->
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Chỉnh sửa bài viết</h4>
+              </div>
+              <!-- content body -->
+              <div class="card-body">
+                <!-- Form -->
+                <form action="/admin/news/edit" method="post" th:object="${news}">
+                  <input type="hidden" th:field="*{id}" />
+                  <div class="form-group">
+                      <label for="name">Tên bài viết</label>
+                      <input type="text" class="form-control" id="name" th:field="*{name}">
+                  </div>
+                  <div class="form-group">
+                      <label for="description">Mô tả ngắn</label>
+                      <input type="text" class="form-control" id="description" th:field="*{description}">
+                  </div>
+                  <div class="form-group">
+                      <label for="content">Nội dung</label>
+                      <textarea id="editor" name="content" th:field="*{content}"></textarea>
+                  </div>
+                  <hr />
+                  <button type="submit" class="btn btn-primary">Cập nhật</button>
+              </form>
+              <!-- End Form -->
+              </div>
+              <!-- end content body -->
+            </div>
+          </div>
+        </div>
+        <!-- End body -->
+      </div>
+    </div>
+    <!-- CKEditor Script -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+    <!-- footer-->
+    <footer th:replace="common/_footer_admin"></footer>
+  </body>
+</html>

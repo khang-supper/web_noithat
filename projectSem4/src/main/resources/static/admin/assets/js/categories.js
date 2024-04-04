@@ -12,6 +12,38 @@ $('.delete-btn').on('click', function() {
     $('#deleteModal .modal-body').text('Bạn có chắc muốn xóa "' + name + '"?'); // Đặt nội dung modal
     // Xác nhận xóa
     $('#deleteModal .btn-danger').on('click', function() { 
-        window.location.href = '/admin/categories/delete/' + id; // Gửi yêu cầu xóa với id tương ứng
+        //window.location.href = '/admin/categories/delete/' + id; // Gửi yêu cầu xóa với id tương ứng
+        $.ajax({
+            type: "GET",
+            url: "/admin/categories/delete/" + id,
+
+            success: function (data) {
+              $("#deleteModal").modal("hide");
+              $.notify(
+                {
+                  message: "Đã xóa thành công !" + name,
+                },
+                {
+                  type: "success",
+                  delay: 2000, // Thời gian hiển thị thông báo (3 giây)
+                }
+              );
+              setTimeout(function() {
+                window.location.reload();
+            }, 1500);
+            },
+            error: function (xhr, status, error) {
+              $.notify(
+                {
+                  message: "Thất bại!",
+                },
+                {
+                  type: "danger",
+                  delay: 3000, // Thời gian hiển thị thông báo (3 giây)
+                }
+              );
+            },
+          });
+          //end ajax
     });
 });
