@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Post</title>
+    <title>Tạo bài viết</title>
     <style th:replace="/common/_Head_tag"></style>
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.css">
 </head>
@@ -27,13 +27,13 @@
                         <i class="flaticon-right-arrow"></i>
                     </li>
                     <li class="nav-item">
-                        <a href="/admin/news">News</a>
+                        <a href="/admin/news">Tin tức</a>
                     </li>
                     <li class="separator">
                         <i class="flaticon-right-arrow"></i>
                     </li>
                     <li class="nav-item">
-                        <span>Create New Post</span>
+                        <span>Tạo bài viết mới</span>
                     </li>
                 </ul>
             </div>
@@ -44,24 +44,24 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Create New Post</h4>
+                            <h4 class="card-title">Tạo bài viết mới</h4>
                         </div>
                         <div class="card-body">
                             <!-- Form -->
                             <form action="/admin/news/add" method="post" th:object="${news}">
                                 <div class="form-group">
-                                    <label for="name">Title</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Enter title" th:field="*{name}">
+                                    <label for="name">Tên bài viết</label>
+                                    <input type="text" class="form-control" id="name" th:field="*{name}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="description">Short Description</label>
-                                    <input type="text" class="form-control" id="description" placeholder="Enter short description" th:field="*{description}">
+                                    <label for="description">Mô tả ngắn</label>
+                                    <input type="text" class="form-control" id="description" th:field="*{description}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="content">Content</label>
+                                    <label for="content">Nội dung</label>
                                     <textarea id="editor" name="content" th:field="*{content}"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="submit" class="btn btn-primary">Lưu</button>
                             </form>
                             <!-- End Form -->
                         </div>

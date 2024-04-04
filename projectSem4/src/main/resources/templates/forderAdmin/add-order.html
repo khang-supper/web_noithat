@@ -1,0 +1,154 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:fragment="TitlePage">Danh sách đơn hàng</title>
+    <style th:replace="/common/_Head_tag"></style>
+  </head>
+
+  <body>
+    <!-- header-->
+    <header th:replace="common/_Header_admin"></header>
+
+    <div class="content">
+      <div class="page-inner">
+        <!-- breadcrumbs -->
+        <div class="page-header">
+          <ul class="breadcrumbs">
+            <li class="nav-home">
+              <a href="/admin">
+                <i class="flaticon-home"></i>
+              </a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/order">Đơn hàng</a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <span>Tạo đơn hàng</span>
+            </li>
+          </ul>
+        </div>
+        <!-- end breadcrumbs -->
+
+        <!-- body-->
+
+        <div class="row">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Chọn sản phẩm</h4>
+              </div>
+              <div class="card-body">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Sản phẩm</th>
+                      <th>Mã sản phẩm</th>
+                      <th>SL</th>
+                      <th>Giá</th>
+                      <th>Thành tiền</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="detail : ${orderDetail}">
+                      <td>
+                        <img
+                          th:src="${detail['product_image']}"
+                          alt="product image"
+                          width="90"
+                        />
+                      </td>
+                      <td><b th:text="${detail['product_name']}"></b></td>
+                      <td th:text="${detail['product_code']}"></td>
+                      <td th:text="${detail['quantity']}"></td>
+                      <td th:text="${detail['price']}"></td>
+                      <td th:text="${detail['totalPrice']}"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="3"></td>
+                      <td><h4>Tổng cộng:</h4></td>
+                      <td><h4 th:text="${order.total}"></h4></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-body">
+                <form id="orderForm">
+                  <input
+                    type="hidden"
+                    id="orderId"
+                    name="orderId"
+                    th:value="${order.id}"
+                  />
+                  <div class="form-check">
+                    <label>Trạng thái đơn hàng</label><br />
+                    <label
+                      th:each="status : ${orderStatusList}"
+                      class="form-radio-label"
+                    >
+                      <input
+                        class="form-radio-input"
+                        type="radio"
+                        name="orderStatus"
+                        th:value="${status}"
+                        th:checked="${status == order.status}"
+                      />
+                      <span class="form-radio-sign" th:text="${status}"></span>
+                    </label>
+                  </div>
+                  <div class="form-group">
+                    <b>Hình thức thanh toán:</b>
+                    <p
+                      th:text="${order.paymentStatus ? 'Thanh toán qua VNPAY' : 'Giao & thu tiền tận nơi - COD'}"
+                    ></p>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Lưu</button>
+                </form>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <table class="table">
+                  <tr>
+                    <th>Mã đơn hàng</th>
+                    <td th:text="${order.code}"></td>
+                  </tr>
+                  <tr>
+                    <th>Họ tên</th>
+                    <td th:text="${order.customerName}"></td>
+                  </tr>
+                  <tr>
+                    <th>Điện thoại</th>
+                    <td th:text="${order.shippingPhone}"></td>
+                  </tr>
+                  <tr>
+                    <th>Địa chỉ</th>
+                    <td th:text="${order.shippingAddress}"></td>
+                  </tr>
+                  <tr>
+                    <th>Ngày đặt hàng</th>
+                    <td th:text="${order.orderDate}"></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End body -->
+      </div>
+    </div>
+
+    <footer th:replace="common/_footer_admin"></footer>
+  </body>
+</html>

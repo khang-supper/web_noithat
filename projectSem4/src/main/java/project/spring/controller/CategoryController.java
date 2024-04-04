@@ -39,11 +39,11 @@ public class CategoryController {
         return "Admin/add-category";
     }
 
-    @PostMapping("/add")
-    public String addCategory(@ModelAttribute("category") Category category) {
-        CategoryRepository.Instance().insert(category);
-        return "redirect:/admin/categories";
-    }
+    // @PostMapping("/add")
+    // public String addCategory(@ModelAttribute("category") Category category) {
+    //     CategoryRepository.Instance().insert(category);
+    //     return "redirect:/admin/categories";
+    // }
 
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") int id, Model model) {

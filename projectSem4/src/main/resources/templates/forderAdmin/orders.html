@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:fragment="TitlePage">Danh sách đơn hàng</title>
+    <style th:replace="/common/_Head_tag"></style>
+  </head>
+
+  <body>
+    <!-- header-->
+    <header th:replace="common/_Header_admin"></header>
+
+    <div class="content">
+      <div class="page-inner">
+        <!-- breadcrumbs -->
+        <div class="page-header">
+          <ul class="breadcrumbs">
+            <li class="nav-home">
+              <a href="/admin">
+                <i class="flaticon-home"></i>
+              </a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="">Đơn hàng</a>
+            </li>
+          </ul>
+        </div>
+        <!-- end breadcrumbs -->
+
+        <!-- body-->
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Danh sách đơn hàng</h4>
+              </div>
+              <!-- content body -->
+
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    id="add-row"
+                    class="display table table-striped table-hover"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Đơn hàng</th>
+                        <th>Ngày đặt</th>
+                        <th>Khách hàng</th>
+                        <th>Sản phẩm</th>
+                        <th>Tổng tiền</th>
+                        <th>Hình thức thanh toán</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr th:each="order : ${orders}">
+                        <td th:text="${order['code']}"></td>
+                        <td th:text="${order['orderDate']}"></td>
+                        <td th:text="${order['customerName']}"></td>
+                        <td th:text="${order['product_names']}"></td>
+                        <td th:text="${order['total']}"></td>
+                        <td
+                          th:text="${order['paymentStatus'] ? 'Thanh toán qua VNPAY' : 'Giao & thu tiền tận nơi - COD'}"
+                        ></td>
+                        <td th:text="${order['status']}"></td>
+                        <td>
+                          <div class="form-button-action">
+                            <button
+                              type="button"
+                              data-toggle="tooltip"
+                              title="Xem đơn hàng"
+                              class="btn btn-link btn-primary btn-lg edit-btn"
+                              data-original-title="Chỉnh sửa"
+                              th:data-order-id="${order['id']}"
+                            >
+                              <i class="fas fa-eye"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!--  -->
+              <!-- end content body -->
+            </div>
+          </div>
+        </div>
+        <!-- End body -->
+      </div>
+    </div>
+
+    <footer th:replace="common/_footer_admin"></footer>
+    <script>
+      // Xử lý sự kiện khi click vào nút chỉnh sửa
+      $(".edit-btn").on("click", function () {
+        var id = $(this).attr("data-order-id"); // Lấy id từ thuộc tính th:data-order-id
+        window.location.href = "/admin/order/edit?id=" + id; // Chuyển hướng đến trang chỉnh sửa với id tương ứng
+      });
+    </script>
+  </body>
+</html>
