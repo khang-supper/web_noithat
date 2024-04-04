@@ -1,86 +1,191 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="utf-8" />
-<title>New Sale</title>
-<style th:replace="/common/_Head_tag"></style>
-</head>
-<body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:fragment="TitlePage">Tạo thể loại</title>
+    <style th:replace="/common/_Head_tag"></style>
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.css">
+  </head>
+  <body>
+    <!-- header-->
     <header th:replace="common/_Header_admin"></header>
-    <div class="content">
-		<div class="page-inner">
-			<!-- breadcrumbs -->
-			<div class="page-header">
-				<h4 class="page-title">Avatars</h4>
-				<ul class="breadcrumbs">
-					<li class="nav-home">
-						<a href="#">
-							<i class="flaticon-home"></i>
-						</a>
-					</li>
-					<li class="separator">
-						<i class="flaticon-right-arrow"></i>
-					</li>
-					<li class="nav-item">
-						<a href="#">Base</a>
-					</li>
-					<li class="separator">
-						<i class="flaticon-right-arrow"></i>
-					</li>
-					<li class="nav-item">
-						<a href="#">Avatars</a>
-					</li>
-				</ul>
-			</div>
-			<!-- end breadcrumbs -->
 
-		<!-- body-->
-			<div class="row">
-				<div class="col-md-12">
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title">Tiêu đề mục</h4>
-							
-						</div>
-						<!-- content body -->
-						<div class="card-body">
-                            <div align="center">
-                                <h1>create</h1>
-                                <br />
-                                <form  th:action="@{/admin/save}" th:object="${products}"
-                                    method="post">
-                                    <table border="0" cellpadding="10">
-                                        <tr>
-                                            <td>Item Name:</td>
-                                            <td><input type="text" th:field="*{name}" /></td>
-                                        </tr>
-                                        <tr>
-                                            <td>code:</td>
-                                            <td><input type="text" th:field="*{code}" /></td>
-                                        </tr>
-                                        <tr>	
-                                            <td>description :</td>
-                                            <td><input type="text" th:field="*{description}" /></td>
-                                        </tr>     
-										<tr>	
-                                            <td>content :</td>
-                                            <td><input type="text" th:field="*{content}" /></td>
-                                        </tr>                        
-                                        <tr>
-                                            <td colspan="2"><button type="submit">Save</button> </td>
-                                        </tr>
-                                    </table>
-                                </form>
-                            </div>
-						</div>
-						<!-- end content body -->
-					</div>
-				</div>
-			</div>
-			<!-- End body -->
-		</div>
-	</div>
-   
+    <div class="content">
+      <div class="page-inner">
+        <!-- breadcrumbs -->
+        <div class="page-header">
+          <ul class="breadcrumbs">
+            <li class="nav-home">
+              <a href="/admin">
+                <i class="flaticon-home"></i>
+              </a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/categories">Loại sản phẩm</a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="">Tạo thể loại</a>
+            </li>
+          </ul>
+        </div>
+        <!-- end breadcrumbs -->
+
+        <!-- body-->
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Tạo thể loại</h4>
+              </div>
+              <!-- content body -->
+              <div class="card-body">
+                <form
+                  action="/admin/product/add"
+                  method="post"
+                  th:object="${product}"
+                >
+                  <div class="form-group">
+                    <label for="name_c">Tên loại</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name_c"
+                      placeholder="Nhập tên loại"
+                      th:field="*{name}"
+                    />
+                  </div>
+                  <hr>
+                  <div class="form-group">
+                    <label for="categoryId_c">Danh mục</label>
+                    <select class="form-control" id="categoryId_c" th:field="*{categoryId}">
+                        <option value="">Chọn danh mục</option>
+                        <option th:each="category : ${categories}"  th:value="${category.id}"th:text="${category.name}"></option>
+                    </select>
+                </div>
+                  <div class="form-group">
+                    <label for="exampleFormControlFile1">Hình đại diện</label>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      data-toggle="modal"
+                      data-target="#image"
+                    >
+                      Chọn hình
+                    </button>
+                  </div>
+                  <hr>
+                  <div class="form-group">
+                    <label for="content">Content</label>
+                    <textarea id="editor" name="content" th:field="*{content}"></textarea>
+                </div>
+                  <hr />
+                  <button class="btn btn-info" type="submit">Lưu</button>
+                </form>
+              </div>
+              <!-- end content body -->
+            </div>
+          </div>
+        </div>
+        <!-- End body -->
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="image" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header no-bd">
+            <div>Chọn hình ảnh</div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            
+            <div class="row">
+              <div class="col-2">
+                <div class="nav flex-column nav-pills nav-secondary nav-pills-no-bd" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                  <a class="nav-link active" id="v-pills-home-tab-nobd" data-toggle="pill" href="#v-pills-home-nobd" role="tab" aria-controls="v-pills-home-nobd" aria-selected="true"><i class="flaticon-home"></i>Tải lên hình ảnh</a>
+                  <a class="nav-link" id="v-pills-profile-tab-nobd" data-toggle="pill" href="#v-pills-profile-nobd" role="tab" aria-controls="v-pills-profile-nobd" aria-selected="false">Chọn từ thư viện</a>
+                </div>
+              </div>
+              <div class="col-10">
+                <div class="tab-content" id="v-pills-tabContent">
+                  <div class="tab-pane fade show active" id="v-pills-home-nobd" role="tabpanel" aria-labelledby="v-pills-home-tab-nobd">
+                    <div class="col-12">
+                      <input type="file" id="fileInput" class="form-control-file" style="display: none;">
+                      <label for="fileInput" class="custom-file-upload">
+                        <i class="fas fa-cloud-upload-alt"></i> Chọn hoặc kéo thả file vào đây
+                      </label>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="v-pills-profile-nobd" role="tabpanel" aria-labelledby="v-pills-profile-tab-nobd">
+                    <div class="row">
+                      <div class="col-4 col-sm-2">
+                        <label class="imagecheck mb-4">
+                          <input name="imagecheck" type="checkbox" value="1" class="imagecheck-input">
+                          <figure class="imagecheck-figure">
+                            <img src="/admin/assets/img/examples/product1.jpg" alt="title" class="imagecheck-image" >
+                          </figure>
+                        </label>
+                      </div>
+                      <div class="col-4 col-sm-2">
+                        <label class="imagecheck mb-4">
+                          <input name="imagecheck" type="checkbox" value="2" class="imagecheck-input" checked="">
+                          <figure class="imagecheck-figure">
+                            <img src="/admin/assets/img/examples/product2.jpg" alt="title" class="imagecheck-image">
+                          </figure>
+                        </label>
+                      </div>
+                      <div class="col-4 col-sm-2">
+                        <label class="imagecheck mb-4"><input name="imagecheck" type="checkbox" value="3" class="imagecheck-input">
+                          <figure class="imagecheck-figure">
+                            <img src="/admin/assets/img/examples/product1.jpg" alt="title" class="imagecheck-image">
+                          </figure>
+                        </label>
+                      </div>
+                      <div class="col-4 col-sm-2">
+                        <label class="imagecheck mb-4">
+                          <input name="imagecheck" type="checkbox" value="3" class="imagecheck-input">
+                          <figure class="imagecheck-figure">
+                            <img src="/admin/assets/img/examples/product1.jpg" alt="title" class="imagecheck-image" width="150" height="150">
+                          </figure>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          <div class="modal-footer no-bd">
+            <button type="button" id="addRowButton" class="btn btn-primary">Chọn hình</button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <!-- End Modal -->
+
+    <!-- footer-->
     <footer th:replace="common/_footer_admin"></footer>
-</body>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+  </body>
+</html>

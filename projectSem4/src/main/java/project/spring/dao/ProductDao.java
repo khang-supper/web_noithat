@@ -1,16 +1,16 @@
 package project.spring.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import project.spring.model.News;
 import project.spring.model.Product;
 
 @Repository
@@ -18,51 +18,77 @@ import project.spring.model.Product;
 
 public class ProductDao {
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
+    private final  JdbcTemplate jdbcTemplate;
+    
     public ProductDao (JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
-    public List<Product> list(){
-        String sql ="SELECT * FROM PRODUCTS";
-       List<Product>listproduct= jdbcTemplate.query(sql, 
-                    BeanPropertyRowMapper.newInstance(Product.class));
-        return listproduct;
-    }
-   public void save(Product products) {
-    SimpleJdbcInsert insertActor = new SimpleJdbcInsert(jdbcTemplate);
-    insertActor.withTableName("products").usingColumns("id","name", "code", "description", "content", "price", "stock","isDelete");
-    BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(products);
-     
-    insertActor.execute(param);    
-}
 
-    public Product get(int id) {
-        String sql = "SELECT * FROM PRODUCTS WHERE id = ?";
-        return jdbcTemplate.query(sql, productExtractor, id);
+     public List<Product> findAll() {
+        return jdbcTemplate.query("select * from products order by id asc", new productExtractor());
+    }
+//////////////
+    @SuppressWarnings("deprecation")
+    public List<Product> findAllByPage(int page, int pageSize) { 
+        int start = page * pageSize;
+        return jdbcTemplate.query("SELECT * FROM products LIMIT ?, ? ", new Object[] { start, pageSize },
+                new productExtractor());
     }
 
-    public void update(Product products) {
-        String sql = "UPDATE PRODUCTS SET name = ?, code = ?, description = ?,content=? WHERE id = ?";
-        jdbcTemplate.update(sql, products.getName(), products.getCode(), products.getDescription(), products.getId());
+    public int getTotalPages(int pageSize) { 
+        int totalCount = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM products", Integer.class);
+        return (int) Math.ceil((double) totalCount / pageSize);
+    }
+    public Product findById(int id) {
+        return jdbcTemplate.queryForObject("select * from products where Id=?", new productExtractor(), new Object[] { id });
     }
 
-    public void delete(int id) {
-        String sql = "DELETE FROM PRODUCTS WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+     @SuppressWarnings("deprecation")
+    public List<Product> search(String keyword) {
+        String sql = "SELECT * FROM products WHERE Name LIKE ?";
+        String searchKeyword = "%" + keyword + "%"; // Thêm ký tự % để tìm kiếm một phần của tên
+        return jdbcTemplate.query(sql, new Object[] { searchKeyword }, new productExtractor());
+    }
+////////////
+    public int deleteById(int id) {
+        return jdbcTemplate.update("delete from products where Id=?", new Object[] { id });
+    }
+   
+
+    public int insert(Product newProduct) {
+        return jdbcTemplate.update("insert into products (name, code, description,content,price,stock,accountId,categoryId)" + "value(?,?,?,?,?,?,?,?)",
+                new Object[] { newProduct.getName(), newProduct.getCode(), newProduct.getDescription(), newProduct.getContent(),
+                    newProduct.getPrice(),
+                    newProduct.getStock(),
+                    newProduct.getAccountId(),
+                    newProduct.getCategoryId() });
     }
 
-    // ResultSetExtractor để lấy một đối tượng Product từ ResultSet
-    private ResultSetExtractor<Product> productExtractor = rs -> {
-        if (rs.next()) {
-            Product products = new Product();
-            products.setId(rs.getInt("id"));
-            products.setName(rs.getString("name"));
-            products.setCode(rs.getString("code"));
-            products.setDescription(rs.getString("description"));
-            products.setContent(rs.getString("content"));
-            return products;
+    public int update(Product upProduct) {
+        return jdbcTemplate.update("update products set Name = ?, Code = ? where Id = ?",
+                new Object[] { upProduct.getName(), upProduct.getCode(),
+                        upProduct.getId() });
+    }
+     class productExtractor implements RowMapper<Product> {
+        @Override
+        public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Product product = new Product();
+            product.setId(rs.getInt("id"));
+            product.setName(rs.getString("name"));
+            product.setCode(rs.getString("code"));
+            product.setDescription(rs.getString("description"));
+            product.setContent(rs.getString("content"));
+            product.setPrice(rs.getDouble("price"));
+            product.setStock(rs.getInt("stock"));
+            product.setDescription(rs.getString("description"));
+            product.setSize(rs.getString("size"));
+            product.setMaterial(rs.getString("material"));
+            product.setPath(rs.getString("path"));
+            product.setAccountId(rs.getInt("accountId"));
+            product.setCategoryId(rs.getInt("categoryId"));
+
+
+            return product;
         }
-        return null;
-    };
+    }
 }

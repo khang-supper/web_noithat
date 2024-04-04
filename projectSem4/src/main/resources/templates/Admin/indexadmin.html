@@ -12,39 +12,7 @@
 	<!-- header-->
 	<header th:replace="common/_Header_admin"></header>
 
-	 <div class="main-panel">
-			<div class="content">
-				<div align="center">
-					<h1>Products Records</h1>
-					<a th:href="@{/admin/create}">Enter New Product</a>
-					<br/><br/>
-					<table border="1" cellpadding="10">
-						<thead>
-							<tr>
-								<th>ID</th>
-								<th>Item Name</th>
-								<th>code</th>
-								<th>description</th>
-								<th>Actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="Product : ${listproduct}">
-								<td th:text="${Product.id}">ID</td>
-								<td th:text="${Product.name}">Item Name</td>
-								<td th:text="${Product.code}">Quantity</td>
-								<td th:text="${Product.description}">Amount</td>
-								<td>
-									<a th:href="@{'/edit/' + ${Product.id}}">Edit</a>
-									&nbsp;&nbsp;&nbsp;
-									<a th:href="@{'/delete/' + ${Product.id}}">Delete</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>  
-		</div>
-		</div>
+	
 		
 	
 		<div class="custom-template">
@@ -156,7 +124,39 @@
 						</div>
 						<!-- content body -->
 						<div class="card-body">
-							Các khối nội dung ở đây
+							<div class="main-panel">
+								<div class="content">
+									<div align="center">
+										<h1>Products Records</h1>
+										<a th:href="@{/admin/create}">Enter New Product</a>
+										<br/><br/>
+										<table border="1" cellpadding="10">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th>Item Name</th>
+													<th>code</th>
+													<th>description</th>
+													<th>Actions</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="product : ${products}">
+													<td th:text="${products.id}">ID</td>
+													<td th:text="${products.name}"> Name</td>
+													<td th:text="${products.code}">code</td>
+													<td th:text="${products.description}">description</td>
+													<td>
+														<a th:href="@{'/edit/' + ${products.id}}">Edit</a>
+														&nbsp;&nbsp;&nbsp;
+														<a th:href="@{'/delete/' + ${products.id}}">Delete</a>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>  
+							</div>
+							</div>
 						</div>
 						<!-- end content body -->
 					</div>

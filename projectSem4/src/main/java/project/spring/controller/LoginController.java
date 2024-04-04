@@ -19,7 +19,8 @@ public class LoginController {
     private JdbcTemplate jdbcTemplate;
 
     @GetMapping("/login")
-    public String showLogin() {
+    public String showLogin(Model model) {
+        model.addAttribute("title", "Trang login");
         return "forderClient/login"; // Trả về trang đăng nhập
     }
    
@@ -33,7 +34,7 @@ public class LoginController {
             model.addAttribute("username", username);
             session.setAttribute("username", username); // Lưu username vào session
             session.setAttribute("role", role);
-            return (role.equals("1")) ? "/admin/indexadmin" : "/Client/index";
+            return (role.equals("1")) ? "/admin/index" : "/Client/index";
         } else {
             model.addAttribute("error", "Incorrect UserName & Password");
             return "/forderClient/login";
