@@ -47,7 +47,7 @@ public class NewsRepository {
     }
 
     public List<News> findAll() {
-        return db.query("select * from news order by id asc", new NewsRowMapper());
+        return db.query("select * from news order by id desc", new NewsRowMapper());
     }
 
     @SuppressWarnings("deprecation")
@@ -86,9 +86,9 @@ public class NewsRepository {
 
     public int update(News upNews) {
         return db.update(
-                "update news set name = ?, description = ?, content = ?, image = ?, path = ?, accountId = ? where Id = ?",
+                "update news set name = ?, description = ?, content = ?, image = ?, path = ? where Id = ?",
                 new Object[] { upNews.getName(), upNews.getDescription(), upNews.getContent(), upNews.getImage(),
-                        upNews.getPath(), upNews.getAccountId(), upNews.getId() });
+                        upNews.getPath(), upNews.getId() });
     }
 
 }

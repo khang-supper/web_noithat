@@ -71,10 +71,12 @@ public class OrderController {
     // trang thống kê
     @GetMapping("/report")
     public String orderReport(Model model) {
-        List<Integer> weeklyOrders = calculateWeeklyOrders(); // Tính toán số đơn hàng hàng ngày trong tuần
-        int totalWeeklyOrders = weeklyOrders.stream().reduce(0, (a, b) -> a + b); // Tổng số đơn hàng trong tuần
-        model.addAttribute("weeklyOrders", weeklyOrders);
-        model.addAttribute("totalWeeklyOrders", totalWeeklyOrders);
+        // List<Integer> weeklyOrders = calculateWeeklyOrders(); // Tính toán số đơn hàng hàng ngày trong tuần
+        // int totalWeeklyOrders = weeklyOrders.stream().reduce(0, (a, b) -> a + b); // Tổng số đơn hàng trong tuần
+        // model.addAttribute("weeklyOrders", weeklyOrders);
+        // model.addAttribute("totalWeeklyOrders", totalWeeklyOrders);
+        List<Order> orders = OrderRepository.Instance().findAll();
+        model.addAttribute("order", orders);
 
         return "forderAdmin/order-report";
     }

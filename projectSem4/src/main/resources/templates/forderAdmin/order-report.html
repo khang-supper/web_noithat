@@ -273,52 +273,52 @@
 
       // Hàm tạo biểu đồ
       function createLineChart(ctx, labels, data, label, borderColor, pointColor) {
-        return new Chart(ctx, {
-          type: "line",
-          data: {
-            labels: labels,
-            datasets: [
-              {
-                label: label,
-                borderColor: borderColor,
-                pointBorderColor: "#FFF",
-                pointBackgroundColor: pointColor,
-                pointBorderWidth: 2,
-                pointHoverRadius: 4,
-                pointHoverBorderWidth: 1,
-                pointRadius: 4,
-                backgroundColor: "transparent",
-                fill: true,
-                borderWidth: 2,
-                data: data,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-              position: "bottom",
-              labels: {
-                padding: 10,
-                fontColor: borderColor,
-              },
-            },
-            tooltips: {
-              bodySpacing: 4,
-              mode: "nearest",
-              intersect: 0,
-              position: "nearest",
-              xPadding: 10,
-              yPadding: 10,
-              caretPadding: 10,
-            },
-            layout: {
-              padding: { left: 15, right: 15, top: 15, bottom: 15 },
-            },
-          },
-        });
-      }
+  return new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: label,
+          borderColor: borderColor,
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: pointColor,
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          backgroundColor: "transparent",
+          fill: true,
+          borderWidth: 2,
+          data: data,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        position: "bottom",
+        labels: {
+          padding: 10,
+          fontColor: borderColor,
+        },
+      },
+      tooltips: {
+        bodySpacing: 4,
+        mode: "nearest",
+        intersect: 0,
+        position: "nearest",
+        xPadding: 10,
+        yPadding: 10,
+        caretPadding: 10,
+      },
+      layout: {
+        padding: { left: 15, right: 15, top: 15, bottom: 15 },
+      },
+    },
+  });
+}
 
       // Chuyển đổi định dạng ngày từ yyyy-mm-dd thành dd/mm/yyyy
       function formatDate(dateString) {
@@ -409,7 +409,6 @@
         var parts = dateString.split("/");
         return parts[1] + "/" + parts[0] + "/" + parts[2];
       }
-    
     </script>
   </body>
 </html>

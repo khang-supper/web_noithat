@@ -21,11 +21,11 @@ public class AdminController {
     }
     @RequestMapping("")
     public String index(Model model) {
-		if (!isAdmin()) {
-			model.addAttribute("title", "Error");
-			model.addAttribute("error", "Bạn không có quyền truy cập!");
-			return "forderAdmin/error"; 
-		}
+	// 	if (!isAdmin()) {
+	// 		model.addAttribute("title", "Error");
+	// 		model.addAttribute("error", "Bạn không có quyền truy cập!");
+	// 		return "forderAdmin/error"; 
+	// 	}
 		model.addAttribute("title", "Trang admin");
 		return "Admin/index";
 	}	

@@ -17,7 +17,7 @@ public class CategoryController {
     public String getAllCategories(Model model) {
     List<Category> categories = CategoryRepository.Instance().findAll();
     model.addAttribute("categories", categories);
-    return "Admin/categories";
+    return "forderAdmin/categories";
     }
 
     // @GetMapping("")
@@ -36,20 +36,20 @@ public class CategoryController {
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("category", new Category());
-        return "Admin/add-category";
+        return "forderAdmin/add-category";
     }
 
-    // @PostMapping("/add")
-    // public String addCategory(@ModelAttribute("category") Category category) {
-    //     CategoryRepository.Instance().insert(category);
-    //     return "redirect:/admin/categories";
-    // }
+    @PostMapping("/add")
+    public String addCategory(@ModelAttribute("category") Category category) {
+        CategoryRepository.Instance().insert(category);
+        return "redirect:/admin/categories";
+    }
 
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") int id, Model model) {
         Category category = CategoryRepository.Instance().findById(id);
         model.addAttribute("category", category);
-        return "Admin/edit-category";
+        return "forderAdmin/edit-category";
     }
 
     @PostMapping("/edit")

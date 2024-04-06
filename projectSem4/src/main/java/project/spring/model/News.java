@@ -13,8 +13,8 @@ public class News {
 	public static String NAME = "name";
 	public static String DESCRIPTION = "description";
 	public static String CONTENT = "content";
-	public static String IMAGE = "'image";
-	public static String PATH = "'path";
+	public static String IMAGE = "image";
+	public static String PATH = "path";
 	public static String ACCOUNTID = "accountId";
     
 	public News(int id, String name, String description, String content, String image, String path,int accountId) {

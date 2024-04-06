@@ -44,7 +44,7 @@ public final class CategoryRepository {
     }
 
     public List<Category> findAll() {
-        return db.query("select * from categories order by id asc", new CategoryRowMapper());
+        return db.query("select * from categories order by id desc", new CategoryRowMapper());
     }
 
     @SuppressWarnings("deprecation")
