@@ -65,6 +65,10 @@ public class NewsRepository {
         return db.queryForObject("select * from news where Id=?", new NewsRowMapper(), new Object[] { id });
     }
 
+    public News findByPath(String path) {
+        return db.queryForObject("select * from news where path = ?", new NewsRowMapper(), new Object[] { path });
+    }
+
     @SuppressWarnings("deprecation")
     public List<News> search(String keyword) {
         String sql = "SELECT * FROM news WHERE Name LIKE ?";

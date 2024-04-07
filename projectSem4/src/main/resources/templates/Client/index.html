@@ -11,65 +11,67 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
 
 <body>
 	<header  th:replace="common/_Header_Client"></header>
-    <div layout:fragment="content"> <section class="hero">
+    <div layout:fragment="content"> 
+    <!-- Hero Section Begin -->
+    <section class="hero">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>All departments</span>
-                        </div>
-                        <ul>
-                            <li><a href="#">Fresh Meat</a></li>
-                            <li><a href="#">Vegetables</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
-                        </ul>
-                    </div>
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="hero__categories">
+                <div class="hero__categories__all">
+                  <i class="fa fa-bars"></i>
+                  <span>Tất cả danh mục</span>
                 </div>
-                <div class="col-lg-9">
-                    <div class="hero__search">
-                        <div class="hero__search__form">
-                            <form action="#">
-                                <div class="hero__search__categories">
-                                    All Categories
-                                    <span class="arrow_carrot-down"></span>
-                                </div>
-                                <input type="text" placeholder="What do yo u need?">
-                                <button type="submit" class="site-btn">SEARCH</button>
-                            </form>
-                        </div>
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
-                            </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+65 11.188.888</h5>
-                                <span>support 24/7 time</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hero__item set-bg" data-setbg="../../client/img/hero/banner.jpg">
-                        <div class="hero__text">
-                            <span>FRUIT FRESH</span>
-                            <h2>Vegetable <br />100% Organic</h2>
-                            <p>Free Pickup and Delivery Available</p>
-                            <a href="#" class="primary-btn">SHOP NOW</a>
-                        </div>
-                    </div>
-                </div>
+                <ul>
+                  <li><a href="#">Giường Ngủ</a></li>
+                  <li><a href="#">Tủ Quần Áo</a></li>
+                  <li><a href="#">Bàn Trang Điểm</a></li>
+                  <li><a href="#">Tủ giày</a></li>
+                  <li><a href="#">Sofa</a></li>
+                  <li><a href="#">Kệ Tivi</a></li>
+                  <li><a href="#">Khuyến Mãi</a></li>
+                  <li><a href="#">Tin Tức</a></li>
+                  <li><a href="#">Liên Hệ</a></li>
+                  <li><a href="#"></a></li>
+                  <li><a href="#"> </a></li>
+                </ul>
+              </div>
             </div>
+            <div class="col-lg-9">
+              <div class="hero__search">
+                <div class="hero__search__form">
+                  <form action="#">
+                    <div class="hero__search__categories">
+                      Tìm kiếm
+                      <span class="arrow_carrot-down"></span>
+                    </div>
+                    <input type="text" placeholder="Nhập tên sản phẩm?" />
+                    <button type="submit" class="site-btn">TÌM</button>
+                  </form>
+                </div>
+                <div class="hero__search__phone">
+                  <div class="hero__search__phone__icon">
+                    <i class="fa fa-phone"></i>
+                  </div>
+                  <div class="hero__search__phone__text">
+                    <a href="tel:0981198781"><h5>098 119 8781</h5></a>
+                    <span>support 24/7 time</span>
+                  </div>
+                </div>
+              </div>
+              <div class="hero__item set-bg" data-setbg="client/img/hero/banner.jpg">
+                <div class="hero__text">
+                  <span>FRUIT FRESH</span>
+                  <h2>Vegetable <br />100% Organic</h2>
+                  <p>Free Pickup and Delivery Available</p>
+                  <a href="#" class="primary-btn">SHOP NOW</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
-    <!-- Hero Section End -->
+      </section>
+      <!-- Hero Section End -->
 
     <!-- Categories Section Begin -->
     <section class="categories">

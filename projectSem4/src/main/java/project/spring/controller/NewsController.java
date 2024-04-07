@@ -23,9 +23,9 @@ import project.spring.repositories.OrderRepository;
 public class NewsController {
     @GetMapping("")
     public String getAllNews(Model model) {
-    List<News> news = NewsRepository.Instance().findAll();
-    model.addAttribute("news", news);
-    return "forderAdmin/news";
+        List<News> news = NewsRepository.Instance().findAll();
+        model.addAttribute("news", news);
+        return "forderAdmin/news";
     }
 
     // @GetMapping("")

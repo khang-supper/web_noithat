@@ -1,6 +1,6 @@
- <!-- <div id="preloder">
+ <div id="preloder">
         <div class="loader"></div>
-</div> -->
+</div>
     <header class="header">
         <div class="header__top">
             <div class="container">
@@ -55,41 +55,44 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-lg-3">
-                    <div class="header__logo">
-                        <a th:href="@{/}"><img src="../../client/img/logo.png" alt=""></a>
-                    </div>
+              <div class="col-lg-3">
+                <div class="header__logo">
+                  <a href="./index.html"><img src="img/logo.png" alt="" /></a>
                 </div>
-                <div class="col-lg-6">
-                    <nav class="header__menu">
-                        <ul>
-                            <li class="active"><a th:href="@{/}">Home</a></li>
-                            <li><a  th:href="@{/shop}">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="header__menu__dropdown">
-                                    <li><a th:href="@{/details}">Shop Details</a></li>
-                                    <li><a th:href="@{/cart}">Shoping Cart</a></li>
-                                    <li><a th:href="@{/checkout}">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a th:href="@{/Blog}">Blog</a></li>
-                            <li><a href="./contact.html">Contact</a></li>
-                        </ul>
-                    </nav>
+              </div>
+              <div class="col-lg-8">
+                <nav class="header__menu">
+                  <ul>
+                    <li class="active"><a href="/">Trang chủ</a></li>
+                    <li><a href="/san-pham">Sản phẩm</a></li>
+                    <li>
+                      <a href="#">Khuyến Mãi</a>
+                      <ul class="header__menu__dropdown">
+                        <li><a href="./shop-details.html">Shop Details</a></li>
+                        <li><a href="./shoping-cart.html">Shoping Cart</a></li>
+                        <li><a href="./checkout.html">Check Out</a></li>
+                        <li><a href="./blog-details.html">Blog Details</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="/tin-tuc">Tin tức</a></li>
+                    <li><a href="/lien-he">Liên hệ</a></li>
+                  </ul>
+                </nav>
+              </div>
+              <div class="col-lg-1">
+                <div class="header__cart">
+                  <ul>
+                    <li>
+                      <a href="gio-hang"
+                        ><i class="fa fa-shopping-bag"></i> <span>3</span></a
+                      >
+                    </li>
+                  </ul>
                 </div>
-                <div class="col-lg-3">
-                    <div class="header__cart">
-                        <ul>
-                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a th:href="@{/cart}"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
-                        </ul>
-                        <div class="header__cart__price">item: <span>$150.00</span></div>
-                    </div>
-                </div>
+              </div>
             </div>
             <div class="humberger__open">
-                <i class="fa fa-bars"></i>
+              <i class="fa fa-bars"></i>
             </div>
         </div>
     </header>
