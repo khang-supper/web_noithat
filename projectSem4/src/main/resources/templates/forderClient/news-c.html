@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title}">hello</title>
+    <title>Blog </title>
     <style th:replace="/common/_Head_tag_client"></style>
 </head>
 <body>
@@ -42,7 +42,7 @@
                               Tìm kiếm
                               <span class="arrow_carrot-down"></span>
                             </div>
-                            <input type="text" placeholder="Nhập tên bài viết?" />
+                            <input type="text" placeholder="Bạn tìm sản phẩm gì?" />
                             <button type="submit" class="site-btn">TÌM</button>
                           </form>
                         </div>
@@ -88,47 +88,20 @@
                 <div class="col-lg-4 col-md-5">
                     <div class="blog__sidebar">
                         <div class="blog__sidebar__search">
-                            <form action="#">
-                                <input type="text" placeholder="Search...">
+                            <form action="/tin-tuc" method="GET">
+                                <input type="text" name="keyword" placeholder="Tìm kiếm bài viết...">
                                 <button type="submit"><span class="icon_search"></span></button>
                             </form>
                         </div>
                         <div class="blog__sidebar__item">
                             <h4>Bài viết gần đây</h4>
                             <div class="blog__sidebar__recent">
-                                <a href="#" class="blog__sidebar__recent__item">
+                                <a th:each="news : ${newsRecent}" th:href="@{/tin-tuc/{path}(path=${news.path})}" class="blog__sidebar__recent__item">
                                     <div class="blog__sidebar__recent__item__pic">
-                                        <img src="../../client/img/blog/sidebar/sr-1.jpg" alt="">
+                                        <img th:src="${news.image}" alt="">
                                     </div>
                                     <div class="blog__sidebar__recent__item__text">
-                                        <h6>09 Kinds Of Vegetables<br /> Protect The Liver</h6>
-                                        <span>MAR 05, 2019</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="blog__sidebar__recent__item">
-                                    <div class="blog__sidebar__recent__item__pic">
-                                        <img src="../../client/img/blog/sidebar/sr-2.jpg" alt="">
-                                    </div>
-                                    <div class="blog__sidebar__recent__item__text">
-                                        <h6>Tips You To Balance<br /> Nutrition Meal Day</h6>
-                                        <span>MAR 05, 2019</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="blog__sidebar__recent__item">
-                                    <div class="blog__sidebar__recent__item__pic">
-                                        <img src="../../client/img/payment-item.png" alt="">
-                                    </div>
-                                    <div class="blog__sidebar__recent__item__text">
-                                        <h6>4 Principles Help You Lose <br />Weight With Vegetables</h6>
-                                        <span>MAR 05, 2019</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="blog__sidebar__recent__item">
-                                    <div class="blog__sidebar__recent__item__pic">
-                                        <img src="../../client/img/blog/blog-6.jpg" alt="">
-                                    </div>
-                                    <div class="blog__sidebar__recent__item__text">
-                                        <h6>4 Principles Help You Lose <br />Weight With Vegetables</h6>
+                                        <h6 th:text="${news.name}"><br /> </h6>
                                         <span>MAR 05, 2019</span>
                                     </div>
                                 </a>
@@ -141,7 +114,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-6" th:each="news : ${news}">
                             <div class="blog__item">
                                 <div class="blog__item__pic">
-                                        <!-- <img c alt="" /> -->
+                                        <!-- <img th:src="${newsDetail.image}" alt="" /> -->
                                         <img src="../../client/img/blog/blog-6.jpg" alt="">
                                 </div>
                                 <div class="blog__item__text">
@@ -158,10 +131,9 @@
                         <!-- Phân trang  -->
                         <div class="col-lg-12">
                             <div class="product__pagination blog__pagination">
-                                <a href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+                                <a th:href="@{/tin-tuc?page=1}"><i class="fa fa-long-arrow-left"></i></a>
+                                <a th:each="pageNumber : ${#numbers.sequence(1, totalPages)}" th:href="@{/tin-tuc?page=} + ${pageNumber}" th:text="${pageNumber}">2</a>
+                                <a th:href="@{/tin-tuc?page=} + ${totalPages}"><i class="fa fa-long-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>

@@ -45,13 +45,22 @@ public class NewsRepository {
             return item;
         }
     }
-
+    //lấy tất cả bài viết
     public List<News> findAll() {
         return db.query("select * from news order by id desc", new NewsRowMapper());
     }
+    //lấy ra 4 bài viết mới nhất
+    public List<News> findRecent() {
+        return db.query("SELECT * FROM news ORDER BY id DESC LIMIT 4", new NewsRowMapper());
+    }
+
+    //lấy ra 3 bài viết ngẫu nhiên
+    public List<News> findRand() {
+        return db.query("SELECT * FROM news ORDER BY RAND() LIMIT 3;", new NewsRowMapper());
+    }
 
     @SuppressWarnings("deprecation")
-    public List<News> findAllByPage(int page, int pageSize) { // lấy phần tử trong 1 trang
+    public List<News> findAllByPage(int page, int pageSize) { // lấy danh sách bài viết trong 1 trang
         int start = page * pageSize;
         return db.query("SELECT * FROM news LIMIT ?, ?", new Object[] { start, pageSize }, new NewsRowMapper());
     }
@@ -69,6 +78,7 @@ public class NewsRepository {
         return db.queryForObject("select * from news where path = ?", new NewsRowMapper(), new Object[] { path });
     }
 
+    //Tìm kiếm tin tức
     @SuppressWarnings("deprecation")
     public List<News> search(String keyword) {
         String sql = "SELECT * FROM news WHERE Name LIKE ?";

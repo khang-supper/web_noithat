@@ -81,9 +81,12 @@
 	  });
 
 	  // Add Row
-	  $('#add-row').DataTable({
-		"pageLength": 5,
-	  });
+	  var table = $('#add-row').DataTable({
+        "pageLength": 5
+   	  });
+	  // Sắp xếp lại dữ liệu theo ID giảm dần
+	  table.order([0, 'desc']).draw();
+	  
 	  //xác định trang hiện tại và thêm lớp active 
 	  var currentLocation = window.location.pathname; // Lấy đường dẫn của trang hiện tại
         $('.nav-item').removeClass('active'); // Loại bỏ lớp active từ tất cả các mục điều hướng
