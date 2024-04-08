@@ -37,14 +37,14 @@
                 <div class="col-lg-9">
                     <div class="hero__search">
                         <div class="hero__search__form">
-                          <form action="#">
-                            <div class="hero__search__categories">
-                              Tìm kiếm
-                              <span class="arrow_carrot-down"></span>
-                            </div>
-                            <input type="text" placeholder="Bạn tìm sản phẩm gì?" />
-                            <button type="submit" class="site-btn">TÌM</button>
-                          </form>
+                            <form action="/search/product" method="GET">
+                                <div class="hero__search__categories">
+                                  Tìm kiếm
+                                  <span class="arrow_carrot-down"></span>
+                                </div>
+                                <input type="text" name="keyword" placeholder="Bạn tìm sản phẩm gì?" required />
+                                <button type="submit" class="site-btn">TÌM</button>
+                            </form>
                         </div>
                         <div class="hero__search__phone">
                           <div class="hero__search__phone__icon">
@@ -89,7 +89,7 @@
                     <div class="blog__sidebar">
                         <div class="blog__sidebar__search">
                             <form action="/tin-tuc" method="GET">
-                                <input type="text" name="keyword" placeholder="Tìm kiếm bài viết...">
+                                <input type="text" name="keyword" placeholder="Tìm kiếm bài viết..." required>
                                 <button type="submit"><span class="icon_search"></span></button>
                             </form>
                         </div>

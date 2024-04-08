@@ -322,3 +322,7 @@ body[data-background-color="dark"] .demo-icon .icon-class {
 	height: 150px; 
 	object-fit: cover;
 }
+/* Chữ đỏ trong kiểm tra form  */
+.error-message {
+	color: red;
+}

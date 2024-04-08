@@ -38,6 +38,7 @@ public final class CategoryRepository {
             item.setId(rs.getInt(Category.ID));
             item.setName(rs.getString(Category.NAME));
             item.setImage(rs.getString(Category.IMAGE));
+            item.setPath(rs.getString(Category.PATH));
             item.setIsDelete(rs.getBoolean(Category.ISDELETE));
             return item;
         }
@@ -71,13 +72,13 @@ public final class CategoryRepository {
     // }
 
     public int insert(Category newCategory) {
-        return db.update("insert into categories (Name, Image, IsDelete)" + "value(?,?,?)",
-                new Object[] { newCategory.getName(), newCategory.getImage(), newCategory.getIsDelete() });
+        return db.update("insert into categories (Name, Path, Image, IsDelete)" + "value(?,?,?,?)",
+                new Object[] { newCategory.getName(), newCategory.getPath(), newCategory.getImage(), newCategory.getIsDelete() });
     }
 
     public int update(Category upCategory) {
-        return db.update("update categories set Name = ?, Image = ? where Id = ?",
-                new Object[] { upCategory.getName(), upCategory.getImage(),
+        return db.update("update categories set Name = ?, Path = ?, Image = ? where Id = ?",
+                new Object[] { upCategory.getName(), upCategory.getPath(), upCategory.getImage(),
                         upCategory.getId() });
     }
 

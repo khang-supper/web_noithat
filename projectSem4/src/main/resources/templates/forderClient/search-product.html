@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tìm kiếm sản phẩm</title>
+<style th:replace="/common/_Head_tag_client"></style>
+</head>
+<body>
+<header th:replace="common/_Header_Client"></header>
+
+<!-- Hero Section Begin -->
+<section class="hero hero-normal">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="hero__categories">
+                    <div class="hero__categories__all">
+                      <i class="fa fa-bars"></i>
+                      <span>Tất cả danh mục</span>
+                    </div>
+                    <ul>
+                      <li><a href="#">Giường Ngủ</a></li>
+                      <li><a href="#">Tủ Quần Áo</a></li>
+                      <li><a href="#">Bàn Trang Điểm</a></li>
+                      <li><a href="#">Tủ giày</a></li>
+                      <li><a href="#">Sofa</a></li>
+                      <li><a href="#">Kệ Tivi</a></li>
+                      <li><a href="#">Khuyến Mãi</a></li>
+                      <li><a href="#">Tin Tức</a></li>
+                      <li><a href="#">Liên Hệ</a></li>
+                      <li><a href="#"></a></li>
+                      <li><a href="#"> </a></li>
+                    </ul>
+                  </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="hero__search">
+                    <div class="hero__search__form">
+                      <form action="/search/product" method="GET">
+                        <div class="hero__search__categories">
+                          Tìm kiếm
+                          <span class="arrow_carrot-down"></span>
+                        </div>
+                        <input type="text" name="keyword" placeholder="Bạn tìm sản phẩm gì?" required />
+                        <button type="submit" class="site-btn">TÌM</button>
+                      </form>
+                    </div>
+                    <div class="hero__search__phone">
+                      <div class="hero__search__phone__icon">
+                        <i class="fa fa-phone"></i>
+                      </div>
+                      <div class="hero__search__phone__text">
+                        <a href="tel:0981198781"><h5>098 119 8781</h5></a>
+                        <span>Hỗ trợ 24/7</span>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Hero Section End -->
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="../../client/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Sản phẩm</h2>
+                    <div class="breadcrumb__option">
+                        <a href="/">Trang chủ</a>
+                        <span>Sản phẩm</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Product Section Begin -->
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-5">
+                <div class="sidebar">
+                    <div class="sidebar__item">
+                        <h4>Tất cả danh mục</h4>
+                        <ul>
+                          <li><a href="#">Giường Ngủ</a></li>
+                          <li><a href="#">Tủ Quần Áo</a></li>
+                          <li><a href="#">Bàn Trang Điểm</a></li>
+                          <li><a href="#">Tủ giày</a></li>
+                          <li><a href="#">Sofa</a></li>
+                          <li><a href="#">Kệ Tivi</a></li>
+                        </ul>
+                    </div>
+                    <div class="sidebar__item">
+                        <h4>Price</h4>
+                        <div class="price-range-wrap">
+                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                data-min="10" data-max="540">
+                                <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                            </div>
+                            <div class="range-slider">
+                                <div class="price-input">
+                                    <input type="text" id="minamount">
+                                    <input type="text" id="maxamount">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar__item">
+                        <div class="latest-product__text">
+                            <h4>Sản phẩm mới </h4>
+                            <div class="latest-product__slider owl-carousel">
+                                <div class="latest-prdouct__slider__item">
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="../../client/img/latest-product/lp-1.jpg" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>Crab Pool Security</h6>
+                                            <span>$30.00</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="../../client/img/latest-product/lp-2.jpg" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>Crab Pool Security</h6>
+                                            <span>$30.00</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="../../client/img/latest-product/lp-3.jpg" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>Crab Pool Security</h6>
+                                            <span>$30.00</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="latest-prdouct__slider__item">
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="../../client/img/latest-product/lp-1.jpg" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>Crab Pool Security</h6>
+                                            <span>$30.00</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="../../client/img/latest-product/lp-2.jpg" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>Crab Pool Security</h6>
+                                            <span>$30.00</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img src="../../client/img/latest-product/lp-3.jpg" alt="">
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6>Crab Pool Security</h6>
+                                            <span>$30.00</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-7">
+                
+                <div class="filter__item">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-5">
+                            <div class="filter__sort">
+                                <span>Sắp xếp theo</span>
+                                <select>
+                                    <option value="0">Mặc định</option>
+                                    <option value="1">Tên</option>
+                                    <option value="2">Giá thấp đến cao</option>
+                                    <option value="3">Giá cao đến thấp</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="filter__found">
+                                <h6><span>[[${totalProduct}]]</span> Sản phẩm</h6>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-3">
+                            <div class="filter__option">
+                                <span class="icon_grid-2x2"></span>
+                                <span class="icon_ul"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6" th:each="product : ${products}"> 
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="../../client/img/product/product-1.jpg">
+                                <ul class="product__item__pic__hover">
+                                    <li><a th:href="@{/san-pham/{path}(path=${product.path})}"><i class="fa fa-eye"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a href="#">[[${product.name}]]</a></h6>
+                                <h5 th:text="${product.price}"></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Phân trang  -->
+                <!-- <div class="col-lg-12">
+                    <div class="product__pagination blog__pagination">
+                        <a th:href="@{/search/product?page=1}"><i class="fa fa-long-arrow-left"></i></a>
+                        <a th:each="pageNumber : ${#numbers.sequence(1, totalPages)}" th:href="@{/search/product?page=} + ${pageNumber}" th:text="${pageNumber}"></a>
+                        <a th:href="@{/search/product?page=} + ${totalPages}"><i class="fa fa-long-arrow-right"></i></a>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</section>
+
+ <footer th:replace="common/_footer_Client"></footer>
+</body>
+</html>

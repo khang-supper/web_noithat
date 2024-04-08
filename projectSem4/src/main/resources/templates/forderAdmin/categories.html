@@ -47,22 +47,28 @@
                   <table id="add-row" class="display table table-striped table-hover" >
                     <thead>
                       <tr>
+                        <th>Id</th>
                         <th>Ảnh đại diện</th>
                         <th>Tên loại</th>
+                        <th>Đường dẫn</th>
                         <th style="width: 10%">Hành động</th>
                       </tr>
                     </thead>
                     <tfoot>
                       <tr>
+                        <th>Id</th>
                         <th>Ảnh đại diện</th>
                         <th>Tên loại</th>
+                        <th>Đường dẫn</th>  
                         <th>Hành động</th>
                       </tr>
                     </tfoot>
                     <tbody>
                       <tr th:each="category : ${categories}" th:if="${category.isDelete == false}">
+                        <td th:text="${category.id}"></td>
                         <td th:text="${category.image}"></td>
                         <td th:text="${category.name}"></td>
+                        <td th:text="${category.path}"></td>
                         <td>
                           <div class="form-button-action">
                               <button type="button" data-toggle="tooltip" title="Chỉnh sửa" class="btn btn-link btn-primary btn-lg edit-btn" data-original-title="Chỉnh sửa" th:data-category-id="${category.id}">

@@ -48,22 +48,36 @@
               <!-- content body -->
               <div class="card-body">
                 <!-- Form -->
-                <form action="/admin/news/edit" method="post" th:object="${news}">
+                <form id="newsForm" action="/admin/news/edit" method="post" th:object="${news}">
                   <input type="hidden" th:field="*{id}" />
+
                   <div class="form-group">
-                      <label for="name">Tên bài viết</label>
-                      <input type="text" class="form-control" id="name" th:field="*{name}">
-                  </div>
-                  <div class="form-group">
-                      <label for="description">Mô tả ngắn</label>
-                      <input type="text" class="form-control" id="description" th:field="*{description}">
-                  </div>
-                  <div class="form-group">
-                      <label for="content">Nội dung</label>
-                      <textarea id="editor" name="content" th:field="*{content}"></textarea>
-                  </div>
-                  <hr />
-                  <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    <label for="name">Tên bài viết</label>
+                    <input type="text" class="form-control" id="name"  th:field="*{name}">
+                    <div id="nameError" class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Mô tả ngắn</label>
+                    <input type="text" class="form-control" id="description" th:field="*{description}">
+                    <div id="descriptionError" class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="content">Nội dung</label>
+                    <textarea id="editor" name="content" th:field="*{content}"></textarea>
+                    <div id="contentError" class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Đường dẫn (URL)</label>
+                    <input type="text" class="form-control" id="path" th:field="*{path}">
+                    <div id="pathError" class="error-message"></div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Hình đại diện</label>
+                    <!-- <input type="file" class="form-control" id="image" th:field="*{image}"> -->
+                    <input type="text" class="form-control" id="image" th:field="*{image}">
+                    <div id="imageError" class="error-message"></div>
+                </div>
+                <button type="submit" class="btn btn-primary">Lưu</button>
               </form>
               <!-- End Form -->
               </div>
@@ -85,5 +99,68 @@
     </script>
     <!-- footer-->
     <footer th:replace="common/_footer_admin"></footer>
+    <script>
+      document.getElementById('newsForm').addEventListener('submit', function(event) {
+            var name = document.getElementById('name').value.trim();
+            var description = document.getElementById('description').value.trim();
+            var content = document.getElementById('editor').value.trim();
+            var path = document.getElementById('path').value.trim();
+            var image = document.getElementById('image').value.trim();
+
+            var nameError = document.getElementById('nameError');
+            var descriptionError = document.getElementById('descriptionError');
+            var contentError = document.getElementById('contentError');
+            var pathError = document.getElementById('pathError');
+            var imageError = document.getElementById('imageError');
+
+            nameError.innerHTML = "";
+            descriptionError.innerHTML = "";
+            contentError.innerHTML = "";
+            pathError.innerHTML = "";
+            imageError.innerHTML = "";
+
+            if (name === "") {
+                nameError.innerHTML = "Vui lòng nhập tên bài viết";
+                event.preventDefault();
+            }
+            if (description === "") {
+                descriptionError.innerHTML = "Vui lòng nhập mô tả ngắn";
+                event.preventDefault();
+            }
+            if (content === "") {
+                contentError.innerHTML = "Vui lòng nhập nội dung";
+                event.preventDefault();
+            }
+            if (path === "") {
+                pathError.innerHTML = "Vui lòng nhập đường dẫn (URL)";
+                event.preventDefault();
+            }
+            if (image === "") {
+                imageError.innerHTML = "Vui lòng chọn hình đại diện";
+                event.preventDefault();
+            }
+        });
+
+        // Ẩn thông báo lỗi khi người dùng bắt đầu nhập lại trường đó
+        document.getElementById('name').addEventListener('input', function() {
+            document.getElementById('nameError').innerHTML = "";
+        });
+
+        document.getElementById('description').addEventListener('input', function() {
+            document.getElementById('descriptionError').innerHTML = "";
+        });
+
+        document.getElementById('editor').addEventListener('input', function() {
+            document.getElementById('contentError').innerHTML = "";
+        });
+
+        document.getElementById('path').addEventListener('input', function() {
+            document.getElementById('pathError').innerHTML = "";
+        });
+
+        document.getElementById('image').addEventListener('input', function() {
+            document.getElementById('imageError').innerHTML = "";
+        });
+    </script>
   </body>
 </html>

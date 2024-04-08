@@ -2,6 +2,7 @@ package project.spring.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import project.spring.dao.ProductDao;
 import project.spring.model.Account;
 import project.spring.model.News;
+import project.spring.model.Product;
 import project.spring.repositories.AccountRepository;
 import project.spring.repositories.NewsRepository;
 
@@ -103,5 +106,28 @@ public class HomeController {
 			return "error-page"; // Thay thế "error-page" bằng trang lỗi hoặc chuyển hướng tới trang khác
 		}
 	}
+
+	@Autowired
+	private ProductDao productDao;
+
+	@GetMapping("/search/product") //Trang tìm kiếm sản phẩm
+	public String search_product(@RequestParam(required = false) String keyword, Model model) {
+		List<Product> products;
+		int totalProduct;
+
+		if (keyword != null && !keyword.isEmpty()) {
+			products = productDao.search(keyword);
+			totalProduct = products.size();
+		} else {
+			products = productDao.findAll();
+			totalProduct = products.size();
+		}
+
+		model.addAttribute("products", products);
+		model.addAttribute("totalProduct", totalProduct);
+		return "forderClient/search-product";
+	}
+
+
 
 }
