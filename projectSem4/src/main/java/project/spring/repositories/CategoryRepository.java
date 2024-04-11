@@ -8,6 +8,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+
 import project.spring.model.Category;
 
 public final class CategoryRepository {
@@ -62,6 +67,10 @@ public final class CategoryRepository {
 
     public Category findById(int id) {
         return db.queryForObject("select * from categories where Id=?", new CategoryRowMapper(), new Object[] { id });
+    
+    }
+    public Category findByPath(String path) {
+        return db.queryForObject("select * from categories where path=?", new CategoryRowMapper(), new Object[] { path });
     }
 
     public int deleteById(int id) {
@@ -74,6 +83,37 @@ public final class CategoryRepository {
     public int insert(Category newCategory) {
         return db.update("insert into categories (Name, Path, Image, IsDelete)" + "value(?,?,?,?)",
                 new Object[] { newCategory.getName(), newCategory.getPath(), newCategory.getImage(), newCategory.getIsDelete() });
+    }
+
+    // public int insert(Category newCategory) { //Thêm mới và gắn id vào path
+    //     // Thêm dữ liệu vào cơ sở dữ liệu và lấy ID của bản ghi mới
+    //     KeyHolder keyHolder = new GeneratedKeyHolder();
+    //     db.update(connection -> {
+    //         PreparedStatement ps = connection.prepareStatement(
+    //             "INSERT INTO categories (Name, Image, IsDelete) VALUES (?, ?, ?)",
+    //             Statement.RETURN_GENERATED_KEYS
+    //         );
+    //         ps.setString(1, newCategory.getName());
+    //         ps.setString(2, newCategory.getImage());
+    //         ps.setBoolean(3, newCategory.getIsDelete());
+    //         return ps;
+    //     }, keyHolder);
+    
+    //     // Lấy ID của bản ghi mới
+    //     int newId = keyHolder.getKey().intValue();
+    
+    //     // Tạo path mới bằng cách kết hợp path ban đầu với ID của bản ghi mới
+    //     String newPath = newCategory.getPath() + "-" + newId;
+    
+    //     // Cập nhật path của bản ghi mới
+    //     updatePath(newId, newPath);
+    
+    //     return newId;
+    // }
+    
+
+    public void updatePath(int id, String newPath) {
+        db.update("update categories set path = ? where id = ?", newPath, id);
     }
 
     public int update(Category upCategory) {

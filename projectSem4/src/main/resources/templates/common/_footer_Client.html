@@ -82,3 +82,19 @@
     <script src="../../client/js/mixitup.min.js"></script>
     <script src="../../client/js/owl.carousel.min.js"></script>
     <script src="../../client/js/main.js"></script>
+
+    <script>
+       $(document).ready(function() {
+        // Xác định trang hiện tại và thêm lớp active
+        var currentLocation = window.location.pathname; // Lấy đường dẫn của trang hiện tại
+        $('.header__menu li').removeClass('active'); // Loại bỏ lớp active từ tất cả các mục menu
+        $('.header__menu li a').each(function() {
+            var link = $(this).attr('href');
+            if (link === currentLocation) {
+                $(this).closest('li').addClass('active'); // Thêm lớp active cho mục menu chứa liên kết đang xem
+            }
+        });
+    });
+
+
+    </script>

@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import project.spring.dao.ProductDao;
 import project.spring.model.Account;
+import project.spring.model.Category;
 import project.spring.model.News;
 import project.spring.model.Product;
 import project.spring.repositories.AccountRepository;
+import project.spring.repositories.CategoryRepository;
 import project.spring.repositories.NewsRepository;
 
 @Controller
@@ -88,7 +90,7 @@ public class HomeController {
 	}
 
 
-	@GetMapping("/tin-tuc/{path}")
+	@GetMapping("/tin-tuc/{path}") //Trang chi tiết tin tức
 	public String tintuc_detail(@PathVariable("path") String path, Model model) {
 		News news = NewsRepository.Instance().findByPath(path);
 		List<News> newsRecent = NewsRepository.Instance().findRecent();//4 bài viết mới nhất
@@ -112,6 +114,7 @@ public class HomeController {
 
 	@GetMapping("/search/product") //Trang tìm kiếm sản phẩm
 	public String search_product(@RequestParam(required = false) String keyword, Model model) {
+		List<Category> categories = CategoryRepository.Instance().findAll();
 		List<Product> products;
 		int totalProduct;
 
@@ -122,11 +125,88 @@ public class HomeController {
 			products = productDao.findAll();
 			totalProduct = products.size();
 		}
-
+		model.addAttribute("categories", categories); // Danh sách Loại sản phẩm
+		model.addAttribute("keyword", keyword);
 		model.addAttribute("products", products);
 		model.addAttribute("totalProduct", totalProduct);
 		return "forderClient/search-product";
 	}
+	
+	@GetMapping("/san-pham") // Trang tất cả sản phẩm
+	public String san_pham(@RequestParam(defaultValue = "1") int page,
+						@RequestParam(required = false) String sortPrice,
+						@RequestParam(required = false) Double priceFrom,
+						@RequestParam(required = false) Double priceTo,
+						Model model) {
+		List<Category> categories = CategoryRepository.Instance().findAll();
+		List<Product> productNew = productDao.findNewProduct();					
+
+		int pageSize = 12;
+		List<Product> products;
+		int totalPages;
+		int totalProduct;
+
+		if ((sortPrice != null && !sortPrice.isEmpty()) || (priceFrom != null && priceTo != null)) {
+			// Lọc theo giá hoặc thứ tự giá
+			products = productDao.findAllByParams(sortPrice, priceFrom, priceTo);
+			totalProduct = productDao.getProductCountByParams(sortPrice, priceFrom, priceTo);
+			totalPages = 1;
+		} else {
+			// Phân trang khi không có lọc
+			products = productDao.findAllByPage(page - 1, pageSize);
+			totalProduct = productDao.getProductCount();
+			totalPages = productDao.getTotalPages(pageSize);
+		}
+
+		model.addAttribute("categories", categories); // Danh sách Loại sản phẩm
+		model.addAttribute("productNew", productNew); // Danh sách 6 sản phẩm mới
+		model.addAttribute("products", products); // Danh sách sản phẩm
+		model.addAttribute("totalPages", totalPages); // Tổng số trang
+		model.addAttribute("currentPage", page); // Trang hiện tại
+		model.addAttribute("totalProduct", totalProduct); // Tổng số sản phẩm
+		return "forderClient/san-pham";
+	}
+
+	@GetMapping("/{path}")//Trang loại sản phẩm
+	public String category(@PathVariable("path") String path, @RequestParam(defaultValue = "1") int page,
+							@RequestParam(required = false) String sortPrice,
+							@RequestParam(required = false) Double priceFrom,
+							@RequestParam(required = false) Double priceTo,
+							Model model) {
+		List<Category> categories = CategoryRepository.Instance().findAll();
+		List<Product> productNew = productDao.findNewProduct();				
+		Category category = CategoryRepository.Instance().findByPath(path);
+		int pageSize = 2;
+		List<Product> products;
+		int totalPages;
+		int totalProduct;
+
+		if ((sortPrice != null && !sortPrice.isEmpty()) || (priceFrom != null && priceTo != null)) {
+			// Lọc theo giá hoặc thứ tự giá
+			products = productDao.findAllByParamsAndCategory(sortPrice, priceFrom, priceTo, category.getId());
+			totalProduct = productDao.getProductCountByParamsAndCategory(sortPrice, priceFrom, priceTo, category.getId());
+			totalPages = 1;
+		} else {
+			// Phân trang khi không có lọc
+			products = productDao.findAllByPageAndCategory(page - 1, pageSize, category.getId());
+			totalProduct = productDao.getProductCountByCategory(category.getId());
+			totalPages = productDao.getTotalPagesByCategory(pageSize, category.getId());
+		}
+
+		model.addAttribute("categoryDetail", category); // Loại sản phẩm
+		model.addAttribute("categories", categories); // Danh sách Loại sản phẩm
+		model.addAttribute("productNew", productNew); // Danh sách 6 sản phẩm mới
+		model.addAttribute("products", products); // Danh sách sản phẩm
+		model.addAttribute("totalPages", totalPages); // Tổng số trang
+		model.addAttribute("currentPage", page); // Trang hiện tại
+		model.addAttribute("totalProduct", totalProduct); // Tổng số sản phẩm
+
+
+		return "forderClient/loai-san-pham";
+	}
+	
+
+
 
 
 

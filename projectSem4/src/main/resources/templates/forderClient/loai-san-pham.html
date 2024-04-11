@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sản phẩm - Nội thất HKT</title>
+<style th:replace="/common/_Head_tag_client"></style>
+</head>
+<body>
+<header th:replace="common/_Header_Client"></header>
+
+<!-- Hero Section Begin -->
+<section class="hero hero-normal">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="hero__categories">
+                    <div class="hero__categories__all">
+                      <i class="fa fa-bars"></i>
+                      <span>Tất cả danh mục</span>
+                    </div>
+                    <ul>
+                      <li th:each="category : ${categories}"><a th:href="@{/{path}(path=${category.path})}">[[${category.name}]]</a></li>
+                      <li><a href="/khuyen-mai">Khuyến Mãi</a></li>
+                      <li><a href="/tin-tuc">Tin Tức</a></li>
+                      <li><a href="/lien-he">Liên Hệ</a></li>
+                      <li><a href="#"></a></li>
+                      <li><a href="#"> </a></li>
+                    </ul>
+                  </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="hero__search">
+                    <div class="hero__search__form">
+                      <form action="/search/product" method="GET">
+                        <div class="hero__search__categories">
+                          Tìm kiếm
+                          <span class="arrow_carrot-down"></span>
+                        </div>
+                        <input type="text" name="keyword" placeholder="Bạn tìm sản phẩm gì?" required autocomplete="off"/>
+                        <button type="submit" class="site-btn">TÌM</button>
+                      </form>
+                    </div>
+                    <div class="hero__search__phone">
+                      <div class="hero__search__phone__icon">
+                        <i class="fa fa-phone"></i>
+                      </div>
+                      <div class="hero__search__phone__text">
+                        <a href="tel:0981198781"><h5>098 119 8781</h5></a>
+                        <span>Hỗ trợ 24/7</span>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Hero Section End -->
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="../../client/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>[[${categoryDetail.name}]]</h2>
+                    <div class="breadcrumb__option">
+                        <a href="/">Trang chủ </a>
+                        <span> [[${categoryDetail.name}]]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Product Section Begin -->
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-5">
+                <div class="sidebar">
+                    <div class="sidebar__item">
+                        <h4>Tất cả danh mục</h4>
+                        <ul>
+                          <li th:each="category : ${categories}"><a th:href="@{/{path}(path=${category.path})}">[[${category.name}]]</a></li>
+                        </ul>
+                    </div>
+                    <div class="sidebar__item">
+                        <h4>Price</h4>
+                        <!-- Lọc theo khoảng giá  -->
+                        <div class="price-range-wrap">
+                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+                                data-min="0" data-max="50000000">
+                                <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                            </div>
+                            <div class="range-slider">
+                                <div class="price-input">
+                                    <input type="text" id="minamount" name="price_from" th:value="${priceFrom}" value="0">
+                                    <input type="text" id="maxamount" name="price_to" th:value="${priceTo}" value="50000000"> 
+                                </div>
+                            </div><br />
+                            <!-- Thêm nút lọc --> 
+                            <button id="filterBtn" class="site-btn">Áp dụng</button>
+                        </div>
+                    </div>
+                    <div class="sidebar__item">
+                        <div class="latest-product__text">
+                            <h4>Sản phẩm mới </h4>
+                            <div class="latest-product__slider owl-carousel">
+                                <!-- Slider 1 -->
+                                <div class="latest-prdouct__slider__item">
+                                    <!-- Lặp qua 3 sản phẩm đầu tiên -->
+                                    <div th:each="product, iterStat : ${productNew}" th:if="${iterStat.index &lt; 3}">
+                                        <!-- Hiển thị sản phẩm -->
+                                        <a th:href="@{'/san-pham/' + ${product.path}}" class="latest-product__item">
+                                            <div class="latest-product__item__pic">
+                                                <img th:src="@{'/' + ${product.path}}" alt="" />
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6 th:text="${product.name}"></h6>
+                                                <span>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Slider 2 -->
+                                <div class="latest-prdouct__slider__item">
+                                    <!-- Lặp qua 3 sản phẩm tiếp theo -->
+                                    <div th:each="product, iterStat : ${productNew}" th:if="${iterStat.index &gt;= 3}">
+                                        <!-- Hiển thị sản phẩm -->
+                                        <a th:href="@{'/san-pham/' + ${product.path}}" class="latest-product__item">
+                                            <div class="latest-product__item__pic">
+                                                <img th:src="@{'/' + ${product.path}}" alt="" />
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6 th:text="${product.name}"></h6>
+                                                <span>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-7">
+                
+                <div class="filter__item">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-5">
+                            <div class="filter__found">
+                                <h6><span>[[${totalProduct}]]</span> Sản phẩm</h6>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <!-- Lọc theo giá trị select -->
+                            <div class="filter__sort">
+                                <span>Sắp xếp theo</span>
+                                <select id="sortPriceSelect">
+                                    <option value="default">Mặc định</option>
+                                    <option id="sortDesc" value="desc">Giá giảm dần</option>
+                                    <option id="sortAsc" value="asc">Giá tăng dần</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-3">
+                            <div class="filter__sort">
+                                <button id="sortButton" class="btn btn-outline-secondary">Sắp xếp</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6" th:each="product : ${products}"> 
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="../../client/img/breadcrumb.jpg">
+                                <ul class="product__item__pic__hover">
+                                    <li><a th:href="@{/san-pham/{path}(path=${product.path})}"><i class="fa fa-eye"></i></a></li>
+                                    <li><a th:href="@{/add-to-cart/{id}(id=${product.id})}"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a th:href="@{/san-pham/{path}(path=${product.path})}">[[${product.name}]]</a></h6>
+                                <h5>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Phân trang  -->
+                <div class="col-lg-12">
+                    <div class="product__pagination blog__pagination">
+                        <a th:href="@{${categoryDetail.path} + '?page=1'}"><i class="fa fa-long-arrow-left"></i></a>
+                        <a th:each="pageNumber : ${#numbers.sequence(1, totalPages)}" th:href="@{${categoryDetail.path} + '?page='} + ${pageNumber}" th:text="${pageNumber}"></a>
+                        <a th:href="@{${categoryDetail.path} + '?page='} + ${totalPages}"><i class="fa fa-long-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="common/_footer_Client"></footer>
+ 
+<script>
+    // Sử dụng một hàm để lấy giá trị của tham số truy vấn từ URL
+    function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
+    // Sử dụng một hàm để đặt giá trị cho trường input và select
+    function setFiltersFromURL() {
+        const priceFrom = getQueryParam('priceFrom');
+        const priceTo = getQueryParam('priceTo');
+        const sortPrice = getQueryParam('sortPrice');
+
+        if(priceFrom !=null || priceTo != null ){
+            // Đặt giá trị cho các trường input và select
+            document.getElementById('minamount').value = priceFrom || '';
+            document.getElementById('maxamount').value = priceTo || '';
+        }
+        
+        // Đặt giá trị cho select
+        if (sortPrice) {
+            document.getElementById('sortPriceSelect').value = sortPrice;
+        }
+    }
+
+    // Gọi hàm để đặt giá trị từ URL khi trang tải lại
+    document.addEventListener("DOMContentLoaded", function() {
+        setFiltersFromURL();
+    });
+
+    // Thêm sự kiện cho nút và dropdown menu
+    document.getElementById('filterBtn').addEventListener('click', function() {
+        updatePageWithFilters();
+    });
+
+    document.getElementById('sortButton').addEventListener('click', function() {
+        updatePageWithFilters();
+    });
+
+    // Hàm cập nhật trang với các bộ lọc
+    function updatePageWithFilters() {
+        var selectedValue = document.getElementById('sortPriceSelect').value;
+        var minPrice = document.getElementById('minamount').value;
+        var maxPrice = document.getElementById('maxamount').value;
+
+        var formattedMinPrice = minPrice.replace(/\D/g, '');
+        var formattedMaxPrice = maxPrice.replace(/\D/g, '');
+
+        // Tạo URL mới với các query parameters
+        var newUrl = window.location.href.split('?')[0]; // Xóa query parameters cũ
+        newUrl = updateQueryStringParameter(newUrl, 'priceFrom', formattedMinPrice);
+        newUrl = updateQueryStringParameter(newUrl, 'priceTo', formattedMaxPrice);
+        newUrl = updateQueryStringParameter(newUrl, 'sortPrice', selectedValue);
+
+        // Chuyển hướng đến URL mới
+        window.location.href = newUrl;
+    }
+
+    // Hàm để thêm hoặc cập nhật tham số trong URL
+    function updateQueryStringParameter(uri, key, value) {
+        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+        if (uri.match(re)) {
+            return uri.replace(re, '$1' + key + "=" + value + '$2');
+        } else {
+            return uri + separator + key + "=" + value;
+        }
+    }
+
+</script>
+
+
+
+</body>
+</html>

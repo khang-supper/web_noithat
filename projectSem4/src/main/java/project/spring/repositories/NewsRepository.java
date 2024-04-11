@@ -7,7 +7,10 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import project.spring.model.News;
 
 public class NewsRepository {
@@ -62,7 +65,7 @@ public class NewsRepository {
     @SuppressWarnings("deprecation")
     public List<News> findAllByPage(int page, int pageSize) { // lấy danh sách bài viết trong 1 trang
         int start = page * pageSize;
-        return db.query("SELECT * FROM news LIMIT ?, ?", new Object[] { start, pageSize }, new NewsRowMapper());
+        return db.query("SELECT * FROM news ORDER BY id DESC LIMIT ?, ?", new Object[] { start, pageSize }, new NewsRowMapper());
     }
 
     public int getTotalPages(int pageSize) { // tổng số trang
@@ -91,11 +94,36 @@ public class NewsRepository {
     }
 
     public int insert(News newNews) {
-        return db.update(
-                "insert into news (name, description, content, image, path, accountId) values (?, ?, ?, ?, ?, ?)",
-                new Object[] { newNews.getName(), newNews.getDescription(), newNews.getContent(), newNews.getImage(),
-                        newNews.getPath(),
-                        newNews.getAccountId() });
+        // Thêm dữ liệu vào cơ sở dữ liệu và lấy ID của bản ghi mới
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        db.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                "INSERT INTO news (name, description, content, image, accountId) VALUES (?, ?, ?, ?, ?)",
+                Statement.RETURN_GENERATED_KEYS
+            );
+            ps.setString(1, newNews.getName());
+            ps.setString(2, newNews.getDescription());
+            ps.setString(3, newNews.getContent());
+            ps.setString(4, newNews.getImage());
+            ps.setInt(5, newNews.getAccountId());
+            return ps;
+        }, keyHolder);
+    
+        // Lấy ID của bản ghi mới
+        int newId = keyHolder.getKey().intValue();
+    
+        // Tạo path mới bằng cách kết hợp path ban đầu với ID của bản ghi mới
+        String newPath = newNews.getPath() + "-" + newId;
+    
+        // Cập nhật path của bản ghi mới
+        updatePath(newId, newPath);
+    
+        return newId;
+    }
+    
+
+    public void updatePath(int id, String newPath) {
+        db.update("update news set path = ? where id = ?", newPath, id);
     }
 
     public int update(News upNews) {

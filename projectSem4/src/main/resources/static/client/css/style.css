@@ -1122,6 +1122,7 @@ ol {
 
 .price-range-wrap .range-slider .price-input {
   position: relative;
+  min-width: 500px;
 }
 
 .price-range-wrap .range-slider .price-input:after {
@@ -1129,7 +1130,7 @@ ol {
   left: 38px;
   top: 13px;
   height: 1px;
-  width: 5px;
+  width: 15px;
   background: #dd2222;
   content: "";
 }
