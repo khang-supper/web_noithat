@@ -7,23 +7,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpServletRequest;
-import project.spring.dao.ProductDao;
 import project.spring.model.Category;
 import project.spring.model.Product;
+import project.spring.repositories.CategoryRepository;
+import project.spring.repositories.ProductRepository;
 
 @Controller
 @RequestMapping("/admin/product")
 public class ProductController {
-	@Autowired
-    private ProductDao productDao;
-    
   @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private ProductRepository productRepository;
+    
 /////
 	private String getRole() {
         return (String) request.getSession().getAttribute("role");
@@ -33,45 +36,48 @@ public class ProductController {
         return role != null && role.equals("1");
     }
 ////////
-
-   @GetMapping("")
-    public String getAllProducts(Model model) {
-       if (!isAdmin()) {
-        return "error"; // hoặc return "redirect:/admin-login"; nếu muốn chuyển hướng đến trang đăng nhập của admin
-    }
-    List<Product> products = productDao.findAll();
+@GetMapping("")
+public String getAllCategories(Model model) {
+    List<Product> products = productRepository.findAll();
     model.addAttribute("products", products);
-        
-    return "forderAdmin/newProduct";
-    }
+return "forderAdmin/product/products";
+}
 
-	 @GetMapping("/add")
-    public String getProductById( Model model) {
-        model.addAttribute("product", new Product());
-        return "forderAdmin/CreateProduct";
-    }
 
-    @PostMapping("/add")
-    public String createProduct(Product product) {
-        if (product.getName() != null) {
-            productDao.insert(product);
-            return "redirect:/admin/product/CreateProduct";
-        } else {
-            // Xử lý trường hợp tên sản phẩm là null
-            return "redirect:/error";
-        }
-    }
 
-    @PostMapping("/product/{id}")
-    public String updateProduct(@RequestParam("id") int id, Product updatedProduct) {
-        updatedProduct.setId(id);
-     productDao.update(updatedProduct);
-        return "redirect:/product";
-    }
+@GetMapping("/add")
+public String showAddForm(Model model) {
+    model.addAttribute("product", new Product());
+    List<Category> categories = CategoryRepository.Instance().findAll(); // Lấy danh sách loại sản phẩm
+    model.addAttribute("categories", categories);
+    return "forderAdmin/product/add-product";
+}
 
-    @GetMapping("/delete/{id}")
-    public String deleteProduct(@RequestParam("id") int id) {
-     productDao.deleteById(id);
-        return "redirect:/admin/product";
-    }
+
+@PostMapping("/add")
+public String addProduct(@ModelAttribute("product") Product product) {
+    productRepository.insert(product);
+    return "redirect:/admin/product";
+}
+
+@GetMapping("/edit")
+public String showEditForm(@RequestParam("id") int id, Model model) {
+    Product product = productRepository.findById(id);
+    model.addAttribute("product", product);
+    return "forderAdmin/product/edit-product";
+}
+
+@PostMapping("/edit")
+public String updateCategory(@RequestParam("id") int id,
+        @ModelAttribute("product") Product product) {
+    product.setId(id);
+    productRepository.update(product);
+    return "redirect:/admin/product";
+}
+
+@GetMapping("/delete/{id}")
+public String deleteCategory(@PathVariable("id") int id) {
+    productRepository.deleteById(id);
+    return "redirect:/admin/product";
+}
 }

@@ -3,6 +3,10 @@ package project.spring.model;
 public class Image {
     private int id;  // Khóa chính
     private String path;  // Đường dẫn ảnh
+	////
+	public static String ID = "id";
+	public static String PATH = "path";
+	
     
 	public Image(int id, String path) {
 		super();

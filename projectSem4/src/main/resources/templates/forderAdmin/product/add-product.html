@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:fragment="TitlePage">tạo sản phẩm</title>
+    <style th:replace="/common/_Head_tag"></style>
+  </head>
+  <body>
+    <!-- header-->
+    <header th:replace="common/_Header_admin"></header>
+    
+
+    <div class="content">
+      <div class="page-inner">
+        <!-- breadcrumbs -->
+        <div class="page-header">
+          <h4 class="page-title">Avatars</h4>
+          <ul class="breadcrumbs">
+            <li class="nav-home">
+              <a href="#">
+                <i class="flaticon-home"></i>
+              </a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="#">Base</a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="#">Avatars</a>
+            </li>
+          </ul>
+        </div>
+        <!-- end breadcrumbs -->
+  
+      <!-- body-->
+  
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Tiêu đề mục</h4>
+                
+              </div>
+              <!-- content body -->
+              <div class="card-body">
+                <form action="#" th:action="@{/admin/product/add}" th:object="${product}" method="post">
+                  <div class="form-group">
+                    <label for="name_c">Tên sản phẩm</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name_c"
+                      placeholder="Nhập tên sản phẩm"
+                      th:field="*{name}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="code">mã code</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="code"
+                      placeholder="Nhập mã code"
+                      th:field="*{code}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Mô tả sản phẩm </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="description"
+                      placeholder="Nhập mô tả"
+                      th:field="*{description}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="content">nội dung sản phẩm </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="content"
+                      placeholder="Nhập nội dung "
+                      th:field="*{content}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="price">giá </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="price"
+                      placeholder="Nhập giá"
+                      th:field="*{price}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="size">kích thước </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="size"
+                      placeholder="Nhập kích thước"
+                      th:field="*{size}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="material">chất liệu </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="material"
+                      placeholder="Nhập chất liệu"
+                      th:field="*{material}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="path">đường dẫn </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="path"
+                      placeholder="Nhập đường dẫn"
+                      th:field="*{path}"
+                    />
+                  </div>
+                  <!-- Các trường dữ liệu sản phẩm -->
+                  <label for="category">Loại sản phẩm:</label>
+                  <select name="categoryId">
+                      <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                  </select>
+                  <br>
+                  
+                  <!-- Các trường dữ liệu khác -->
+                  <button type="submit" style="background-color: blue; color: azure;">Thêm sản phẩm</button>
+              </form>
+              
+              </div>
+              <!-- end content body -->
+            </div>
+          </div>
+        </div>
+        <!-- End body -->
+      </div>
+    </div>
+    <!-- End Modal -->
+
+    <!-- footer-->
+    <footer th:replace="common/_footer_admin"></footer>
+  </body>
+</html>

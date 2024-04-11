@@ -15,6 +15,22 @@ public class Product {
     private String path;  // Đường dẫn 
     private int categoryId;  // Loại sản phẩm - Khóa ngoại
     private int accountId;  // Người tạo sản phẩm 
+	
+
+	public static String ID = "id";
+	public static String NAME = "name";
+	public static String CODE = "code";
+	public static String DESCRIPTION = "description";
+	public static String CONTENT = "content";
+	public static String PRICE = "price";
+	public static String STOCK = "stock";
+	public static String ISDELETE = "isDelete";
+	public static String ISPROPOSAL = "isProposal";
+	public static String SIZE = "size";
+	public static String MATERIAL = "material";
+	public static String PATH = "path";
+	public static String CATEGORYID = "categoryId";
+	public static String ACCOUNTID = "accountId";
     
 	public Product(int id, String name, String code, String description, String content, double price, int stock,
 			boolean isDelete, boolean isProposal, String size, String material, String path, int categoryId,
@@ -100,7 +116,10 @@ public class Product {
 		return isDelete;
 	}
 
-	public void setDelete(boolean isDelete) {
+	public void setIsDelete(boolean isDelete) {
+		this.isDelete = isDelete;
+	}
+	public void getIsDelete(boolean isDelete) {
 		this.isDelete = isDelete;
 	}
 
@@ -150,6 +169,11 @@ public class Product {
 
 	public void setAccountId(int accountId) {
 		this.accountId = accountId;
+	}
+
+	public Object getIdProduct() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'getIdProduct'");
 	}
 
 }

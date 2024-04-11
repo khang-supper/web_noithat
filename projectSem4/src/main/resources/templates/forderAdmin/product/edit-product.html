@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:fragment="TitlePage">Chỉnh sửa sản phẩm</title>
+    <style th:replace="/common/_Head_tag"></style>
+  </head>
+  
+  <body>
+    <!-- header-->
+    <header th:replace="common/_Header_admin"></header>
+
+    <div class="content">
+      <div class="page-inner">
+        <!-- breadcrumbs -->
+        <div class="page-header">
+          <ul class="breadcrumbs">
+            <li class="nav-home">
+              <a href="/admin">
+                <i class="flaticon-home"></i>
+              </a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/product">Loại sản phẩm</a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="">Chỉnh sửa thể loại</a>
+            </li>
+          </ul>
+        </div>
+        <!-- end breadcrumbs -->
+
+        <!-- body-->
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Chỉnh sửa thể loại</h4>
+              </div>
+              <!-- content body -->
+              <div class="card-body" style="text-align: left;">
+                <form
+                  action="/admin/product/edit"
+                  method="post"
+                  th:object="${product}"
+                >
+                  <input type="hidden" th:field="*{id}" />
+                  <div class="form-group">
+                    <label for="path">chọn ảnh chỉnh sửa</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="path"
+                      placeholder="chọn ảnh chỉnh sửa"
+                      th:field="*{path}"
+                    />
+                  <div class="form-group">
+                    <label for="name_c">Tên loại</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name_c"
+                      placeholder="Nhập tên loại"
+                      th:field="*{name}"
+                    />
+                    <div class="form-group">
+                        <label for="code_c">code</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="code_c"
+                          placeholder="Nhập code"
+                          th:field="*{code}"
+                        />
+                        <div class="form-group">
+                          <label for="price">giá</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="price"
+                            placeholder="Nhập giá"
+                            th:field="*{price}"
+                          />
+                        <div class="form-group">
+                            <label for="description">mô tả</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="description"
+                              placeholder="Nhập mô tả"
+                              th:field="*{description}"
+                            />
+                  <hr />
+                  <button class="btn btn-info" style="color: red;" type="submit">Lưu</button>
+                </form>
+              </div>
+              <!-- end content body -->
+            </div>
+          </div>
+        </div>
+        <!-- End body -->
+     
+
+    <!-- footer-->
+    <footer th:replace="common/_footer_admin"></footer>
+  </body>
+</html>

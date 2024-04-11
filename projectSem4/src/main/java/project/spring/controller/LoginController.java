@@ -24,7 +24,7 @@ public class LoginController {
         return "forderClient/login"; // Trả về trang đăng nhập
     }
    
-    @PostMapping("/admin")
+    @PostMapping("/login")
     public String login(@ModelAttribute(name = "loginForm") Account accounts, Model model, HttpSession session, HttpServletRequest request) {
         String username = accounts.getUsername();
         String password = accounts.getPassword();
@@ -34,7 +34,7 @@ public class LoginController {
             model.addAttribute("username", username);
             session.setAttribute("username", username); // Lưu username vào session
             session.setAttribute("role", role);
-            return (role.equals("1")) ? "/admin/index" : "/Client/index";
+            return (role.equals("1")) ? "/admin/index" : "redirect:/";
         } else {
             model.addAttribute("error", "Incorrect UserName & Password");
             return "/forderClient/login";

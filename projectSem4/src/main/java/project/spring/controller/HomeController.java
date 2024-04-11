@@ -64,7 +64,8 @@ public class HomeController {
     //     model.addAttribute("newsRecent", newsRecent);
     //     return "forderClient/news-c";
 	// }
-
+	@Autowired
+	private AccountRepository accountRepository;
 	@GetMapping("/tin-tuc")
 	public String tintuc(@RequestParam(defaultValue = "1") int page,
 						@RequestParam(required = false) String keyword,
@@ -95,7 +96,7 @@ public class HomeController {
 		News news = NewsRepository.Instance().findByPath(path);
 		List<News> newsRecent = NewsRepository.Instance().findRecent();//4 bài viết mới nhất
 		List<News> newsRand = NewsRepository.Instance().findRand();//3 bài viết ngẫu nhiên
-		Account account = AccountRepository.Instance().findById(news.getId()); //Lấy người dùng tạo bài viết này 
+		Account account = accountRepository.findById(news.getId()); //Lấy người dùng tạo bài viết này 
 		if(news != null) {
 			model.addAttribute("newsDetail", news); 
         	model.addAttribute("newsRecent", newsRecent);
