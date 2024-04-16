@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title th:fragment="TitlePage">trang sản phẩm</title>
+    <title th:fragment="TitlePage">trang người dùng</title>
     <style th:replace="/common/_Head_tag"></style>
   </head>
 
@@ -25,7 +25,7 @@
               <i class="flaticon-right-arrow"></i>
             </li>
             <li class="nav-item">
-              <a href="">Tin tức</a>
+              <a href="/admin/account">trang người dùng</a>
             </li>
           </ul>
         </div>
@@ -48,23 +48,30 @@
                         <tr>
                           <th>ID</th>
                           <th>Tên tài khoản</th>
+                          <th>họ và tên </th>
                           <th>Email</th>
                           <th>Địa chỉ</th>
                           <th>Trạng thái</th>
-                          <th>Hành động</th>
+                          <th style="width: 10%">Hành động</th>
                       </tr>
                   </thead>
                   <tbody>
                       <tr th:each="account : ${accounts}">
                           <td th:text="${account.id}">ID</td>
                           <td th:text="${account.username}">Tên tài khoản</td>
+                          <td th:text="${account.FullName}">họ và tên</td>
                           <td th:text="${account.email}">Email</td>
                           <td th:text="${account.address}">Địa chỉ</td>
                           <td th:text="${account.status}">Trạng thái</td> 
                           <td>
-                              <a th:href="@{'/admin/account/edit/' + ${account.id}}">Chỉnh sửa</a>
-                              <a th:href="@{'/admin/account/delete/' + ${account.id}}">Xóa</a>
-                          </td>
+                            <div class="form-button-action">
+                              <button type="button" data-toggle="tooltip" title="Chỉnh sửa" class="btn btn-link btn-primary btn-lg edit-btn" data-original-title="Chỉnh sửa" th:data-account-id="${account.id}">
+                                <i class="fa fa-edit"></i>
+                              </button>
+                              <button type="button" title="Xóa" class="btn btn-link btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal" th:data-account-id="${account.id}">
+                                <i class="fa fa-times"></i>
+                              </button>
+                            </div>
                       </tr>
                     </tbody>
                   </table>
@@ -125,11 +132,6 @@
         });
         
     </script>
-    <!-- <script th:inline="javascript">
-      var accounts = /*[[${accounts}]]*/ [];
-      console.log(accounts);
-      var categories = /*[[${categories}]]*/ [];
-      console.log(categories);
-    </script> -->
+    
 </body>
 </html>

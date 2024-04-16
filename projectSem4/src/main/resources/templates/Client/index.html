@@ -23,17 +23,7 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
                   <span>Tất cả danh mục</span>
                 </div>
                 <ul>
-                  <li><a href="#">Giường Ngủ</a></li>
-                  <li><a href="#">Tủ Quần Áo</a></li>
-                  <li><a href="#">Bàn Trang Điểm</a></li>
-                  <li><a href="#">Tủ giày</a></li>
-                  <li><a href="#">Sofa</a></li>
-                  <li><a href="#">Kệ Tivi</a></li>
-                  <li><a href="#">Khuyến Mãi</a></li>
-                  <li><a href="#">Tin Tức</a></li>
-                  <li><a href="#">Liên Hệ</a></li>
-                  <li><a href="#"></a></li>
-                  <li><a href="#"> </a></li>
+                    <li th:each="category : ${categories}"><a th:href="@{/{url}(path=${category.path})}">[[${category.name}]]</a></li>
                 </ul>
               </div>
             </div>
@@ -78,29 +68,9 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
         <div class="container">
             <div class="row">
                 <div class="categories__slider owl-carousel">
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="../../client/img/categories/cat-1.jpg">
-                            <h5><a href="#">Fresh Fruit</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="../../client/img/categories/cat-2.jpg">
-                            <h5><a href="#">Dried Fruit</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="../../client/img/categories/cat-3.jpg">
-                            <h5><a href="#">Vegetables</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="../../client/img/categories/cat-4.jpg">
-                            <h5><a href="#">drink fruits</a></h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="../../client/img/categories/cat-5.jpg">
-                            <h5><a href="#">drink fruits</a></h5>
+                    <div class="col-lg-3" th:each="product, iterStat : ${productNew}" th:if="${iterStat.index &lt; 6}" >
+                        <div class="categories__item set-bg" data-setbg="../../client/img/categories/cat-2.jpg" >
+                            <h5 th:text="${product.name}"><a href="#">Dried Fruit</a></h5>
                         </div>
                     </div>
                 </div>
@@ -110,27 +80,29 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
     <!-- Categories Section End -->
 
     <!-- Featured Section Begin -->
-    <section class="featured spad">
+    <section class="featured spad"  id="targetElementId">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2>Featured Product</h2>
+                        <h2><a href="/" style="color: black;">All Danh mục sản phẩm</a></h2>
                     </div>
                     <div class="featured__controls">
                         <ul>
-                            <li class="active" data-filter="*">All</li>
+                            <!-- <li class="active" data-filter="*">All</li>
                             <li data-filter=".oranges">Oranges</li>
                             <li data-filter=".fresh-meat">Fresh Meat</li>
                             <li data-filter=".vegetables">Vegetables</li>
-                            <li data-filter=".fastfood">Fastfood</li>
-                        </ul>
+                            <li data-filter=".fastfood">Fastfood</li> -->
+                            <!-- //////// -->
+                            <li th:each="category : ${categories}"><a th:href="@{/categories/{path}(path=${category.path})}" style="color: black;">[[${category.name}]]</a></li>
+                            </ul>
                     </div>
                 </div>
             </div>
             <div class="row featured__filter">
                 <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-                    <div class="featured__item">
+                    <div class="featured__item"  th:each="product, iterStat : ${products}" th:if="${iterStat.index &lt; 3}">
                         <div class="featured__item__pic set-bg" data-setbg="../../client/img/featured/feature-1.jpg">
                             <ul class="featured__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
@@ -139,13 +111,13 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
                             </ul>
                         </div>
                         <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
+                            <h6><a href="#"  th:text="${product.name}">Crab Pool Security</a></h6>
                             <h5>$30.00</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fastfood">
-                    <div class="featured__item">
+                     <div class="featured__item" th:each="product, iterStat : ${products}" th:if="${iterStat.index >= 3 and iterStat.index < 6}"> <!-- lay 4 thang tiep theo -->
                         <div class="featured__item__pic set-bg" data-setbg="../../client/img/featured/feature-2.jpg">
                             <ul class="featured__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
@@ -154,13 +126,13 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
                             </ul>
                         </div>
                         <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
+                            <h6><a href="#" th:text="${product.name}">Crab Pool Security</a></h6>
                             <h5>$30.00</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6 mix vegetables fresh-meat">
-                    <div class="featured__item">
+                    <div class="featured__item"  th:each="product, iterStat : ${products}"  th:if="${iterStat.index >= 6 and iterStat.index < 9}">
                         <div class="featured__item__pic set-bg" data-setbg="../../client/img/featured/feature-3.jpg">
                             <ul class="featured__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
@@ -169,82 +141,22 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
                             </ul>
                         </div>
                         <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
+                            <h6><a href="#" th:text="${product.name}">Crab Pool Security</a></h6>
                             <h5>$30.00</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6 mix fastfood oranges">
-                    <div class="featured__item">
+                    <div class="featured__item"  th:each="product, iterStat : ${products}" th:if="${iterStat.index >= 9 and iterStat.index < 12}">
                         <div class="featured__item__pic set-bg" data-setbg="../../client/img/featured/feature-4.jpg">
-                            <ul class="featured__item__pic__hover">
+                            <ul class="featured__item__pic__hover"> 
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                 <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                             </ul>
                         </div>
                         <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="../../client/img/featured/feature-5.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fastfood">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="../../client/img/featured/feature-6.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fresh-meat vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="../../client/img/featured/feature-7.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6 mix fastfood vegetables">
-                    <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="../../client/img/featured/feature-8.jpg">
-                            <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="featured__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
+                            <h6><a href="#" th:text="${product.name}">Crab Pool Security</a></h6>
                             <h5>$30.00</h5>
                         </div>
                     </div>
@@ -280,28 +192,28 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
                 <div class="col-lg-4 col-md-6">
                     <div class="latest-product__text">
                         <h4>Latest Products</h4>
-                        <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item">
+                        <div class="latest-product__slider owl-carousel" >
+                            <div class="latest-prdouct__slider__item" th:each="product, iterStat : ${products}" th:if="${iterStat.index &lt; 3}">
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
                                         <img src="../../client/img/latest-product/lp-1.jpg" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
+                                        <h6 th:text="${product.name}">Crab Pool Security</h6>
+                                        <span th:text="${product.price}">$30.00</span>
                                     </div>
                                 </a>
                                 <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
+                                    <div class="latest-product__item__pic" th:if="${iterStat.index >= 3 and iterStat.index <6 }">
                                         <img src="../../client/img/latest-product/lp-2.jpg" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
+                                        <h6 th:text="${product.name}">Crab Pool Security</h6>
+                                        <span th:text="${product.price}">$30.00</span>
                                     </div>
                                 </a>
                                 <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
+                                    <div class="latest-product__item__pic"  th:if="${iterStat.index >= 6 and iterStat.index < 12 }">
                                         <img src="../../client/img/latest-product/lp-3.jpg" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
@@ -310,35 +222,7 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
                                     </div>
                                 </a>
                             </div>
-                            <div class="latest-prdouct__slider__item">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="../../client/img/latest-product/lp-1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="../../client/img/latest-product/lp-2.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="../../client/img/latest-product/lp-3.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                            </div>
+                          
                         </div>
                     </div>
                 </div>
@@ -346,34 +230,17 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
                     <div class="latest-product__text">
                         <h4>Top Rated Products</h4>
                         <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item">
+                            <div class="latest-prdouct__slider__item" th:each="product, iterStat : ${products}" th:if="${iterStat.index >= 3 and iterStat.index <6 }"> 
                                 <a href="#" class="latest-product__item">
                                     <div class="latest-product__item__pic">
                                         <img src="../../client/img/latest-product/lp-1.jpg" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
+                                        <h6 th:text="${product.name}">Crab Pool Security</h6>
                                         <span>$30.00</span>
                                     </div>
                                 </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="../../client/img/latest-product/lp-2.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="../../client/img/latest-product/lp-3.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6>Crab Pool Security</h6>
-                                        <span>$30.00</span>
-                                    </div>
-                                </a>
+                             
                             </div>
                             <div class="latest-prdouct__slider__item">
                                 <a href="#" class="latest-product__item">
@@ -478,7 +345,7 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
     <!-- Latest Product Section End -->
 
     <!-- Blog Section Begin -->
-    <section class="from-blog spad">
+    <section class="from-blog spad" >
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -537,5 +404,18 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
         </div>
     </section></div>
 	<footer   th:replace="common/_footer_Client"></footer>
+    <script>
+        window.onload = function() {
+            // Lấy vị trí của phần tử mục tiêu
+            var targetElement = document.getElementById("targetElementId"); // Thay "targetElementId" bằng ID của phần tử mục tiêu
+            var targetPosition = targetElement.offsetTop;
+    
+            // Cuộn trang đến vị trí của phần tử mục tiêu
+            window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth" // Hiệu ứng cuộn mượt (tùy chọn)
+            });
+        };
+    </script>
 </body>
 </html>	

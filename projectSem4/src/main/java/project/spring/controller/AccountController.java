@@ -41,7 +41,12 @@ public String getAllAccounts(Model model) {
 return "forderAdmin/account/accounts";
 }
 
-
+@GetMapping("/admin")
+public String getAllAccountsrole(Model model) {
+    List<Account> accountss = accountRepository.findAllrole();
+    model.addAttribute("accountss", accountss);
+return "forderAdmin/account/accountAdmin";
+}
 
 @GetMapping("/add")
 public String showAddForm(Model model) {
@@ -63,7 +68,7 @@ public String showEditForm(@RequestParam("id") int id, Model model) {
 }
 
 @PostMapping("/edit")
-public String updateCategory(@RequestParam("id") int id,
+public String updateAccount(@RequestParam("id") int id,
         @ModelAttribute("account") Account account) {
     account.setId(id);
     accountRepository.update(account);
@@ -71,8 +76,13 @@ public String updateCategory(@RequestParam("id") int id,
 }
 
 @GetMapping("/delete/{id}")
-public String deleteCategory(@PathVariable("id") int id) {
+public String deleteAccount(@PathVariable("id") int id) {
     accountRepository.deleteById(id);
     return "redirect:/admin/account";
+}
+@GetMapping("/role/delete/{id}")
+public String deleteAccounts(@PathVariable("id") int id) {
+    accountRepository.deleteById(id);
+    return "redirect:/admin/account/admin";
 }
 }

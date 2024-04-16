@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:fragment="TitlePage">chỉnh sửa trang người dùng</title>
+    <style th:replace="/common/_Head_tag"></style>
+  </head>
+  
+  <body>
+    <!-- header-->
+    <header th:replace="common/_Header_admin"></header>
+
+    <div class="content">
+      <div class="page-inner">
+        <!-- breadcrumbs -->
+        <div class="page-header">
+          <ul class="breadcrumbs">
+            <li class="nav-home">
+              <a href="/admin">
+                <i class="flaticon-home"></i>
+              </a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/product">Loại sản phẩm</a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="">Chỉnh sửa người dùng</a>
+            </li>
+          </ul>
+        </div>
+        <!-- end breadcrumbs -->
+
+        <!-- body-->
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Chỉnh sửa người dùng</h4>
+              </div>
+              <!-- content body -->
+              <div class="card-body" style="text-align: left;">
+                <form
+                  action="/admin/account/edit"
+                  method="post"
+                  th:object="${account}"
+                >
+                  <input type="hidden" th:field="*{id}" />
+                  <div class="form-group">
+                    <label for="username">Tên người dùng</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="username"
+                      placeholder="Nhập tên người dùng"
+                      th:field="*{username}"
+                    />
+                    <div class="form-group">
+                        <label for="FullName">họ và tên</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="FullName"
+                          placeholder="Nhập họ và tên"
+                          th:field="*{FullName}"
+                        />
+                    <div class="form-group">
+                        <label for="email">email</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="email"
+                          placeholder="Nhập email"
+                          th:field="*{email}"
+                        />
+                        <div class="form-group">
+                          <label for="address">địa chỉ</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="address"
+                            placeholder="Nhập địa chỉ"
+                            th:field="*{address}"
+                          />
+                        
+                       
+                  <hr />
+                  <button class="btn btn-info" style="color: red;" type="submit">Lưu</button>
+                </form>
+              </div>
+              <!-- end content body -->
+            </div>
+          </div>
+        </div>
+        <!-- End body -->
+     
+
+    <!-- footer-->
+    <footer th:replace="common/_footer_admin"></footer>
+
+    <!-- //////// -->
+
+  
+  </body>
+</html>

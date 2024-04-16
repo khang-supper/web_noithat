@@ -25,7 +25,7 @@
               <i class="flaticon-right-arrow"></i>
             </li>
             <li class="nav-item">
-              <a href="">Tin tức</a>
+              <a href="">trang sản phẩm</a>
             </li>
           </ul>
         </div>
@@ -51,6 +51,7 @@
                         <th>Tên bài viết</th>
                         <th>Người tạo</th>
                         <th>Mô tả</th> 
+                        <th>Nội dung</th>
                         <th>giá</th>
                         <th>trang thai</th>
                         <th style="width: 10%">Hành động</th>
@@ -63,6 +64,7 @@
                           <td th:text="${product.name}">Tên bài viết</td>
                           <td th:text="${product.code}">Người tạo</td>
                           <td th:text="${product.description}">Mô tả</td>
+                          <td th:text="${product.content}">Nội dung</td>
                           <td th:text="${product.price}">giá</td>
                           <td th:text="${product.isDelete}">trang thái</td>
                           <td>

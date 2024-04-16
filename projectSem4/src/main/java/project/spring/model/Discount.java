@@ -8,6 +8,12 @@ public class Discount {
     private Date startDate;  // Ngày bắt đầu
     private Date endDate;  // Ngày kết thúc
     private int accountId;  // Người tạo 
+	//////////
+	public static String ID = "id";
+	public static String NAME = "name";
+	public static String STARTDATE = "startDate";
+	public static String ENDDATE = "endDate";
+	public static String ACCOUNTID = "accountId";
     
 	public Discount(int id, String name, Date startDate, Date endDate, int accountId) {
 		super();

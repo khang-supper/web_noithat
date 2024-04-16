@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:fragment="TitlePage">tạo người dùng</title>
+    <style th:replace="/common/_Head_tag"></style>
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.css">
+  </head>
+  <body>
+    <!-- header-->
+    <header th:replace="common/_Header_admin"></header>
+    
+
+    <div class="content">
+      <div class="page-inner">
+        <!-- breadcrumbs -->
+        <div class="page-header">
+          <h4 class="page-title">Avatars</h4>
+          <ul class="breadcrumbs">
+            <li class="nav-home">
+              <a href="/admin">
+                <i class="flaticon-home"></i>
+              </a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/account/add">trang thêm người dùng</a>
+            </li>
+          </ul>
+        </div>
+        <!-- end breadcrumbs -->
+  
+      <!-- body-->
+  
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Tiêu đề mục</h4>
+                
+              </div>
+              <!-- content body -->
+              <div class="card-body">
+                <form action="#" th:action="@{/admin/discount/add}" th:object="${discount}" method="post">
+                    <div class="form-group">
+                        <label for="name">Tên sản phẩm khuyến mãi</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="name" 
+                            placeholder="Nhập tên sản phẩm khuyến mãi"
+                            th:field="*{name}"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">ngày bắt đầu </label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="startDate" 
+                            placeholder="Nhập ngày bắt đầu "
+                            th:field="*{startDate}"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">ngày kết thúc </label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="endDate" 
+                            placeholder="Nhập ngày kết thúc "
+                            th:field="*{endDate}"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="account">người tạo</label>
+                        <select class="form-control" th:field="*{accountId}">
+                            <option th:each="account : ${accounts}" th:value="${account.id}" th:text="${account.id}"></option>
+                        </select>
+                    </div>
+                    <hr>
+                    <button type="submit" style="background-color: blue; color: azure;">Thêm người dùng</button>
+                </form>
+              </div>
+              <!-- end content body -->
+            </div>
+          </div>
+        </div>
+        <!-- End body -->
+      </div>
+    </div>
+    <!-- End Modal -->
+
+    <!-- footer-->
+    <footer th:replace="common/_footer_admin"></footer>
+  </body>
+</html>

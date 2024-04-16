@@ -36,7 +36,11 @@ public class AccountRepository {
     }
 
     public List<Account> findAll() {
-        return jdbcTemplate.query("select * from accounts WHERE status = false", new AccountRowMapper());
+        return jdbcTemplate.query("select * from accounts where role = 0 ", new AccountRowMapper());
+    }
+
+    public List<Account> findAllrole() {
+        return jdbcTemplate.query("select * from accounts where role = 1 ", new AccountRowMapper());
     }
 
     @SuppressWarnings("deprecation")
@@ -66,7 +70,7 @@ public int update(Account upPro) {
 }
 
 public int deleteById(int id) {
-    return jdbcTemplate.update("UPDATE accounts SET Status = true WHERE Id = ?", new Object[] { id });
+    return jdbcTemplate.update("UPDATE accounts SET Status = false WHERE Id = ?", new Object[] { id });
 }
 
 }
