@@ -1,6 +1,7 @@
 package project.spring.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,8 @@ import project.spring.repositories.OrderRepository;
 public class NewsController {
     @GetMapping("")
     public String getAllNews(Model model) {
-        List<News> news = NewsRepository.Instance().findAll();
+        // List<News> news = NewsRepository.Instance().findAll();
+        List<Map<String, Object>> news = NewsRepository.Instance().findAllByAccount();
         model.addAttribute("news", news);
         return "forderAdmin/news";
     }

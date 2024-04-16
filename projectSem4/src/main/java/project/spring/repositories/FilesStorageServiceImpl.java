@@ -22,7 +22,7 @@ import project.spring.model.Image;
 @Service
 public class FilesStorageServiceImpl implements FilesStorageService {
 
-  private final Path root = Paths.get("./uploads");
+  private final Path root = Paths.get("./src/main/resources/static/uploads");
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
@@ -71,6 +71,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
   public boolean delete(String filename) {
     try {
       Path file = root.resolve(filename);
+      jdbcTemplate.update("delete from images where path=?", new Object[] { filename });
       return Files.deleteIfExists(file);
     } catch (IOException e) {
       throw new RuntimeException("Error: " + e.getMessage());
@@ -92,14 +93,22 @@ public class FilesStorageServiceImpl implements FilesStorageService {
   }
 
   @Override
-  public void saveImageInfo(Image image, String filename) {
-    String sql = "INSERT INTO images (path) VALUES (?)";
-    jdbcTemplate.update(sql, filename);
+  // @Transactional
+  public int saveImageInfo(Image image, String filename) {
+      String sql = "INSERT INTO images (path) VALUES (?)";
+      jdbcTemplate.update(sql, filename);
+      
+      // Sau khi thêm hình ảnh, lấy id của hình ảnh vừa được thêm vào
+      String getIdQuery = "SELECT LAST_INSERT_ID()";
+      int id = jdbcTemplate.queryForObject(getIdQuery, Integer.class);
+      
+      return id;
   }
+  
 
   @Override
   public List<Image> getAllImageInfos() {
-    String sql = "SELECT * FROM images";
+    String sql = "SELECT * FROM images order by id desc";
     return jdbcTemplate.query(sql, (rs, rowNum) -> {
       Image image = new Image();
       image.setId(rs.getInt("id"));

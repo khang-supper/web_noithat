@@ -66,7 +66,7 @@
                     <tbody>
                       <tr th:each="category : ${categories}" th:if="${category.isDelete == false}">
                         <td th:text="${category.id}"></td>
-                        <td th:text="${category.image}"></td>
+                        <td><img th:src="@{/uploads/{image}(image=${category.image})}" width="70px" class="thumbnail" style="margin: 10px;"></td>
                         <td th:text="${category.name}"></td>
                         <td th:text="${category.path}"></td>
                         <td>

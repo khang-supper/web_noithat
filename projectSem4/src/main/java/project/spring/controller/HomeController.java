@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import project.spring.dao.ProductDao;
 import project.spring.model.Account;
 import project.spring.model.Category;
+import project.spring.model.Image;
 import project.spring.model.News;
 import project.spring.model.Product;
 import project.spring.repositories.AccountRepository;
 import project.spring.repositories.CategoryRepository;
 import project.spring.repositories.NewsRepository;
+import project.spring.repositories.ProductRepository;
 
 @Controller
 public class HomeController {
@@ -111,7 +113,7 @@ public class HomeController {
 	}
 
 	@Autowired
-	private ProductDao productDao;
+	private ProductRepository productRepository;
 
 	@GetMapping("/search/product") //Trang tìm kiếm sản phẩm
 	public String search_product(@RequestParam(required = false) String keyword, Model model) {
@@ -120,10 +122,10 @@ public class HomeController {
 		int totalProduct;
 
 		if (keyword != null && !keyword.isEmpty()) {
-			products = productDao.search(keyword);
+			products = productRepository.search(keyword);
 			totalProduct = products.size();
 		} else {
-			products = productDao.findAll();
+			products = productRepository.findAll();
 			totalProduct = products.size();
 		}
 		model.addAttribute("categories", categories); // Danh sách Loại sản phẩm
@@ -140,7 +142,7 @@ public class HomeController {
 						@RequestParam(required = false) Double priceTo,
 						Model model) {
 		List<Category> categories = CategoryRepository.Instance().findAll();
-		List<Product> productNew = productDao.findNewProduct();					
+		List<Product> productNew = productRepository.findNewProduct();					
 
 		int pageSize = 12;
 		List<Product> products;
@@ -149,14 +151,14 @@ public class HomeController {
 
 		if ((sortPrice != null && !sortPrice.isEmpty()) || (priceFrom != null && priceTo != null)) {
 			// Lọc theo giá hoặc thứ tự giá
-			products = productDao.findAllByParams(sortPrice, priceFrom, priceTo);
-			totalProduct = productDao.getProductCountByParams(sortPrice, priceFrom, priceTo);
+			products = productRepository.findAllByParams(sortPrice, priceFrom, priceTo);
+			totalProduct = productRepository.getProductCountByParams(sortPrice, priceFrom, priceTo);
 			totalPages = 1;
 		} else {
 			// Phân trang khi không có lọc
-			products = productDao.findAllByPage(page - 1, pageSize);
-			totalProduct = productDao.getProductCount();
-			totalPages = productDao.getTotalPages(pageSize);
+			products = productRepository.findAllByPage(page - 1, pageSize);
+			totalProduct = productRepository.getProductCount();
+			totalPages = productRepository.getTotalPages(pageSize);
 		}
 
 		model.addAttribute("categories", categories); // Danh sách Loại sản phẩm
@@ -175,23 +177,23 @@ public class HomeController {
 							@RequestParam(required = false) Double priceTo,
 							Model model) {
 		List<Category> categories = CategoryRepository.Instance().findAll();
-		List<Product> productNew = productDao.findNewProduct();				
+		List<Product> productNew = productRepository.findNewProduct();				
 		Category category = CategoryRepository.Instance().findByPath(path);
-		int pageSize = 2;
+		int pageSize = 3;
 		List<Product> products;
 		int totalPages;
 		int totalProduct;
 
 		if ((sortPrice != null && !sortPrice.isEmpty()) || (priceFrom != null && priceTo != null)) {
 			// Lọc theo giá hoặc thứ tự giá
-			products = productDao.findAllByParamsAndCategory(sortPrice, priceFrom, priceTo, category.getId());
-			totalProduct = productDao.getProductCountByParamsAndCategory(sortPrice, priceFrom, priceTo, category.getId());
+			products = productRepository.findAllByParamsAndCategory(sortPrice, priceFrom, priceTo, category.getId());
+			totalProduct = productRepository.getProductCountByParamsAndCategory(sortPrice, priceFrom, priceTo, category.getId());
 			totalPages = 1;
 		} else {
 			// Phân trang khi không có lọc
-			products = productDao.findAllByPageAndCategory(page - 1, pageSize, category.getId());
-			totalProduct = productDao.getProductCountByCategory(category.getId());
-			totalPages = productDao.getTotalPagesByCategory(pageSize, category.getId());
+			products = productRepository.findAllByPageAndCategory(page - 1, pageSize, category.getId());
+			totalProduct = productRepository.getProductCountByCategory(category.getId());
+			totalPages = productRepository.getTotalPagesByCategory(pageSize, category.getId());
 		}
 
 		model.addAttribute("categoryDetail", category); // Loại sản phẩm
@@ -205,9 +207,80 @@ public class HomeController {
 
 		return "forderClient/loai-san-pham";
 	}
-	
+	//Trang chi tiết sản phẩm
+	@GetMapping("/san-pham/{path}") //Trang chi tiết tin tức
+	public String sanpham_detail(@PathVariable("path") String path, Model model) {
+		News news = NewsRepository.Instance().findByPath(path);
+		List<News> newsRecent = NewsRepository.Instance().findRecent();//4 bài viết mới nhất
+		List<News> newsRand = NewsRepository.Instance().findRand();//3 bài viết ngẫu nhiên
+		Account account = accountRepository.findById(news.getId()); //Lấy người dùng tạo bài viết này 
+		if(news != null) {
+			model.addAttribute("newsDetail", news); 
+        	model.addAttribute("newsRecent", newsRecent);
+        	model.addAttribute("newsRand", newsRand);
+        	model.addAttribute("account", account);
+		return "forderClient/news-detail";
+		} 
+		else {
+			// Xử lý trường hợp không tìm thấy tin tức
+			return "error-page"; // Thay thế "error-page" bằng trang lỗi hoặc chuyển hướng tới trang khác
+		}
+	}
+
+	@GetMapping("/") // Trang home
+	public String home(@RequestParam(defaultValue = "1") int page,
+						@RequestParam(required = false) String sortPrice,
+						@RequestParam(required = false) Double priceFrom,
+						@RequestParam(required = false) Double priceTo,
+						Model model) {
+		List<Category> categories = CategoryRepository.Instance().findAll();
+		List<Product> productNew = productRepository.findNewProduct();		
+		List<Product> products = productRepository.find4ProductByCategory();		
 
 
+		model.addAttribute("categories", categories); // Danh sách Loại sản phẩm
+		model.addAttribute("productNew", productNew); // Danh sách 6 sản phẩm mới
+		model.addAttribute("products", products); // Danh sách sản phẩm
+
+		return "Client/index";
+	}
+//////
+@GetMapping("/categories/{path}")//Trang loại sản phẩm
+	public String categorys(@PathVariable("path") String path, @RequestParam(defaultValue = "1") int page,
+							@RequestParam(required = false) String sortPrice,
+							@RequestParam(required = false) Double priceFrom,
+							@RequestParam(required = false) Double priceTo,
+							Model model) {
+		List<Category> categories = CategoryRepository.Instance().findAll();
+		List<Product> productNew = productRepository.findNewProduct();				
+		Category category = CategoryRepository.Instance().findByPath(path);
+		int pageSize = 6;
+		List<Product> products;
+		int totalPages;
+		int totalProduct;
+
+		if ((sortPrice != null && !sortPrice.isEmpty()) || (priceFrom != null && priceTo != null)) {
+			// Lọc theo giá hoặc thứ tự giá
+			products = productRepository.findAllByParamsAndCategory(sortPrice, priceFrom, priceTo, category.getId());
+			totalProduct = productRepository.getProductCountByParamsAndCategory(sortPrice, priceFrom, priceTo, category.getId());
+			totalPages = 1;
+		} else {
+			// Phân trang khi không có lọc
+			products = productRepository.findAllByPageAndCategory(page - 1, pageSize, category.getId());
+			totalProduct = productRepository.getProductCountByCategory(category.getId());
+			totalPages = productRepository.getTotalPagesByCategory(pageSize, category.getId());
+		}
+		model.addAttribute("categoryDetail", category); // Loại sản phẩm
+		model.addAttribute("categories", categories); // Danh sách Loại sản phẩm
+		model.addAttribute("productNew", productNew); // Danh sách 6 sản phẩm mới
+		model.addAttribute("products", products); // Danh sách sản phẩm
+		model.addAttribute("totalPages", totalPages); // Tổng số trang
+		model.addAttribute("currentPage", page); // Trang hiện tại
+		model.addAttribute("totalProduct", totalProduct); // Tổng số sản phẩm
+
+
+		return "Client/index";
+	}
 
 
 

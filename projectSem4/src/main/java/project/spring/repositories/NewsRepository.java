@@ -3,6 +3,7 @@ package project.spring.repositories;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -52,6 +53,14 @@ public class NewsRepository {
     public List<News> findAll() {
         return db.query("select * from news order by id desc", new NewsRowMapper());
     }
+
+    //Lấy bài viết + tên người viết
+    public List<Map<String, Object>> findAllByAccount() {
+        String query = "SELECT news.id, news.image, news.name, accounts.fullName FROM news INNER JOIN accounts ON news.accountId = accounts.id ORDER BY news.id DESC";
+        return db.queryForList(query);
+    }
+    
+
     //lấy ra 4 bài viết mới nhất
     public List<News> findRecent() {
         return db.query("SELECT * FROM news ORDER BY id DESC LIMIT 4", new NewsRowMapper());

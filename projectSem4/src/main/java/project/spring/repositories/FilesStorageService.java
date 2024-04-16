@@ -22,7 +22,7 @@ public interface FilesStorageService {
   
     public Stream<Path> loadAll();
 
-    void saveImageInfo(Image image,String filename); // Add this method
+    int saveImageInfo(Image image,String filename); // Add this method
 
     List<Image> getAllImageInfos(); 
     

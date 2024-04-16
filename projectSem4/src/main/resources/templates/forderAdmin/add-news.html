@@ -50,12 +50,12 @@
                             <form id="newsForm" action="/admin/news/add" method="post" th:object="${news}">
                                 <div class="form-group">
                                     <label for="name">Tên bài viết</label>
-                                    <input type="text" class="form-control" id="name" onkeyup="ChangeToSlug();" th:field="*{name}">
+                                    <input type="text" class="form-control" id="name" onkeyup="ChangeToSlug();" th:field="*{name}" autocomplete="off">
                                     <div id="nameError" class="error-message"></div>
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Mô tả ngắn</label>
-                                    <input type="text" class="form-control" id="description" th:field="*{description}">
+                                    <input type="text" class="form-control" id="description" th:field="*{description}" autocomplete="off">
                                     <div id="descriptionError" class="error-message"></div>
                                 </div>
                                 <div class="form-group">
@@ -65,12 +65,21 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Đường dẫn (URL)</label>
-                                    <input type="text" class="form-control" id="path" th:field="*{path}">
+                                    <input type="text" class="form-control" id="path" th:field="*{path}" autocomplete="off">
                                     <div id="pathError" class="error-message"></div>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="description">Hình đại diện</label>
                                     <input type="file" class="form-control" id="image" th:field="*{image}">
+                                    <div id="imageError" class="error-message"></div>
+                                </div> -->
+                                <div class="form-group">
+                                    <label for="description">Hình đại diện</label>
+                                    <input type="hidden" id="imageName" th:field="*{image}" />
+                                    <input type="file" class="form-control" id="image" style="display: none;">
+                                    <button type="button" class="btn btn-outline-secondary" id="uploadButton">Tải lên ảnh</button> <br>
+                                    <img id="filePreview" src="" width="200px" class="card">
+                                    <!-- Nếu xác nhận ảnh sẽ hiển thị tại đây -->
                                     <div id="imageError" class="error-message"></div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Lưu</button>
@@ -198,6 +207,42 @@
             document.getElementById('imageError').innerHTML = "";
         });
     </script>
+    <!-- Tải lên hình ảnh  -->
+    <script type="text/javascript">
+        $('#uploadButton').on('click', function() {
+        $('#image').click(); // Mở hộp thoại tải lên tệp khi nút được nhấp
+    });
 
+    $('#image').on('change', function(){
+    var formData = new FormData();
+    formData.append('file', $('#image')[0].files[0]);
+
+    $.ajax({
+        url: '/images/upload',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(data){
+            // Kiểm tra nếu phản hồi là một chuỗi JSON chứa thông tin hình ảnh
+            if (typeof data === 'object' && data.url && data.message && data.name) {
+                // Nếu tải lên thành công, hiển thị hình ảnh và tên hình ảnh
+                $('#filePreview').attr('src', data.url);
+                $('#filePreview').attr('alt', data.message);
+                $('#imageName').val(data.name); 
+                console.log(data);
+            } else {
+                console.log(data); // Phản hồi không chứa thông tin hình ảnh
+            }
+        },
+        error: function(xhr, status, error) {
+            // Xử lý lỗi nếu có
+            console.log(error);
+        }
+    });
+    });
+
+
+    </script>
 </body>
 </html>

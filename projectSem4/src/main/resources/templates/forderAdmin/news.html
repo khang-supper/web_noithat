@@ -58,6 +58,7 @@
                     <thead>
                       <tr>
                         <th>Id</th>
+                        <th>Ảnh đại diện</th>
                         <th>Tên bài viết</th>
                         <th>Người tạo</th>
                         <th style="width: 10%">Hành động</th>
@@ -66,16 +67,18 @@
                     <tfoot>
                       <tr>
                         <th>Id</th>
+                        <th>Ảnh đại diện</th>
                         <th>Tên bài viết</th>
-                        <th>Người tạo</th>
+                        <th>Người viết</th>
                         <th>Hành động</th>
                       </tr>
                     </tfoot>
                     <tbody>
                       <tr th:each="news : ${news}">
                         <td th:text="${news.id}"></td>
+                        <td><img th:src="@{/uploads/{image}(image=${news.image})}" width="50px" class="thumbnail" style="margin: 10px;"></td>
                         <td th:text="${news.name}"></td>
-                        <td th:text="${news.accountId}"></td>
+                        <td th:text="${news.fullName}"></td>
                         <td>
                           <div class="form-button-action">
                             <button
