@@ -1,6 +1,7 @@
 package project.spring.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import project.spring.model.News;
 import project.spring.model.Product;
 import project.spring.repositories.AccountRepository;
 import project.spring.repositories.CategoryRepository;
+import project.spring.repositories.ImageRepository;
 import project.spring.repositories.NewsRepository;
 import project.spring.repositories.ProductRepository;
 
@@ -72,6 +74,7 @@ public class HomeController {
 	public String tintuc(@RequestParam(defaultValue = "1") int page,
 						@RequestParam(required = false) String keyword,
 						Model model) {
+		List<Category> categories = CategoryRepository.Instance().findAll();
 		List<News> newsRecent = NewsRepository.Instance().findRecent();
 		int pageSize = 4;
 		List<News> news;
@@ -85,6 +88,7 @@ public class HomeController {
 			totalPages = NewsRepository.Instance().getTotalPages(pageSize);
 		}
 
+		model.addAttribute("categories", categories);
 		model.addAttribute("news", news);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("currentPage", page);
@@ -95,11 +99,13 @@ public class HomeController {
 
 	@GetMapping("/tin-tuc/{path}") //Trang chi tiết tin tức
 	public String tintuc_detail(@PathVariable("path") String path, Model model) {
+		List<Category> categories = CategoryRepository.Instance().findAll();
 		News news = NewsRepository.Instance().findByPath(path);
 		List<News> newsRecent = NewsRepository.Instance().findRecent();//4 bài viết mới nhất
 		List<News> newsRand = NewsRepository.Instance().findRand();//3 bài viết ngẫu nhiên
 		Account account = accountRepository.findById(news.getId()); //Lấy người dùng tạo bài viết này 
 		if(news != null) {
+			model.addAttribute("categories", categories);
 			model.addAttribute("newsDetail", news); 
         	model.addAttribute("newsRecent", newsRecent);
         	model.addAttribute("newsRand", newsRand);
@@ -142,10 +148,10 @@ public class HomeController {
 						@RequestParam(required = false) Double priceTo,
 						Model model) {
 		List<Category> categories = CategoryRepository.Instance().findAll();
-		List<Product> productNew = productRepository.findNewProduct();					
+		List<Map<String, Object>> productNew = productRepository.findNewProduct();					
 
 		int pageSize = 12;
-		List<Product> products;
+		List<Map<String, Object>> products;
 		int totalPages;
 		int totalProduct;
 
@@ -177,10 +183,10 @@ public class HomeController {
 							@RequestParam(required = false) Double priceTo,
 							Model model) {
 		List<Category> categories = CategoryRepository.Instance().findAll();
-		List<Product> productNew = productRepository.findNewProduct();				
+		List<Map<String, Object>> productNew = productRepository.findNewProduct();				
 		Category category = CategoryRepository.Instance().findByPath(path);
-		int pageSize = 3;
-		List<Product> products;
+		int pageSize = 6;
+		List<Map<String, Object>> products;
 		int totalPages;
 		int totalProduct;
 
@@ -208,18 +214,24 @@ public class HomeController {
 		return "forderClient/loai-san-pham";
 	}
 	//Trang chi tiết sản phẩm
-	@GetMapping("/san-pham/{path}") //Trang chi tiết tin tức
+	@GetMapping("/san-pham/{path}") 
 	public String sanpham_detail(@PathVariable("path") String path, Model model) {
-		News news = NewsRepository.Instance().findByPath(path);
-		List<News> newsRecent = NewsRepository.Instance().findRecent();//4 bài viết mới nhất
-		List<News> newsRand = NewsRepository.Instance().findRand();//3 bài viết ngẫu nhiên
-		Account account = accountRepository.findById(news.getId()); //Lấy người dùng tạo bài viết này 
-		if(news != null) {
-			model.addAttribute("newsDetail", news); 
-        	model.addAttribute("newsRecent", newsRecent);
-        	model.addAttribute("newsRand", newsRand);
-        	model.addAttribute("account", account);
-		return "forderClient/news-detail";
+		Product product = productRepository.findByPath(path);
+		//List<Product> productRand = productRepository.findRand2(product.getCategoryId());//4 sản phẩm thuộc loại ngẫu nhiên
+		List<Map<String, Object>> productRand = productRepository.findRand(product.getCategoryId());//4 sản phẩm thuộc loại ngẫu nhiên
+		Category categoryDetail = CategoryRepository.Instance().findById(product.getCategoryId());
+		List<Category> categories = CategoryRepository.Instance().findAll();
+		List<Map<String, Object>> image = ImageRepository.Instance().getImageByProduct(product.getId());
+		Map<String, Object> mainImage = ImageRepository.Instance().getMainImage(product.getId());
+
+		if(product != null) {
+			model.addAttribute("product", product); 
+			model.addAttribute("image", image); 
+			model.addAttribute("mainImage", mainImage); 
+        	model.addAttribute("productRand", productRand);
+			model.addAttribute("categoryDetail", categoryDetail); 
+			model.addAttribute("categories", categories); // Danh sách Loại sản phẩm
+		return "forderClient/san-pham-detail";
 		} 
 		else {
 			// Xử lý trường hợp không tìm thấy tin tức
@@ -234,7 +246,7 @@ public class HomeController {
 						@RequestParam(required = false) Double priceTo,
 						Model model) {
 		List<Category> categories = CategoryRepository.Instance().findAll();
-		List<Product> productNew = productRepository.findNewProduct();		
+		List<Map<String, Object>> productNew = productRepository.findNewProduct();		
 		List<Product> products = productRepository.find4ProductByCategory();		
 
 
@@ -244,44 +256,6 @@ public class HomeController {
 
 		return "Client/index";
 	}
-//////
-@GetMapping("/categories/{path}")//Trang loại sản phẩm
-	public String categorys(@PathVariable("path") String path, @RequestParam(defaultValue = "1") int page,
-							@RequestParam(required = false) String sortPrice,
-							@RequestParam(required = false) Double priceFrom,
-							@RequestParam(required = false) Double priceTo,
-							Model model) {
-		List<Category> categories = CategoryRepository.Instance().findAll();
-		List<Product> productNew = productRepository.findNewProduct();				
-		Category category = CategoryRepository.Instance().findByPath(path);
-		int pageSize = 6;
-		List<Product> products;
-		int totalPages;
-		int totalProduct;
-
-		if ((sortPrice != null && !sortPrice.isEmpty()) || (priceFrom != null && priceTo != null)) {
-			// Lọc theo giá hoặc thứ tự giá
-			products = productRepository.findAllByParamsAndCategory(sortPrice, priceFrom, priceTo, category.getId());
-			totalProduct = productRepository.getProductCountByParamsAndCategory(sortPrice, priceFrom, priceTo, category.getId());
-			totalPages = 1;
-		} else {
-			// Phân trang khi không có lọc
-			products = productRepository.findAllByPageAndCategory(page - 1, pageSize, category.getId());
-			totalProduct = productRepository.getProductCountByCategory(category.getId());
-			totalPages = productRepository.getTotalPagesByCategory(pageSize, category.getId());
-		}
-		model.addAttribute("categoryDetail", category); // Loại sản phẩm
-		model.addAttribute("categories", categories); // Danh sách Loại sản phẩm
-		model.addAttribute("productNew", productNew); // Danh sách 6 sản phẩm mới
-		model.addAttribute("products", products); // Danh sách sản phẩm
-		model.addAttribute("totalPages", totalPages); // Tổng số trang
-		model.addAttribute("currentPage", page); // Trang hiện tại
-		model.addAttribute("totalProduct", totalProduct); // Tổng số sản phẩm
-
-
-		return "Client/index";
-	}
-
 
 
 }

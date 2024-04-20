@@ -6,6 +6,12 @@ public class Comment {
     private String content;  // Nội dung bình luận
     private int accountId;  // Mã người dùng bình luận
     private int productId;  // Mã sản phẩm bình luận - Khóa ngoại
+
+	public static String ID = "id";
+	public static String RATINGSTAR = "ratingStar";
+	public static String CONTENT = "content";
+	public static String ACCOUNTID = "accountId";
+	public static String PRODUCTID = "productId";
     
 	public Comment(int id, int ratingStar, String content, int accountId, int productId) {
 		super();

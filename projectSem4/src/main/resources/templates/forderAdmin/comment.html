@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:fragment="TitlePage">Danh sách bình luận</title>
+  <style th:replace="/common/_Head_tag"></style>
+</head>
+
+<body>
+  <!-- header-->
+  <header th:replace="common/_Header_admin"></header>
+
+  <div class="content">
+    <div class="page-inner">
+      <!-- breadcrumbs -->
+      <div class="page-header">
+        <ul class="breadcrumbs">
+          <li class="nav-home">
+            <a href="/admin">
+              <i class="flaticon-home"></i>
+            </a>
+          </li>
+          <li class="separator">
+            <i class="flaticon-right-arrow"></i>
+          </li>
+          <li class="nav-item">
+            <a href="">Quản lý sản phẩm</a>
+          </li>
+        </ul>
+      </div>
+      <!-- end breadcrumbs -->
+
+      <!-- body-->
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Danh sách bình luận</h4>
+            </div>
+            <!-- content body -->
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table id="add-row" class="display table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Xếp hạng sao</th>
+                      <th>Nội dung</th>
+                      <th>Tài Khoản</th>
+                      <th>Sản phẩm</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr th:each="comment : ${comments}">
+                      <td th:text="${comment.id}"></td>
+                      <td th:text="${comment.ratingStar}"></td>
+                      <td th:text="${comment.content}"></td>
+                      <td th:text="${comment.accountId}"></td>
+                         <td th:text="${comment.productId}"></td>
+                         
+                     
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!--  -->
+            <!-- end content body -->
+          </div>
+        </div>
+      </div>
+      <!-- End body -->
+    </div>
+  </div>
+
+  <footer th:replace="common/_footer_admin"></footer>
+</body>
+
+</html>

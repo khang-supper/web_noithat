@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:fragment="TitlePage">Danh sách đơn hàng</title>
+    <style th:replace="/common/_Head_tag"></style>
+  </head>
+
+  <body>
+    <!-- header-->
+    <header th:replace="common/_Header_admin"></header>
+
+    <div class="content">
+      <div class="page-inner">
+        <!-- breadcrumbs -->
+        <div class="page-header">
+          <ul class="breadcrumbs">
+            <li class="nav-home">
+              <a href="/admin">
+                <i class="flaticon-home"></i>
+              </a>
+            </li>
+            <li class="separator">
+              <i class="flaticon-right-arrow"></i>
+            </li>
+            <li class="nav-item">
+              <a href="">Đơn hàng</a>
+            </li>
+          </ul>
+        </div>
+        <!-- end breadcrumbs -->
+
+        <!-- body-->
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Danh sách đơn hàng</h4>
+              </div>
+              <!-- content body -->
+
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    id="add-row"
+                    class="display table table-striped table-hover"
+                  >
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Tên khách hàng</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Lời nhắn</th>             
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr th:each="contact : ${contacts}">                       
+                        <td th:text="${contact.id}"></td>
+                        <td th:text="${contact.name}"></td>
+                        <td th:text="${contact.email}"></td>     
+                        <td th:text="${contact.phone}"></td>                               
+                        <td th:text="${contact.message}"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!--  -->
+              <!-- end content body -->
+            </div>
+          </div>
+        </div>
+        <!-- End body -->
+      </div>
+    </div>
+
+    <footer th:replace="common/_footer_admin"></footer>
+  </body>
+</html>

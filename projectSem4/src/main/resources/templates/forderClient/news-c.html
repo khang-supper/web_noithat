@@ -20,15 +20,10 @@
                           <span>Tất cả danh mục</span>
                         </div>
                         <ul>
-                          <li><a href="#">Giường Ngủ</a></li>
-                          <li><a href="#">Tủ Quần Áo</a></li>
-                          <li><a href="#">Bàn Trang Điểm</a></li>
-                          <li><a href="#">Tủ giày</a></li>
-                          <li><a href="#">Sofa</a></li>
-                          <li><a href="#">Kệ Tivi</a></li>
-                          <li><a href="#">Khuyến Mãi</a></li>
-                          <li><a href="#">Tin Tức</a></li>
-                          <li><a href="#">Liên Hệ</a></li>
+                          <li th:each="category : ${categories}"><a th:href="@{/{path}(path=${category.path})}">[[${category.name}]]</a></li>
+                          <li><a href="/khuyen-mai">Khuyến Mãi</a></li>
+                          <li><a href="/tin-tuc">Tin Tức</a></li>
+                          <li><a href="/lien-he">Liên Hệ</a></li>
                           <li><a href="#"></a></li>
                           <li><a href="#"> </a></li>
                         </ul>
@@ -98,7 +93,7 @@
                             <div class="blog__sidebar__recent">
                                 <a th:each="news : ${newsRecent}" th:href="@{/tin-tuc/{path}(path=${news.path})}" class="blog__sidebar__recent__item">
                                     <div class="blog__sidebar__recent__item__pic">
-                                        <img th:src="${news.image}" alt="">
+                                        <img th:src="@{/uploads/{path}(path=${news.image})}" alt="">
                                     </div>
                                     <div class="blog__sidebar__recent__item__text">
                                         <h6 th:text="${news.name}"><br /> </h6>
@@ -114,8 +109,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-6" th:each="news : ${news}">
                             <div class="blog__item">
                                 <div class="blog__item__pic">
-                                        <!-- <img th:src="${newsDetail.image}" alt="" /> -->
-                                        <img src="../../client/img/blog/blog-6.jpg" alt="">
+                                        <img th:src="@{/uploads/{path}(path=${news.image})}" alt="">
                                 </div>
                                 <div class="blog__item__text">
                                     <ul>

@@ -73,4 +73,7 @@ public int deleteById(int id) {
     return jdbcTemplate.update("UPDATE accounts SET Status = false WHERE Id = ?", new Object[] { id });
 }
 
+public Account findByUserName(String username) {
+    return jdbcTemplate.queryForObject("select * from accounts where username=?", new AccountRowMapper(), new Object[] { username });
+}
 }
