@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title th:text="${title}">login</title>
+		<title th:text="${title}">đăng nhập</title>
 		<style th:replace="/common/_Head_tag_client"></style>
 		<link href="../../login/css/style.css" rel="stylesheet" type="text/css"
 			media="all" />
@@ -13,7 +13,7 @@
 		<header th:replace="common/_Header_Client"></header>
 		<div class="header">
 			<div class="header-main">
-				<h1>Login </h1>
+				<h1>đăng nhập </h1>
 				<div class="header-bottom">
 					<div class="header-right w3agile">
 
@@ -21,18 +21,18 @@
 
 							<form th:action="@{/login}" th:object="${loginForm}" method="post">
 
-								<input type="text" value="Username" name="username"
+								<input type="text" value="nhập tên" name="username"
 									onfocus="this.value = '';"
 									onblur="if (this.value == '') {this.value = 'username';}" />
 								<input type="password" value name="password" onfocus="this.value = '';"
-									onblur="if (this.value == '') {this.value = 'password';}" />
+									onblur="if (this.value == '') {this.value = 'nhập mật khẩu';}" />
 								<div class="remember">
 									<span class="checkbox1">
 										<label class="checkbox"><input type="checkbox" name checked><i>
-											</i>Remember me</label>
+											</i>ghi nhớ mật khẩu</label>
 									</span>
 									<div class="forgot">
-										<h6><a href="#">Forgot Password?</a></h6>
+										<h6><a href="#">thây đổi mật khẩu ?</a></h6>
 									</div>
 									<div class="clear"> </div>
 								</div>

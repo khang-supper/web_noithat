@@ -5,7 +5,12 @@ public class DiscountProduct {
     private int discountId;  // Mã chương trình khuyến mãi - Khóa ngoại
     private int productId;  // Mã sản phẩm - Khóa ngoại
     private double discountPrice;  // Giá khuyến mãi
-    
+
+
+    public static String ID = "id";
+	public static String DISCOUNTID = "discountId";
+	public static String PRODUCTID = "productId";
+	public static String DISCOUNTPRICE = "discountPrice";
 	public DiscountProduct(int id, int discountId, int productId, double discountPrice) {
 		super();
 		this.id = id;

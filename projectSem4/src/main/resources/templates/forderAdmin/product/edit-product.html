@@ -54,7 +54,7 @@
                   th:object="${product}"
                 >
                   <input type="hidden" th:field="*{id}" />
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="path">chọn ảnh chỉnh sửa</label>
                     <input
                       type="text"
@@ -62,7 +62,16 @@
                       id="path"
                       placeholder="chọn ảnh chỉnh sửa"
                       th:field="*{path}"
-                    />
+                    /> -->
+                    <div class="form-group">
+                      <label for="description">Hình đại diện</label>
+                      <input type="hidden" id="imageName" th:field="*{path}" />
+                      <input type="file" class="form-control" id="image" style="display: none;">
+                      <button type="button" class="btn btn-outline-secondary" id="uploadButton">Chỉnh lại ảnh</button> <br>
+                      <img id="filePreview" src="" width="200px" class="card">
+                      <!-- Nếu xác nhận ảnh sẽ hiển thị tại đây -->
+                      <div id="imageError" class="error-message"></div>
+                  </div>
                   <div class="form-group">
                     <label for="name_c">Tên loại</label>
                     <input
@@ -229,5 +238,41 @@
             document.getElementById('imageError').innerHTML = "";
         });
     </script>
+    <script type="text/javascript">
+      $('#uploadButton').on('click', function() {
+         $('#image').click(); // Mở hộp thoại tải lên tệp khi nút được nhấp
+     });
+
+     $('#image').on('change', function(){
+     var formData = new FormData();
+     formData.append('file', $('#image')[0].files[0]);
+
+     $.ajax({
+         url: '/images/upload',
+         type: 'POST',
+         data: formData,
+         contentType: false,
+         processData: false,
+         success: function(data){
+             // Kiểm tra nếu phản hồi là một chuỗi JSON chứa thông tin hình ảnh
+             if (typeof data === 'object' && data.url && data.message && data.name) {
+                 // Nếu tải lên thành công, hiển thị hình ảnh và tên hình ảnh
+                 $('#filePreview').attr('src', data.url);
+                 $('#filePreview').attr('alt', data.message);
+                 $('#imageName').val(data.name); 
+                 console.log(data);
+             } else {
+                 console.log(data); // Phản hồi không chứa thông tin hình ảnh
+             }
+         },
+         error: function(xhr, status, error) {
+             // Xử lý lỗi nếu có
+             console.log(error);
+         }
+     });
+ });
+
+  
+ </script>
   </body>
 </html>

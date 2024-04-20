@@ -1,161 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title th:fragment="TitlePage">tạo sản phẩm</title>
-    <style th:replace="/common/_Head_tag"></style>
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.css">
-  </head>
-  <body>
-    <!-- header-->
-    <header th:replace="common/_Header_admin"></header>
-    
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title th:fragment="TitlePage">tạo sản phẩm</title>
+        <style th:replace="/common/_Head_tag"></style>
+        <link rel="stylesheet"
+            href="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.css">
+        <style>
+      /* Định kiểu cho form */
+.product-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
 
-    <div class="content">
-      <div class="page-inner">
-        <!-- breadcrumbs -->
-        <div class="page-header">
-          <h4 class="page-title">Avatars</h4>
-          <ul class="breadcrumbs">
-            <li class="nav-home">
-              <a href="/admin">
-                <i class="flaticon-home"></i>
-              </a>
-            </li>
-            <li class="separator">
-              <i class="flaticon-right-arrow"></i>
-            </li>
-            <li class="nav-item">
-              <a href="/admin/product/add">tạo sản phẩm</a>
-            </li>
-          </ul>
-        </div>
-        <!-- end breadcrumbs -->
-  
-      <!-- body-->
-  
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">Tiêu đề mục</h4>
-                
-              </div>
-              <!-- content body -->
-              <div class="card-body">
-                <form action="#" th:action="@{/admin/product/add}" th:object="${product}" method="post">
-                  <div class="form-group">
-                    <label for="name_c">Tên sản phẩm</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="name_c"
-                      placeholder="Nhập tên sản phẩm"
-                      th:field="*{name}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="code">mã code</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="code"
-                      placeholder="Nhập mã code"
-                      th:field="*{code}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="description">Mô tả sản phẩm </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="description"
-                      placeholder="Nhập mô tả"
-                      th:field="*{description}"
-                    />
-                  </div>
+/* Định kiểu cho form group */
+.form-group {
+    margin-bottom: 15px;
+}
 
-                  <div class="form-group">
-                    <label for="content">Nội dung</label>
-                    <textarea id="editor" name="content" th:field="*{content}"></textarea>
-                    <div id="contentError" class="error-message"></div>
-                  </div>
-                  <div class="form-group">
-                    <label for="price">giá </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="price"
-                      placeholder="Nhập giá"
-                      th:field="*{price}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="size">kích thước </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="size"
-                      placeholder="Nhập kích thước"
-                      th:field="*{size}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="material">chất liệu </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="material"
-                      placeholder="Nhập chất liệu"
-                      th:field="*{material}"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="path">đường dẫn </label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="path"
-                      placeholder="Nhập đường dẫn"
-                      th:field="*{path}"
-                    />
-                  </div>
-                  <!-- Các trường dữ liệu sản phẩm -->
-                  <label for="category">Loại sản phẩm:</label>
-                  <select name="categoryId">
-                      <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-                  </select>
-                  <br>
-                  
-                  <!-- Các trường dữ liệu khác -->
-                  <button type="submit" style="background-color: blue; color: azure;">Thêm sản phẩm</button>
-              </form>
-              
-              </div>
-              <!-- end content body -->
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #999;
+}
+
+/* Định kiểu cho textarea */
+textarea.form-control {
+    height: 100px;
+}
+
+/* Định kiểu cho select */
+select.form-control {
+    cursor: pointer;
+}
+
+/* Định kiểu cho form actions */
+.form-actions {
+  color: #007bff;
+ text-align: center;
+   
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+}
+
+.btn-secondary {
+    background-color: #ddd;
+    color: #000;
+}
+
+.btn-secondary:hover {
+    background-color: #ccc;
+}
+
+    </style>
+    </head>
+    <body>
+        <!-- header-->
+        <header th:replace="common/_Header_admin"></header>
+
+        <div class="content">
+            <div class="page-inner">
+                <!-- breadcrumbs -->
+                <div class="page-header">
+                    <h4 class="page-title">Avatars</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="/admin">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/product/add">tạo sản phẩm</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- end breadcrumbs -->
+
+                <!-- body-->
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Tiêu đề mục</h4>
+
+                            </div>
+                            <!-- content body -->
+                            <div class="card-body">
+                                <form class="product-form"
+                                    th:action="@{/admin/product/add}"
+                                    th:object="${product}" method="post">
+                                    <div class="form-group">
+                                        <label for="productName">Tên sản phẩm
+                                            (*)</label>
+                                        <input type="text" id="productName"
+                                            th:field="*{name}"
+                                            name="productName"
+                                            class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="category">chọn loại sản
+                                            phẩm</label>
+                                        <select id="category" name="categoryId"
+                                            class="form-control">
+                                            <option
+                                                th:each="category : ${categories}"
+                                                th:value="${category.id}"
+                                                th:text="${category.name}"></option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="description">Nộ dung</label>
+                                        <textarea id="editor" name="content"
+                                            th:field="*{content}"
+                                           ></textarea>
+
+                                        <div id="contentError"
+                                            class="error-message"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="type">nhập mã code</label>
+                                        <input type="text" id="code"
+                                            th:field="*{code}"
+                                            name="code" class="form-control"
+                                            required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="otherType">mô tả</label>
+                                        <input type="text" id="otherType"
+                                            th:field="*{description}"
+                                            name="otherType"
+                                            class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="manufacturer">giá sản
+                                            phẩm</label>
+                                        <input type="text" id="manufacturer"
+                                            th:field="*{price}"
+                                            name="manufacturer"
+                                            class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="productGroup">kích thước sản
+                                            phẩm</label>
+                                        <input type="text" id="manufacturer"
+                                            th:field="*{size}"
+                                            name="manufacturer"
+                                            class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="inspirationContent">chất
+                                            liệu sản phẩm</label>
+                                        <textarea id="inspirationContent"
+                                            name="inspirationContent"
+                                            th:field="*{material}"
+                                            class="form-control"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="description">Hình đại
+                                            diện</label>
+                                        <input type="hidden" id="imageName"
+                                            th:field="*{path}" />
+                                        <input type="file" class="form-control"
+                                            id="image" style="display: none;">
+                                        <button type="button"
+                                            class="btn btn-outline-secondary"
+                                            id="uploadButton"
+                                            style="color: royalblue; background-color: #000;">Chọn
+                                            hình ảnh</button>
+                                        <img id="filePreview" src width="200px"
+                                            class="card">
+                                        <div id="imageError"
+                                            class="error-message"></div>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button type="submit"
+                                            class="btn btn-primary">Lưu</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                            <!-- end content body -->
+                        </div>
+                    </div>
+                </div>
+                <!-- End body -->
             </div>
-          </div>
         </div>
-        <!-- End body -->
-      </div>
-    </div>
-    <!-- End Modal -->
+        <!-- End Modal -->
 
-    <!-- footer-->
-    <footer th:replace="common/_footer_admin"></footer>
+        <!-- footer-->
+        <footer th:replace="common/_footer_admin"></footer>
 
-    <!-- //// -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
-    <script>
+        <!-- //// -->
+        <script
+            src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
+        <script>
         ClassicEditor
             .create(document.querySelector('#editor'))
             .catch(error => {
                 console.error(error);
             });
     </script>
-    <!-- Tạo url từ tên bài viết  -->
-    <script language="javascript">
+        <!-- Tạo url từ tên bài viết  -->
+        <script language="javascript">
         function ChangeToSlug()
         {
             var title, slug;
@@ -191,8 +279,8 @@
             document.getElementById('path').value = slug;
         }
     </script>
-    <!-- JavaScript kiểm tra người dùng nhập form -->
-    <script>
+        <!-- JavaScript kiểm tra người dùng nhập form -->
+        <script>
         document.getElementById('newsForm').addEventListener('submit', function(event) {
             var name = document.getElementById('name').value.trim();
             var description = document.getElementById('description').value.trim();
@@ -255,5 +343,41 @@
             document.getElementById('imageError').innerHTML = "";
         });
     </script>
-  </body>
+        <script type="text/javascript">
+        $('#uploadButton').on('click', function() {
+           $('#image').click(); // Mở hộp thoại tải lên tệp khi nút được nhấp
+       });
+  
+       $('#image').on('change', function(){
+       var formData = new FormData();
+       formData.append('file', $('#image')[0].files[0]);
+  
+       $.ajax({
+           url: '/images/upload',
+           type: 'POST',
+           data: formData,
+           contentType: false,
+           processData: false,
+           success: function(data){
+               // Kiểm tra nếu phản hồi là một chuỗi JSON chứa thông tin hình ảnh
+               if (typeof data === 'object' && data.url && data.message && data.name) {
+                   // Nếu tải lên thành công, hiển thị hình ảnh và tên hình ảnh
+                   $('#filePreview').attr('src', data.url);
+                   $('#filePreview').attr('alt', data.message);
+                   $('#imageName').val(data.name); 
+                   console.log(data);
+               } else {
+                   console.log(data); // Phản hồi không chứa thông tin hình ảnh
+               }
+           },
+           error: function(xhr, status, error) {
+               // Xử lý lỗi nếu có
+               console.log(error);
+           }
+       });
+   });
+  
+    
+   </script>
+    </body>
 </html>

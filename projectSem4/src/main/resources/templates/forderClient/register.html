@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title th:text="${title}">Document</title>
+        <title th:text="${title}">trang đăng ký</title>
         <style th:replace="/common/_Head_tag_client"></style>
         <link rel="stylesheet" href="../../register/register.css">
        
@@ -11,7 +11,7 @@
     <body>
         <header th:replace="common/_Header_Client"></header>
         <div class="header-main">
-            <h1>register</h1>
+            <h1>đăng ký</h1>
             <div class="header-bottom">
                 <div class="header-right w3agile">
                     <div class="header-left-bottom agileinfo">
@@ -25,29 +25,28 @@
                         </div>
                         <form th:action="@{/processRegister}"
                             th:object="${account}" method="post">
-                            <input type="text" placeholder=" name"
+                            <input type="text" placeholder="nhập tên"
                                 th:field="*{username}" required />
-                            <input type="password" placeholder=" password"
+                            <input type="password" placeholder=" nhập mật khẩu"
                                 th:field="*{password}" required>
-                            <input type="text" placeholder="Email"
+                            <input type="text" placeholder="nhập gmail"
                                 th:field="*{email}" />
-                            <input type="text" placeholder=" fullName"
+                            <input type="text" placeholder=" nhập tên đầy đủ"
                                 th:field="*{fullName}" />
-                            <input type="text" placeholder=" phone"
+                            <input type="text" placeholder=" nhập sdt"
                                 th:field="*{phone}" />
-                            <input type="text" placeholder=" address"
+                            <input type="text" placeholder=" nhập địa chỉ"
                                 th:field="*{address}" />
-                            <input type="file" placeholder=" avatar"
+                            <input type="file" placeholder=" chon hình"
                                 th:field="*{avatar}" />
                             <div class="remember">
                                 <span class="checkbox1">
                                     <input type="checkbox" name="remember"
                                         id="remember" checked>
-                                    <label for="remember">Remember me</label>
+                                    <label for="remember">nhớ mật khẩu của tôi</label>
                                 </span>
                                 <div class="forgot">
-                                    <h6><a th:href="@{/login}">Already have an
-                                            account? Login here</a></h6>
+                                    <h6><a th:href="@{/login}">bạn có sẵn sàn tạo một tài khoản? Đăng nhập tại đây</a></h6>
                                 </div>
                             </div>
                             <div class="form-group btn-container">

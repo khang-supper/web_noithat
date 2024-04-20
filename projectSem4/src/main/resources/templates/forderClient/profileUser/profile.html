@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>trang profile</title>
+    <style th:replace="/common/_Head_tag_client"></style>
+    <style>
+        body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.conten{
+    display: flex;
+    justify-content: space-between;
+}
+
+.contenn {
+  width: 60%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+}
+
+.profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.profile h2 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.profile p {
+  font-size: 16px;
+  color: #666;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat span {
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+}
+
+.stat p {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.contests {
+  margin-bottom: 20px;
+  
+}
+
+.contests h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+ 
+}
+
+.contests ul {
+  list-style: none;
+  padding: 0;
+}
+
+.contests li {
+  margin-bottom: 5px;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+}
+.account-form{
+  text-align: center;
+}
+
+
+    </style>
+  </head>
+  <body>
+    <header th:replace="common/_Header_Client"></header>
+    <body>
+      <div class="contenn">
+        <div class="profile" th:each="account : ${accounts}">
+          <img src="avatar.jpg" alt="Ảnh đại diện">
+          <h2 th:text="${session.username}"></h2>
+          <p th:if="${account != null}"
+            th:text="${account.email}">huythietpro@gmail.com</p>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <span>0</span>
+            <p>số lượng sản phẩm</p>
+          </div>
+        </div>
+        <div class="conten">
+          <div class="contests">
+            <a href>Lịch sử mua hàng</a>
+          </div>
+          <div class="contests">
+            <a id="account-button">Tài khoản</a>
+          </div>
+        </div>
+        <!-- ////// -->
+        <div class="password-form" id="password-form" >
+            <!-- <form action="/changePassword" method="post">
+                <label for="currentPassword">Mật khẩu hiện tại:</label>
+                <input type="password" id="currentPassword" name="currentPassword"><br>
+                <label for="newPassword">Mật khẩu mới:</label>
+                <input type="password" id="newPassword" name="newPassword"><br>
+                <label for="confirmPassword">Xác nhận mật khẩu mới:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword"><br>
+                <button type="submit">Thay đổi mật khẩu</button>
+            </form> -->
+        </div>
+      </div>
+
+    </body>
+    <footer th:replace="common/_footer_Client"></footer>
+  </body>
+</html>

@@ -51,7 +51,7 @@
                         <th>Tên bài viết</th>
                         <th>Người tạo</th>
                         <th>Mô tả</th> 
-                        <th>Nội dung</th>
+                        <!-- <th>Nội dung</th> -->
                         <th>giá</th>
                         <th>trang thai</th>
                         <th style="width: 10%">Hành động</th>
@@ -60,11 +60,11 @@
                       <tbody>
                         <tr th:each="product : ${products}"   th:unless="${product.isDelete}">
                           <td th:text="${product.id}">ID</td>
-                          <td th:text="${product.path}"></td>
+                          <td ><img th:src="@{/uploads/{image}(image=${product.path})}" width="70px" class="thumbnail" style="margin: 10px;"></td>
                           <td th:text="${product.name}">Tên bài viết</td>
                           <td th:text="${product.code}">Người tạo</td>
                           <td th:text="${product.description}">Mô tả</td>
-                          <td th:text="${product.content}">Nội dung</td>
+                          <!-- <td th:text="${product.content}">Nội dung</td> -->
                           <td th:text="${product.price}">giá</td>
                           <td th:text="${product.isDelete}">trang thái</td>
                           <td>

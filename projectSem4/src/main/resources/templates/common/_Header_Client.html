@@ -31,17 +31,17 @@
                             </div>
                             <!-- /////// -->
                             <div class="header__top__right__auth" id="loginSection" th:if="${session.role == null}">
-                                <a th:href="@{/login}" onclick="checkUserRole()"><i class="fa fa-user"></i> Login</a>
+                                <a th:href="@{/login}" onclick="checkUserRole()"><i class="fa fa-user"></i>đăng nhập</a>
                             </div>
                             <div class="header__top__right__auth" id="registerSection" th:if="${session.role == null}">
-                                <a th:href="@{/register}" onclick="checkUserRole()"><i class="fa fa-user"></i> Register</a>
+                                <a th:href="@{/register}" onclick="checkUserRole()"><i class="fa fa-user"></i> đăng ký</a>
                             </div>
 
                             <div class="header__top__right__auth" th:if="${session.role != null}">
-                                Hi, <span th:text="${session.username}"></span> 
+                              <a th:href="@{'/profile/' + ${session.username}}"> Hi, <span th:text="${session.username}"></span> </a>  
                             </div>
                             <div class="header__top__right__auth" th:if="${session.role != null}">
-                                <div><a th:href="@{/logout}"><i class="fa fa-sign-out"></i>logout</div></div>
+                                <div><a th:href="@{/logout}"><i class="fa fa-sign-out"></i>đăng xuất</div></div>
                            
                             
                             <!-- ////// -->
