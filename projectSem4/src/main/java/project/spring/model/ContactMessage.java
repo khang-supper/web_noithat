@@ -6,6 +6,12 @@ public class ContactMessage {
     private String email;  // Email người gửi
     private int phone;  // Phone người gửi
     private String message;  // Nội dung lời nhắn
+
+	public static String ID = "id";
+	public static String NAME = "name";
+	public static String EMAIL = "email";
+	public static String PHONE = "phone";
+	public static String MESSAGE = "message";
     
 	public ContactMessage(int id, String name, String email, int phone, String message) {
 		super();
