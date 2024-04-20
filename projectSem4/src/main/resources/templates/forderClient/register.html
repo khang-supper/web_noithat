@@ -25,17 +25,17 @@
                         </div>
                         <form th:action="@{/processRegister}"
                             th:object="${account}" method="post">
-                            <input type="text" placeholder="nhập tên"
+                            <input type="text" placeholder="Nhập tên"
                                 th:field="*{username}" required />
-                            <input type="password" placeholder=" nhập mật khẩu"
+                            <input type="password" placeholder=" Nhập mật khẩu"
                                 th:field="*{password}" required>
-                            <input type="text" placeholder="nhập gmail"
+                            <input type="text" placeholder="Nhập gmail"
                                 th:field="*{email}" />
-                            <input type="text" placeholder=" nhập tên đầy đủ"
+                            <input type="text" placeholder=" Nhập tên đầy đủ"
                                 th:field="*{fullName}" />
-                            <input type="text" placeholder=" nhập sdt"
+                            <input type="text" placeholder=" Nhập sdt"
                                 th:field="*{phone}" />
-                            <input type="text" placeholder=" nhập địa chỉ"
+                            <input type="text" placeholder=" Nhập địa chỉ"
                                 th:field="*{address}" />
                             <input type="file" placeholder=" chon hình"
                                 th:field="*{avatar}" />
@@ -43,10 +43,10 @@
                                 <span class="checkbox1">
                                     <input type="checkbox" name="remember"
                                         id="remember" checked>
-                                    <label for="remember">nhớ mật khẩu của tôi</label>
+                                    <label for="remember">Nhớ mật khẩu của tôi</label>
                                 </span>
                                 <div class="forgot">
-                                    <h6><a th:href="@{/login}">bạn có sẵn sàn tạo một tài khoản? Đăng nhập tại đây</a></h6>
+                                    <h6><a th:href="@{/login}">Bạn có sẵn sàn tạo một tài khoản? Đăng Nhập tại đây</a></h6>
                                 </div>
                             </div>
                             <div class="form-group btn-container">

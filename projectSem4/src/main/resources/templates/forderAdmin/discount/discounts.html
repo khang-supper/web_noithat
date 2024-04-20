@@ -47,7 +47,7 @@
                     <thead>
                         <tr>
                           <th>ID</th>
-                          <th>Tên khuyến mãi</th>
+                          <th>Chương trình khuyến mãi</th>
                           <th>ngày bất đầu </th>
                           <th>ngày kết thúc</th>
                           <th>người tạo</th>
@@ -57,7 +57,7 @@
                   <tbody>
                       <tr th:each="discount : ${discounts}">
                           <td th:text="${discount.id}">ID</td>
-                          <td th:text="${discount.name}">Tên khuyến mãi</td>
+                          <td th:text="${discount.name}">Chương trình khuyến mãi</td>
                           <td th:text="${discount.startDate}">ngày bất đầu</td>
                           <td th:text="${discount.endDate}">ngày kết thúc</td>
                           <td th:text="${discount.accountId}">người tạo</td>
