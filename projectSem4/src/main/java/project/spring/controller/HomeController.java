@@ -257,5 +257,12 @@ public class HomeController {
 		return "Client/index";
 	}
 
-
+@GetMapping("/profile/{username}")
+public String profile(@PathVariable String username, Model model) {
+    List<Account> accounts = accountRepository.findAccountsByUsername(username);
+    
+        model.addAttribute("accounts", accounts);
+        return "forderClient/profileUser/profile";
+  
+}
 }

@@ -76,4 +76,8 @@ public int deleteById(int id) {
 public Account findByUserName(String username) {
     return jdbcTemplate.queryForObject("select * from accounts where username=?", new AccountRowMapper(), new Object[] { username });
 }
+
+public List<Account> findAccountsByUsername(String username) {
+    return jdbcTemplate.query("select * from accounts where username=?", new AccountRowMapper(), new Object[] { username });
+}
 }
