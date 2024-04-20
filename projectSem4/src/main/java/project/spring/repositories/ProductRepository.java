@@ -39,8 +39,12 @@ public final class ProductRepository {
         return jdbcTemplate.query("select * from products order by id desc", new ProductRowMapper());
     }
     
-    public List<Product> find4ProductByCategory() {
-        return jdbcTemplate.query("SELECT * FROM products p1 WHERE ( SELECT COUNT(*) FROM products p2 WHERE p2.categoryId = p1.categoryId AND p2.id <= p1.id ) <= 4 ORDER BY p1.categoryId, RAND()", new ProductRowMapper());
+    public List<Map<String, Object>> find4ProductByCategory() {
+        return jdbcTemplate.queryForList("SELECT p.id, p.name, p.price, p.path, p.categoryID, i.path AS image " +
+        "FROM products p " +
+        "JOIN image_products ip ON p.id = ip.productId " +
+        "JOIN images i ON ip.imageId = i.id " +
+        "WHERE ip.status = 1 And ( SELECT COUNT(*) FROM products p2 WHERE p2.categoryId = p.categoryId AND p2.id <= p.id ) <= 4 ORDER BY p.categoryId, RAND()");
     }
 
     // @SuppressWarnings("deprecation")

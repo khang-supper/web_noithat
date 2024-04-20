@@ -76,5 +76,17 @@ public class CartRepository {
                 new Object[] { cart.getQuantity(), cart.getId() });
         }
     }
+
+    @SuppressWarnings("deprecation")
+    public Cart findCartByProductIdAndAccountId(int productId, int accountId) {
+        String query = "SELECT * FROM carts WHERE productId = ? AND accountId = ?";
+        List<Cart> carts = db.query(query, new Object[]{productId, accountId}, new CartRowMapper());
+        return carts.isEmpty() ? null : carts.get(0);
+    }
+    
+    public int getCartItemCount(int accountId) {
+        String query = "SELECT SUM(quantity) FROM carts WHERE accountId = ?";
+        return db.queryForObject(query, Integer.class, accountId);
+    }
     
 }
