@@ -247,7 +247,7 @@ public class HomeController {
 						Model model) {
 		List<Category> categories = CategoryRepository.Instance().findAll();
 		List<Map<String, Object>> productNew = productRepository.findNewProduct();		
-		List<Product> products = productRepository.find4ProductByCategory();		
+		List<Map<String, Object>> products = productRepository.find4ProductByCategory();		
 
 
 		model.addAttribute("categories", categories); // Danh sách Loại sản phẩm

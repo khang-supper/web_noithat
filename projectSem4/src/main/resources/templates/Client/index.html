@@ -5,7 +5,7 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title th:text="${title}"></title>
+	<title>Trang chủ - Nội thất HKT</title>
 	<style th:replace="/common/_Head_tag_client"></style>
 </head>
 
@@ -100,7 +100,7 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
             <div class="row featured__filter">
                 <div th:each="product : ${products}" th:class="'col-lg-3 col-md-4 col-sm-6 mix ' + '-data'+ ${product.categoryId}">
                     <div class="featured__item">
-                        <div class="featured__item__pic set-bg" data-setbg="../../client/img/featured/feature-1.jpg">
+                        <div class="featured__item__pic set-bg" th:data-setbg="'/uploads/' + ${product.image}">
                             <ul class="featured__item__pic__hover">
                                 <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fa fa-retweet"></i></a></li>
