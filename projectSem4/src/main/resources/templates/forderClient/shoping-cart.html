@@ -1,21 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout"
-    layout:decorate="~{Client/index}"
->
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title}"></title>
-    <style th:replace="/common/_Head_tag_client"></style>
+<title>Giỏ hàng - Nội thất HKT</title>
+<style th:replace="/common/_Head_tag_client"></style>
 </head>
 <body>
-    <header  th:replace="common/_Header_Client"></header>
-   
-    
-    
-     
-        <!-- Header Section End -->
+<header th:replace="common/_Header_Client"></header>
     
         <!-- Hero Section Begin -->
         <section class="hero hero-normal">
@@ -24,46 +14,41 @@
                     <div class="col-lg-3">
                         <div class="hero__categories">
                             <div class="hero__categories__all">
-                                <i class="fa fa-bars"></i>
-                                <span>All departments</span>
+                              <i class="fa fa-bars"></i>
+                              <span>Tất cả danh mục</span>
                             </div>
                             <ul>
-                                <li><a href="#">Fresh Meat</a></li>
-                                <li><a href="#">Vegetables</a></li>
-                                <li><a href="#">Fruit & Nut Gifts</a></li>
-                                <li><a href="#">Fresh Berries</a></li>
-                                <li><a href="#">Ocean Foods</a></li>
-                                <li><a href="#">Butter & Eggs</a></li>
-                                <li><a href="#">Fastfood</a></li>
-                                <li><a href="#">Fresh Onion</a></li>
-                                <li><a href="#">Papayaya & Crisps</a></li>
-                                <li><a href="#">Oatmeal</a></li>
-                                <li><a href="#">Fresh Bananas</a></li>
+                              <li th:each="category : ${categories}"><a th:href="@{/{path}(path=${category.path})}">[[${category.name}]]</a></li>
+                              <li><a href="#">Khuyến Mãi</a></li>
+                              <li><a href="/tin-tuc">Tin Tức</a></li>
+                              <li><a href="/lien-he">Liên Hệ</a></li>
+                              <li><a href="#"></a></li>
+                              <li><a href="#"> </a></li>
                             </ul>
-                        </div>
+                          </div>
                     </div>
                     <div class="col-lg-9">
                         <div class="hero__search">
                             <div class="hero__search__form">
-                                <form action="#">
-                                    <div class="hero__search__categories">
-                                        All Categories
-                                        <span class="arrow_carrot-down"></span>
-                                    </div>
-                                    <input type="text" placeholder="What do yo u need?">
-                                    <button type="submit" class="site-btn">SEARCH</button>
-                                </form>
+                              <form action="/search/product" method="GET">
+                                <div class="hero__search__categories">
+                                  Tìm kiếm
+                                  <span class="arrow_carrot-down"></span>
+                                </div>
+                                <input type="text" name="keyword" placeholder="Bạn tìm sản phẩm gì?" required autocomplete="off"/>
+                                <button type="submit" class="site-btn">TÌM</button>
+                              </form>
                             </div>
                             <div class="hero__search__phone">
-                                <div class="hero__search__phone__icon">
-                                    <i class="fa fa-phone"></i>
-                                </div>
-                                <div class="hero__search__phone__text">
-                                    <h5>+65 11.188.888</h5>
-                                    <span>support 24/7 time</span>
-                                </div>
+                              <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                              </div>
+                              <div class="hero__search__phone__text">
+                                <a href="tel:0981198781"><h5>098 119 8781</h5></a>
+                                <span>Hỗ trợ 24/7</span>
+                              </div>
                             </div>
-                        </div>
+                          </div>
                     </div>
                 </div>
             </div>
@@ -76,10 +61,10 @@
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <div class="breadcrumb__text">
-                            <h2>Shopping Cart</h2>
+                            <h2>Giỏ hàng</h2>
                             <div class="breadcrumb__option">
-                                <a href="./index.html">Home</a>
-                                <span>Shopping Cart</span>
+                                <a href="/">Trang chủ</a>
+                                <span>Giỏ hàng</span>
                             </div>
                         </div>
                     </div>
@@ -97,78 +82,39 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th class="shoping__product">Products</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
+                                        <th class="shoping__product">Sản phẩm</th>
+                                        <th>Giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Tổng tiền</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <!-- Kiểm tra nếu giỏ hàng không có sản phẩm -->
+                                    <!-- <tr th:if="${carts.isEmpty()}">
+                                        <td colspan="5">Giỏ hàng của bạn đang trống.</td>
+                                    </tr> -->
+                                    <tr th:each="cart : ${carts}">
                                         <td class="shoping__cart__item">
-                                            <img src="../../client/img/cart/cart-1.jpg" alt="">
-                                            <h5>Vegetable’s Package</h5>
+                                            <img th:src="'/uploads/' + ${cart.image}" alt="" width="100px"/>
+                                            <h5 th:text="${cart.name}"></h5>
                                         </td>
                                         <td class="shoping__cart__price">
-                                            $55.00
+                                            [[${#numbers.formatDecimal(cart.price, 0, 'COMMA', 0, 'POINT')}]]đ
                                         </td>
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
                                                 <div class="pro-qty">
-                                                    <input type="text" value="1">
+                                                    <input type="text" th:value="${cart.quantity}">
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="shoping__cart__total">
-                                            $110.00
+                                            [[${#numbers.formatDecimal(cart.total, 0, 'COMMA', 0, 'POINT')}]]đ
                                         </td>
                                         <td class="shoping__cart__item__close">
                                             <span class="icon_close"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shoping__cart__item">
-                                            <img src="../../client/img/cart/cart-2.jpg" alt="">
-                                            <h5>Fresh Garden Vegetable</h5>
-                                        </td>
-                                        <td class="shoping__cart__price">
-                                            $39.00
-                                        </td>
-                                        <td class="shoping__cart__quantity">
-                                            <div class="quantity">
-                                                <div class="pro-qty">
-                                                    <input type="text" value="1">
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="shoping__cart__total">
-                                            $39.99
-                                        </td>
-                                        <td class="shoping__cart__item__close">
-                                            <span class="icon_close"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="shoping__cart__item">
-                                            <img src="../../client/client/img/cart/cart-3.jpg" alt="">
-                                            <h5>Organic Bananas</h5>
-                                        </td>
-                                        <td class="shoping__cart__price">
-                                            $69.00
-                                        </td>
-                                        <td class="shoping__cart__quantity">
-                                            <div class="quantity">
-                                                <div class="pro-qty">
-                                                    <input type="text" value="1">
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="shoping__cart__total">
-                                            $69.99
-                                        </td>
-                                        <td class="shoping__cart__item__close">
-                                            <span class="icon_close"></span>
+                                            <input type="hidden" class="product-id" th:value="${cart.productId}">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -179,13 +125,12 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="shoping__cart__btns">
-                            <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                            <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                                Upadate Cart</a>
+                            <a href="/san-pham" class="primary-btn cart-btn" style="border: 2px solid #545454;">Tiếp tục mua sắm</a>
+                            <button id="update-cart" class="primary-btn cart-btn cart-btn-right">Cập nhật giỏ hàng</button>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="shoping__continue">
+                    <div class="col-lg-6">  
+                        <!-- <div class="shoping__continue">
                             <div class="shoping__discount">
                                 <h5>Discount Codes</h5>
                                 <form action="#">
@@ -193,16 +138,15 @@
                                     <button type="submit" class="site-btn">APPLY COUPON</button>
                                 </form>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-lg-6">
                         <div class="shoping__checkout">
-                            <h5>Cart Total</h5>
+                            <h5>Tổng tiền</h5>
                             <ul>
-                                <li>Subtotal <span>$454.98</span></li>
-                                <li>Total <span>$454.98</span></li>
+                                <li>Tổng<span>[[${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}]]đ</span></li>
                             </ul>
-                            <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                            <a href="/dat-hang" class="primary-btn">ĐẶT HÀNG</a>
                         </div>
                     </div>
                 </div>
@@ -211,7 +155,43 @@
    
     <footer   th:replace="common/_footer_Client"></footer>
     <!-- ///////// -->
-   
+    <script th:inline="javascript">
+        $(document).ready(function(){
+            $('.icon_close').click(function(){
+                var productId = $(this).closest('tr').find('.product-id').val();
+                $(this).closest('tr').remove();
+            });
+    
+            $('#update-cart').click(function(){ 
+                var cartItems = [];
+                $('.shoping__cart__table tbody tr').each(function(){
+                    var productId = $(this).find('.product-id').val();
+                    var quantity = $(this).find('.pro-qty input').val();
+                    cartItems.push({
+                        productId: productId,
+                        quantity: quantity
+                    });
+                });
+
+                $.ajax({
+                    url: '/update-cart',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(cartItems),
+                    success: function(response) {
+                        console.log('Cart updated successfully:', response);
+                        window.location.href = "/gio-hang";
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error updating cart:', error);
+                    }
+                });
+            });
+
+
+        });
+    </script>
+    
 
 </body>
 </html>

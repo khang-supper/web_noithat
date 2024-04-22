@@ -2271,14 +2271,14 @@ ol {
   margin-bottom: 12px;
 }
 
-.checkout__order ul li {
+.checkout__order table tr .cart_name {
   font-size: 16px;
   color: #6f6f6f;
-  line-height: 40px;
+  /* line-height: 40px; */
   list-style: none;
 }
 
-.checkout__order ul li span {
+.checkout__order table tr .cart_price {
   font-weight: 700;
   float: right;
 }
@@ -3533,3 +3533,36 @@ ol {
     font-size: 24px;
   }
 }
+
+
+/*Thông báo */
+.notification {
+        display: none;
+        background-color: #bca45b;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        position: fixed;
+        z-index: 1;
+        width: 50%;
+        left: 0;
+        top: 0;
+    }
+
+    /* Thêm hiệu ứng fade-in/out cho thông báo */
+    .show {
+      display: block;
+      animation: fadeInOut 3s forwards;
+  }
+
+  @keyframes fadeInOut {
+      0% {
+          opacity: 0;
+      }
+      50% {
+          opacity: 1;
+      }
+      100% {
+          opacity: 0;
+      }
+  }

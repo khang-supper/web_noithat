@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import project.spring.dao.ProductDao;
 import project.spring.model.Account;
 import project.spring.model.Category;
-import project.spring.model.Image;
 import project.spring.model.News;
 import project.spring.model.Order;
 import project.spring.model.Product;
@@ -48,28 +46,13 @@ public class HomeController {
 		model.addAttribute("title", "Trang shop-details");
 		return "forderClient/shop-details";
 	}
-	@RequestMapping("/cart")
-	public String cart(Model model) {
-		model.addAttribute("title", "Trang shoping-cart");
-		return "forderClient/shoping-cart";
-	}
-	@RequestMapping("/checkout")
-	public String checkout(Model model) {
-		model.addAttribute("title", "Trang checkout");
-		return "forderClient/checkout";
-	}
-	// @GetMapping("/tin-tuc")
-	// public String tintuc(@RequestParam(defaultValue = "1") int page, Model model) {
-	// 	List<News> newsRecent = NewsRepository.Instance().findRecent(); //lấy bài viết gần nhất
-	// 	int pageSize = 4; // Số lượng mục trên mỗi trang
-    //     List<News> news = NewsRepository.Instance().findAllByPage(page - 1, pageSize);
-    //     int totalPages = NewsRepository.Instance().getTotalPages(pageSize);
-    //     model.addAttribute("news", news);
-    //     model.addAttribute("totalPages", totalPages);
-    //     model.addAttribute("currentPage", page); // Trang hiện tại
-    //     model.addAttribute("newsRecent", newsRecent);
-    //     return "forderClient/news-c";
+
+	// @RequestMapping("/checkout")
+	// public String checkout(Model model) {
+	// 	model.addAttribute("title", "Trang checkout");
+	// 	return "forderClient/checkout";
 	// }
+
 	@Autowired
 	private AccountRepository accountRepository;
 	@GetMapping("/tin-tuc")
@@ -126,18 +109,20 @@ public class HomeController {
 	@GetMapping("/search/product") //Trang tìm kiếm sản phẩm
 	public String search_product(@RequestParam(required = false) String keyword, Model model) {
 		List<Category> categories = CategoryRepository.Instance().findAll();
-		List<Product> products;
+		List<Map<String, Object>> productNew = productRepository.findNewProduct();
+		List<Map<String, Object>> products;
 		int totalProduct;
 
 		if (keyword != null && !keyword.isEmpty()) {
 			products = productRepository.search(keyword);
 			totalProduct = products.size();
 		} else {
-			products = productRepository.findAll();
+			products = productRepository.findAll2();
 			totalProduct = products.size();
 		}
 		model.addAttribute("categories", categories); // Danh sách Loại sản phẩm
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("productNew", productNew);
 		model.addAttribute("products", products);
 		model.addAttribute("totalProduct", totalProduct);
 		return "forderClient/search-product";

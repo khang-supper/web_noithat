@@ -17,12 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+
 
 import project.spring.model.Image;
 import project.spring.repositories.FilesStorageService;
@@ -41,46 +39,6 @@ public class ImageController {
     public String newImage(Model model) {
         return "/forderAdmin/upload_form";
     }
-
-    // @PostMapping("/images/upload")
-    // public String uploadImage(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
-    //     String message = "";
-    //     try {
-    //         // Kiểm tra xem tệp đã được chọn hay chưa
-    //         if (file.isEmpty()) {
-    //             message = "Please select a file to upload.";
-    //             redirectAttributes.addFlashAttribute("message", message);
-    //             return "redirect:/images/new";
-    //         }
-            
-    //         // Tạo tên mới cho tệp
-    //         String originalFilename = file.getOriginalFilename();
-    //         String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-    //         String filename = UUID.randomUUID().toString() + extension;
-            
-    //         // Lưu tệp vào thư mục uploads với tên mới
-    //         filesStorageService.save(file, filename);
-            
-    //         // Tạo đường dẫn URL cho ảnh
-    //         String url = MvcUriComponentsBuilder
-    //                         .fromMethodName(ImageController.class, "getImage", filename).build().toString();
-            
-    //         // Lưu thông tin ảnh vào cơ sở dữ liệu
-    //         Image image = new Image();
-    //         image.setPath(filename);
-    //         filesStorageService.saveImageInfo(image, filename);
-    
-    //         // Thêm thông báo thành công
-    //         message = "Uploaded the image successfully: " + originalFilename;
-    //         redirectAttributes.addFlashAttribute("message", message);
-    //         redirectAttributes.addFlashAttribute("url", url);
-    //     } catch (Exception e) {
-    //         // Xử lý nếu có lỗi xảy ra trong quá trình tải lên
-    //         message = "Could not upload the image: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
-    //         redirectAttributes.addFlashAttribute("message", message);
-    //     }
-    //     return "redirect:/upload";
-    // }
 
     @PostMapping("/images/upload")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
@@ -132,10 +90,7 @@ public class ImageController {
 
         return "/forderAdmin/images"; 
     }
-
-
-    
-    
+   
 
     @GetMapping("/images/{filename:.+}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) {

@@ -51,9 +51,20 @@
 <!-- Atlantis DEMO methods, don't include it in your project! -->
 <!-- <script src="/admin/assets/js/setting-demo.js"></script>
 <script src="/admin/assets/js/demo.js"></script> -->
-<script >
+<script th:inline="javascript">
 	$(document).ready(function() {
-	  $('#basic-datatables').DataTable({
+		var role = /*[[${session.role}]]*/ 'default';
+		if (role === '1') {
+			// Ở lại trang hiện tại
+			//console.log("Stay on current page.");
+		} else {
+			// Chuyển hướng đến trang login
+			//console.log("Redirect to login page.");
+			window.location.href = '/login'; // Điều hướng đến trang login, bạn có thể thay đổi URL tùy theo đường dẫn của trang login của bạn
+		}
+
+
+	  $('#basic-datatables').DataTable({ 
 	  });
 
 	  $('#multi-filter-select').DataTable( {

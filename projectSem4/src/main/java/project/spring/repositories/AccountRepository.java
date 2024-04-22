@@ -80,4 +80,5 @@ public Account findByUserName(String username) {
 public List<Account> findAccountsByUsername(String username) {
     return jdbcTemplate.query("select * from accounts where username=?", new AccountRowMapper(), new Object[] { username });
 }
+
 }

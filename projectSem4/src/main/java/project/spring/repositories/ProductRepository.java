@@ -28,6 +28,9 @@ public final class ProductRepository {
             item.setPrice(rs.getDouble(Product.PRICE));
             item.setStock(rs.getInt(Product.STOCK));
             item.setIsDelete(rs.getBoolean(Product.ISDELETE));
+            item.setProposal(rs.getBoolean(Product.ISPROPOSAL));
+            item.setSize(rs.getString(Product.SIZE));
+            item.setMaterial(rs.getString(Product.MATERIAL));
             item.setAccountId(rs.getInt(Product.ACCOUNTID));
             item.setPath(rs.getString(Product.PATH));
             item.setCategoryId(rs.getInt(Product.CATEGORYID));
@@ -38,6 +41,14 @@ public final class ProductRepository {
     public List<Product> findAll() {
         return jdbcTemplate.query("select * from products order by id desc", new ProductRowMapper());
     }
+
+    public List<Map<String, Object>> findAll2() {
+        return jdbcTemplate.queryForList("SELECT p.id, p.name, p.price, p.path, i.path AS image " +
+                                        "FROM products p " +
+                                        "JOIN image_products ip ON p.id = ip.productId " +
+                                        "JOIN images i ON ip.imageId = i.id " +
+                                        "WHERE ip.status = 1 order by id desc");
+    }
     
     public List<Map<String, Object>> find4ProductByCategory() {
         return jdbcTemplate.queryForList("SELECT p.id, p.name, p.price, p.path, p.categoryID, i.path AS image " +
@@ -47,18 +58,13 @@ public final class ProductRepository {
         "WHERE ip.status = 1 And ( SELECT COUNT(*) FROM products p2 WHERE p2.categoryId = p.categoryId AND p2.id <= p.id ) <= 4 ORDER BY p.categoryId, RAND()");
     }
 
-    // @SuppressWarnings("deprecation")
-    // public List<Product> findAllByPage(int page, int pageSize) {
-    //     int start = page * pageSize;
-    //     return jdbcTemplate.query("SELECT * FROM products LIMIT ?, ? ", new Object[] { start, pageSize }, new ProductRowMapper());
-    // }
     public List<Map<String, Object>> findAllByPage(int page, int pageSize) {
         int start = page * pageSize;
         return jdbcTemplate.queryForList("SELECT p.id, p.name, p.price, p.path, i.path AS image " +
                                         "FROM products p " +
                                         "JOIN image_products ip ON p.id = ip.productId " +
                                         "JOIN images i ON ip.imageId = i.id " +
-                                        "WHERE ip.status = 1 LIMIT ?, ? ", 
+                                        "WHERE ip.status = 1 order by id desc LIMIT ?, ? ", 
                                         new Object[] { start, pageSize });
     }
 
@@ -97,12 +103,15 @@ public final class ProductRepository {
                 new Object[] { upPro.getName(), upPro.getCode(), upPro.getDescription(), upPro.getId() });
     }
 
-    //Hỉu
-    @SuppressWarnings("deprecation")
-    public List<Product> search(String keyword) {
-        String sql = "SELECT * FROM products WHERE Name LIKE ?";
+    //Hỉu tìm kiếm
+    public List<Map<String, Object>> search(String keyword) {
+        String sql = "SELECT p.id, p.name, p.price, p.path, i.path AS image " +
+                    "FROM products p " +
+                    "JOIN image_products ip ON p.id = ip.productId " +
+                    "JOIN images i ON ip.imageId = i.id " +
+                    "WHERE ip.status = 1 AND Name LIKE ?";
         String searchKeyword = "%" + keyword + "%"; // Thêm ký tự % để tìm kiếm một phần của tên
-        return jdbcTemplate.query(sql, new Object[] { searchKeyword }, new ProductRowMapper());
+        return jdbcTemplate.queryForList(sql, new Object[] { searchKeyword });
     }
     //lấy ra số lượng sản phẩm
     public int getProductCount() {
@@ -114,20 +123,6 @@ public final class ProductRepository {
         return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM products WHERE categoryId = ?", new Object[] { categoryId },Integer.class);
     }
 
-    // public List<Product> findAllByParams(String sortPrice, Double priceFrom, Double priceTo) {
-    //     // Thêm điều kiện lọc theo khoảng giá và sắp xếp theo giá (nếu có)
-    //     StringBuilder queryBuilder = new StringBuilder("SELECT * FROM products WHERE 1=1");
-    
-    //     if (priceFrom != null && priceTo != null) {
-    //         queryBuilder.append(" AND price >= ").append(priceFrom).append(" AND price <= ").append(priceTo);
-    //     }
-    
-    //     if (sortPrice != null && (sortPrice.equals("desc") || sortPrice.equals("asc"))) {
-    //         queryBuilder.append(" ORDER BY price ").append(sortPrice);
-    //     }
-    
-    //     return jdbcTemplate.query(queryBuilder.toString(), new ProductRowMapper());
-    // }
     //Lấy tất cả sản phẩm, phân trang, lọc
     public List<Map<String, Object>> findAllByParams(String sortPrice, Double priceFrom, Double priceTo) {
         // Thêm điều kiện lọc theo khoảng giá và sắp xếp theo giá (nếu có)
@@ -174,24 +169,6 @@ public final class ProductRepository {
         return jdbcTemplate.query("SELECT * FROM products WHERE categoryId = ?", new Object[] { id }, new ProductRowMapper());
     }
 
-    //  @SuppressWarnings("deprecation")//Lấy sản phẩm theo categoy, lọc, sắp xếp
-    //  public List<Product> findAllByParamsAndCategory(String sortPrice, Double priceFrom, Double priceTo, int categoryId) {
-    //     // Tạo câu truy vấn SQL ban đầu
-    //     StringBuilder queryBuilder = new StringBuilder("SELECT * FROM products WHERE categoryId = ?");
-    
-    //     // Thêm điều kiện lọc theo khoảng giá nếu có
-    //     if (priceFrom != null && priceTo != null) {
-    //         queryBuilder.append(" AND price >= ").append(priceFrom).append(" AND price <= ").append(priceTo);
-    //     }
-    
-    //     // Thêm điều kiện sắp xếp theo giá nếu được chỉ định
-    //     if (sortPrice != null && (sortPrice.equals("desc") || sortPrice.equals("asc"))) {
-    //         queryBuilder.append(" ORDER BY price ").append(sortPrice);
-    //     }
-    
-    //     // Thực hiện truy vấn và trả về danh sách sản phẩm
-    //     return jdbcTemplate.query(queryBuilder.toString(), new Object[]{categoryId}, new ProductRowMapper());
-    // }
     //Lấy sản phẩm theo categoy, lọc, sắp xếp
      public List<Map<String, Object>> findAllByParamsAndCategory(String sortPrice, Double priceFrom, Double priceTo, int categoryId) {
         // Tạo câu truy vấn SQL ban đầu
@@ -228,13 +205,7 @@ public final class ProductRepository {
         // Thực hiện truy vấn và trả về tổng số sản phẩm
         return jdbcTemplate.queryForObject(queryBuilder.toString(), new Object[]{categoryId}, Integer.class);
     }
-    
-    // @SuppressWarnings("deprecation") //Lấy tất cả sản phẩm theo loại phân trang
-    // public List<Product> findAllByPageAndCategory(int page, int pageSize, int categoryId) {
-    //     int start = page * pageSize;
-    //     return jdbcTemplate.query("SELECT * FROM products WHERE categoryId = ? ORDER BY id DESC LIMIT ?, ? ",
-    //             new Object[]{categoryId, start, pageSize}, new ProductRowMapper());
-    // }
+
     //Lấy tất cả sản phẩm theo loại phân trang
     public List<Map<String, Object>> findAllByPageAndCategory(int page, int pageSize, int categoryId) {
         int start = page * pageSize;

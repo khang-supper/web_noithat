@@ -1,14 +1,11 @@
 package project.spring.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import project.spring.model.Category;
-import project.spring.model.Image;
 import project.spring.repositories.CategoryRepository;
-import project.spring.repositories.FilesStorageService;
 
 import java.util.List;
 
@@ -23,20 +20,6 @@ public class CategoryController {
     return "forderAdmin/categories";
     }
 
-    // @GetMapping("")
-    // public String getAllCategories(@RequestParam(defaultValue = "1") int page, Model model) {
-    //     int pageSize = 1; // Số lượng mục trên mỗi trang
-    //     List<Category> categories = CategoryRepository.Instance().findAllByPage(page - 1, pageSize);
-    //     int totalPages = CategoryRepository.Instance().getTotalPages(pageSize);
-    //     model.addAttribute("categories", categories);
-    //     model.addAttribute("totalPages", totalPages);
-    //     model.addAttribute("currentPage", page); // Trang hiện tại
-    //     return "Admin/categories";
-    // }
-    
-    
-    @Autowired
-    private FilesStorageService img;
     @GetMapping("/add")
     public String showAddForm(Model model) {
         // List<Image> images = img.getAllImageInfos();

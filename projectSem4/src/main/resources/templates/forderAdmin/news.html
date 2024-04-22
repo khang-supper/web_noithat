@@ -166,7 +166,7 @@
       // Xử lý sự kiện khi click vào nút xóa
       $(".delete-btn").on("click", function () {
         var id = $(this).attr("data-news-id");
-        var name = $(this).closest("tr").find("td:nth-child(2)").text();
+        var name = $(this).closest("tr").find("td:nth-child(3)").text();
         $("#deleteModal").modal("show"); // Hiển thị modal xác nhận xóa
         $("#deleteModal .modal-body").text(
           'Bạn có chắc muốn xóa "' + name + '"?'

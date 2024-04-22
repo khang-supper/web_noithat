@@ -66,7 +66,7 @@
                         <td th:text="${order['orderDate']}"></td>
                         <td th:text="${order['customerName']}"></td>
                         <td th:text="${order['product_names']}"></td>
-                        <td th:text="${order['total']}"></td>
+                        <td>[[${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'POINT')}]]đ</td>
                         <td
                           th:text="${order['paymentStatus'] ? 'Thanh toán qua VNPAY' : 'Giao & thu tiền tận nơi - COD'}"
                         ></td>

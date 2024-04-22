@@ -1,3 +1,4 @@
+<div id="notification" class="notification"></div>
  <footer class="footer spad">
         <div class="container">
             <div class="row">
@@ -54,9 +55,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="footer__copyright">
-                        <div class="footer__copyright__text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
                         <div class="footer__copyright__payment"><img src="../../client/img/payment-item.png" alt=""></div>
                     </div>
                 </div>
@@ -71,6 +69,18 @@
             language-code="en"
             ></df-messenger>
     <!-- Footer Section End -->
+    <!-- <div class="toast" id="successToast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+        <div class="toast-header">
+          <strong class="mr-auto">Thông báo</strong>
+          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body">
+          Sản phẩm đã được thêm vào giỏ hàng!
+        </div>
+    </div> -->
+      
 
     <!-- Js Plugins -->
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
@@ -81,11 +91,54 @@
     <script src="../../client/js/jquery.slicknav.js"></script>
     <script src="../../client/js/mixitup.min.js"></script>
     <script src="../../client/js/owl.carousel.min.js"></script>
+    <!-- <script src="../../client/js/popper.js"></script> -->
     <script src="../../client/js/main.js"></script>
     <script src="../../client/js/single_custom.js"></script>
 
     <script>
-       $(document).ready(function() {
+        // Định nghĩa hàm thêm sản phẩm vào giỏ hàng
+    function addToCart(productId, quantity) {
+        // Gửi yêu cầu POST tới endpoint "/add-to-cart/{productId}"
+        $.ajax({
+            type: "POST",
+            url: "/add-to-cart?productId=" + productId + "&quantity=" + quantity,
+            success: function(response) {
+                // $('#successToast').toast('show');
+                console.log("Sản phẩm đã được thêm vào giỏ hàng!, Số lượng: ", quantity);
+                $("#notification").html("Đã thêm sản phẩm vào giỏ hàng.").addClass("show");
+
+                // Cập nhật số lượng sản phẩm trong giỏ hàng trên giao diện
+                updateCartItemCount();
+                setTimeout(function() {
+                    $("#notification").removeClass("show");
+                }, 2000);
+            },
+            error: function(xhr, status, error) {
+                // Xử lý lỗi (nếu có)
+                console.error("Lỗi khi thêm sản phẩm vào giỏ hàng: " + error);
+            }
+        });
+    }
+
+    // cập nhật số lượng sản phẩm trong giỏ hàng trên giao diện
+    function updateCartItemCount() {
+        // Gửi yêu cầu GET tới endpoint "/cart-item-count"
+        $.ajax({
+            type: "GET",
+            url: "/cart-item-count",
+            success: function(response) {
+                // Cập nhật số lượng sản phẩm trong giỏ hàng trên giao diện
+                $("#cart-item-count").text(response);
+            },
+            error: function(xhr, status, error) {
+                // Xử lý lỗi (nếu có)
+                console.error("Lỗi khi cập nhật số lượng sản phẩm trong giỏ hàng: " + error);
+            }
+        });
+    }
+
+    // Sử dụng jQuery để bắt sự kiện click vào nút "Thêm vào giỏ hàng"
+    $(document).ready(function() {
         // Xác định trang hiện tại và thêm lớp active
         var currentLocation = window.location.pathname; // Lấy đường dẫn của trang hiện tại
         $('.header__menu li').removeClass('active'); // Loại bỏ lớp active từ tất cả các mục menu
@@ -95,7 +148,11 @@
                 $(this).closest('li').addClass('active'); // Thêm lớp active cho mục menu chứa liên kết đang xem
             }
         });
+        // $('.toast').toast(); // Kích hoạt Toast 
+        $(".add-to-cart-btn").click(function() {
+            var productId = $(this).closest(".product__item").find(".productIdCart").val();
+            addToCart(productId, 1);
+        });
+        updateCartItemCount();
     });
-
-
     </script>

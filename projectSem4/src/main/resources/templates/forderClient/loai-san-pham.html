@@ -181,7 +181,8 @@
                             <div class="product__item__pic set-bg" th:data-setbg="'/uploads/' + ${product.image}">
                                 <ul class="product__item__pic__hover">
                                     <li><a th:href="@{/san-pham/{path}(path=${product.path})}"><i class="fa fa-eye"></i></a></li>
-                                    <li><a th:href="@{/add-to-cart/{id}(id=${product.id})}"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <input type="hidden" class="productIdCart" th:value="${product.id}">
+                                    <li><button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i></button></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">

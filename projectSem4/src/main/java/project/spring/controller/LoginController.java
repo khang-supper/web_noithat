@@ -31,17 +31,16 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@ModelAttribute(name = "loginForm") Account accounts, Model model, HttpSession session, HttpServletRequest request) {
         String username = accounts.getUsername();
-        int id = accounts.getId();
         String password = accounts.getPassword();
 
-        String role = checkUserRole(username, password);
+        String role = checkUserRole(username, password);    
         if (role != null) {
             Account account = accountRepository.findByUserName(username);
             model.addAttribute("username", username);
             session.setAttribute("username", username); // Lưu username vào session
             session.setAttribute("accountId", account.getId());
             session.setAttribute("role", role);
-            return (role.equals("1")) ? "/admin/index" : "redirect:/";
+            return (role.equals("1")) ? "redirect:/admin" : "redirect:/";
         } else {
             model.addAttribute("error", "Incorrect UserName & Password");
             return "/forderClient/login";

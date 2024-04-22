@@ -44,28 +44,47 @@ public class CartRepository {
         }
     }
 
+     @SuppressWarnings("deprecation")
+     public List<Cart> findAll(int accountId){
+        return db.query("Select * from carts where accountId =? ",new Object[]{accountId}, new CartRowMapper());
+    }
+
     public List<Map<String, Object>> find(int accountId) {
-        String query = "SELECT i.path AS image_path, " +
-                       "p.name AS product_name," +
-                       "p.id AS product_id," +
-                       "p.price AS product_price," +
-                       "c.accountId AS user_id," +
-                       "c.quantity," +
+        String query = "SELECT i.path AS image, " +
+                       "p.name, " +
+                       "p.id AS productId, " +
+                       "p.price, " +
+                       "c.accountId, " +
+                       "c.quantity, " +
+                       "(p.price * c.quantity) AS total " + 
                        "FROM carts c " +
                        "JOIN products p ON c.productId = p.id " +
                        "JOIN image_products ip ON p.id = ip.productId AND ip.status = 1 " +
                        "JOIN images i ON ip.imageId = i.id " +
-                       "WHERE c.accountId = ?";
+                       "WHERE c.accountId = ? order by c.id desc";
         return db.queryForList(query, accountId);
     }
-
+    
+    public double getTotal(int accountId) {
+        String query = "SELECT SUM(p.price * c.quantity) AS total " +
+                       "FROM carts c " +
+                       "JOIN products p ON c.productId = p.id " +
+                       "WHERE c.accountId = ?";
+        return db.queryForObject(query, Double.class, accountId);
+    }
+    
     public int deleteById(int id) {
         return db.update("delete from carts where Id=?", new Object[] { id });
     }
 
+    public int deleteByAccountId(int accountId) {
+        return db.update("delete from carts where accountId=?", new Object[] { accountId });
+    }
+    
+
     public int insert(Cart newCart) {
-        return db.update("insert into carts (id, accountId, productId, quantity) " + "value(?,?,?,?)",
-                new Object[] { newCart.getId(), newCart.getAccountId(), newCart.getProductId(), newCart.getQuantity() });
+        return db.update("insert into carts (accountId, productId, quantity) " + "value(?,?,?)",
+                new Object[] {newCart.getAccountId(), newCart.getProductId(), newCart.getQuantity() });
     }
 
     public int update(Cart cart) {

@@ -108,11 +108,12 @@
                         <div class="product__details__quantity">
                             <div class="quantity">
                                 <div class="pro-qty">
-                                    <input type="text" value="1">
+                                    <input type="text" id="quantity-product" value="1">
+                                  </div>
                                 </div>
                             </div>
-                        </div>
-                        <a class="primary-btn">THÊM VÀO GIỎ</a>
+                         <input type="hidden" id="id-product" th:value="${product.id}">
+                        <button class="primary-btn add-to-cart-btn-detail">THÊM VÀO GIỎ</button>
                         <ul>
                             <li><b>Mã sản phẩm</b> <span>[[${product.code}]]</span></li>
                             <li><b>Chất liệu</b> <span th:text="${product.material}"></span></li>
@@ -342,6 +343,14 @@
     </section>
 
     <footer   th:replace="common/_footer_Client"></footer>
+    <script>
+      $(".add-to-cart-btn-detail").click(function() {
+            var quantity = $("#quantity-product").val();
+            var productId = $("#id-product").val();
+            // console.log(quantity, productId);
+            addToCart(productId, quantity);
+       });
+    </script>
     
 </body>
 </html>

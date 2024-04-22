@@ -60,21 +60,22 @@
                     <tr th:each="detail : ${orderDetail}">
                       <td>
                         <img
-                          th:src="${detail['product_image']}"
+                          th:src="'/uploads/' + ${detail['product_image']}"
                           alt="product image"
                           width="90"
                         />
+
                       </td>
                       <td><b th:text="${detail['product_name']}"></b></td>
                       <td th:text="${detail['product_code']}"></td>
                       <td th:text="${detail['quantity']}"></td>
-                      <td th:text="${detail['price']}"></td>
-                      <td th:text="${detail['totalPrice']}"></td>
+                      <td>[[${#numbers.formatDecimal(detail.price, 0, 'COMMA', 0, 'POINT')}]]đ</td>
+                      <td>[[${#numbers.formatDecimal(detail.totalPrice, 0, 'COMMA', 0, 'POINT')}]]đ</td>
                     </tr>
                     <tr>
                       <td colspan="4"></td>
                       <td><h4>Tổng cộng:</h4></td>
-                      <td><h4 th:text="${order.total}"></h4></td>
+                      <td><h4>[[${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'POINT')}]]đ</h4></td>
                     </tr>
                   </tbody>
                 </table>

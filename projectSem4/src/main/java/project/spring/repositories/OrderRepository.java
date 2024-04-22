@@ -1,7 +1,9 @@
 package project.spring.repositories;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import project.spring.model.Order;
+import project.spring.model.OrderDetail;
+
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 public class OrderRepository {
     private static OrderRepository _instance = null;
@@ -53,7 +59,7 @@ public class OrderRepository {
     }
 
     public List<Order> findAll() {
-        return db.query("select * from orders", new OrderRowMapper());
+        return db.query("select * from orders order by id desc", new OrderRowMapper());
     }
 
     @SuppressWarnings("deprecation")
@@ -83,11 +89,32 @@ public class OrderRepository {
     }
 
     public int insert(Order newOrder) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+    
+        db.update(con -> {
+            PreparedStatement ps = con.prepareStatement(
+                    "insert into orders (`code`, `accountId`, `orderDate`, `customerName`, `shippingAddress`, `shippingPhone`, `total`, `status`, `paymentStatus`, `paymentGateway`) values (?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, newOrder.getCode());
+            ps.setInt(2, newOrder.getAccountId());
+            ps.setString(3, newOrder.getCustomerName());
+            ps.setString(4, newOrder.getShippingAddress());
+            ps.setString(5, newOrder.getShippingPhone());
+            ps.setDouble(6, newOrder.getTotal());
+            ps.setString(7, newOrder.getStatus());
+            ps.setBoolean(8, newOrder.getPaymentStatus());
+            ps.setString(9, newOrder.getPaymentGateway());
+            return ps;
+        }, keyHolder);
+    
+        return keyHolder.getKey().intValue();
+    }
+    
+
+    public int insertDetail(OrderDetail newOrder) {
         return db.update(
-                "insert into orders (`code`, `accountId`, `orderDate`, `customerName`, `shippingAddress`, `shippingPhone`, `total`, `status`, `paymentStatus`, `paymentGateway`) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                new Object[] { newOrder.getCode(), newOrder.getAccountId(), newOrder.getOrderDate(), newOrder.getCustomerName(),
-                        newOrder.getShippingAddress(), newOrder.getShippingPhone(), newOrder.getTotal(),
-                        newOrder.getStatus(), newOrder.getPaymentStatus(), newOrder.getPaymentGateway() });
+                "insert into order_details (`orderId`, `productId`, `price`, `quantity`, `totalPrice`) values (?, ?, ?, ?, ?)",
+                new Object[] { newOrder.getOrderId(), newOrder.getProductId(), newOrder.getPrice(), newOrder.getQuantity(), newOrder.getTotalPrice()});
     }
 
     public int update(Order upOrder) {
@@ -101,6 +128,11 @@ public class OrderRepository {
     public int updateStatus(Order upOrder) {
         return db.update(
                 "update orders set status = ? where Id = ?", new Object[] {  upOrder.getStatus(), upOrder.getId() });
+    }
+
+    public int updatePaymentOrder(int orderId, String paymentGateway) {
+        return db.update(
+                "update orders set paymentGateway = ?, paymentStatus = true where Id = ?", new Object[] {  paymentGateway, orderId });
     }
 
     //lấy ra các order + các sản phẩm thuộc order
