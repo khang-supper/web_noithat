@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpServletRequest;
 import project.spring.model.Account;
 import project.spring.model.Discount;
+import project.spring.model.Product;
 import project.spring.repositories.AccountRepository;
 import project.spring.repositories.DiscountRepository;
+import project.spring.repositories.ProductRepository;
 
 @Controller
 @RequestMapping("/admin/discount")
@@ -29,6 +31,8 @@ public class DiscountController {
 
     @Autowired
 private AccountRepository accountRepository;
+@Autowired
+private ProductRepository productRepository;
     
 /////
 	private String getRole() {
@@ -50,6 +54,8 @@ return "forderAdmin/discount/discounts";
 @GetMapping("/add")
 public String showAddForm(Model model) {
     model.addAttribute("discount", new Discount());
+    List<Product> products = productRepository.findAll(); // Lấy danh sách loại sản phẩm
+    model.addAttribute("products", products);
      List<Account> accounts = accountRepository.findAll(); // Lấy danh sách loại sản phẩm
     model.addAttribute("accounts", accounts);
     return "forderAdmin/discount/add-discount";

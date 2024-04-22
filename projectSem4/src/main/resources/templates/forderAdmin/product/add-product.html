@@ -90,7 +90,6 @@ select.form-control {
             <div class="page-inner">
                 <!-- breadcrumbs -->
                 <div class="page-header">
-                    <h4 class="page-title">Avatars</h4>
                     <ul class="breadcrumbs">
                         <li class="nav-home">
                             <a href="/admin">
@@ -121,6 +120,7 @@ select.form-control {
                                 <form class="product-form"
                                     th:action="@{/admin/product/add}"
                                     th:object="${product}" method="post">
+                                    
                                     <div class="form-group">
                                         <label for="productName">Tên sản phẩm
                                             (*)</label>
@@ -209,10 +209,13 @@ select.form-control {
                                             hình ảnh</button>
                                         <img id="filePreview" src width="200px"
                                             class="card">
+                                            <div th:each="category: ${categorys}">
+                                                <!-- Assuming imagePath is the path to each image -->
+                                                <img th:src="@{/uploads/{image}(image=${category.image})}" width="200px" class="card">
+                                            </div>
                                         <div id="imageError"
                                             class="error-message"></div>
                                     </div>
-
                                     <div class="form-actions">
                                         <button type="submit"
                                             class="btn btn-primary">Lưu</button>

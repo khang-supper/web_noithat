@@ -95,7 +95,12 @@
 .account-form{
   text-align: center;
 }
-
+/* //////// */
+#history {
+        display: none;
+        /* additional styling */
+        text-align: center;
+    }
 
     </style>
   </head>
@@ -104,7 +109,7 @@
     <body>
       <div class="contenn">
         <div class="profile" th:each="account : ${accounts}">
-          <img src="avatar.jpg" alt="Ảnh đại diện">
+          <img th:src="'/uploads/' + ${account.avatar}" alt="Ảnh đại diện">
           <h2 th:text="${session.username}"></h2>
           <p th:if="${account != null}"
             th:text="${account.email}">huythietpro@gmail.com</p>
@@ -117,27 +122,35 @@
         </div>
         <div class="conten">
           <div class="contests">
-            <a href>Lịch sử mua hàng</a>
-          </div>
+            <a href="javascript:void(0)" onclick="toggleHistory()" style="color: black;">Lịch sử mua hàng</a>
+        </div>
           <div class="contests">
             <a id="account-button">Tài khoản</a>
           </div>
         </div>
         <!-- ////// -->
-        <div class="password-form" id="password-form" >
-            <!-- <form action="/changePassword" method="post">
-                <label for="currentPassword">Mật khẩu hiện tại:</label>
-                <input type="password" id="currentPassword" name="currentPassword"><br>
-                <label for="newPassword">Mật khẩu mới:</label>
-                <input type="password" id="newPassword" name="newPassword"><br>
-                <label for="confirmPassword">Xác nhận mật khẩu mới:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword"><br>
-                <button type="submit">Thay đổi mật khẩu</button>
-            </form> -->
-        </div>
+        <div id="history">
+          <h3>Lịch sử mua hàng</h3>
+          <ul>
+              <!-- <li th:each="orders : ${order}">
+                  <p th:text="${order.code}">nguyen vi khang</p>
+              </li> -->
+          </ul>
+      </div>
+      <!-- ////// -->
       </div>
 
     </body>
     <footer th:replace="common/_footer_Client"></footer>
+    <script>
+      function toggleHistory() {
+          var historyDiv = document.getElementById('history');
+          if (historyDiv.style.display === 'none') {
+              historyDiv.style.display = 'block';
+          } else {
+              historyDiv.style.display = 'none';
+          }
+      }
+      </script>
   </body>
 </html>

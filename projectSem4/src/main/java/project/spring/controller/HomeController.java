@@ -16,11 +16,13 @@ import project.spring.model.Account;
 import project.spring.model.Category;
 import project.spring.model.Image;
 import project.spring.model.News;
+import project.spring.model.Order;
 import project.spring.model.Product;
 import project.spring.repositories.AccountRepository;
 import project.spring.repositories.CategoryRepository;
 import project.spring.repositories.ImageRepository;
 import project.spring.repositories.NewsRepository;
+import project.spring.repositories.OrderRepository;
 import project.spring.repositories.ProductRepository;
 
 @Controller
@@ -245,11 +247,12 @@ public class HomeController {
 						@RequestParam(required = false) Double priceFrom,
 						@RequestParam(required = false) Double priceTo,
 						Model model) {
+		List<News> newsRecent = NewsRepository.Instance().findRecent();
 		List<Category> categories = CategoryRepository.Instance().findAll();
 		List<Map<String, Object>> productNew = productRepository.findNewProduct();		
 		List<Map<String, Object>> products = productRepository.find4ProductByCategory();		
 
-
+		model.addAttribute("newsRecent", newsRecent);
 		model.addAttribute("categories", categories); // Danh sách Loại sản phẩm
 		model.addAttribute("productNew", productNew); // Danh sách 6 sản phẩm mới
 		model.addAttribute("products", products); // Danh sách sản phẩm
@@ -257,9 +260,12 @@ public class HomeController {
 		return "Client/index";
 	}
 
+	// @Autowired
+	// private OrderRepository orderRepository;
 @GetMapping("/profile/{username}")
 public String profile(@PathVariable String username, Model model) {
     List<Account> accounts = accountRepository.findAccountsByUsername(username);
+	// List<Order> order = orderRepository.
     
         model.addAttribute("accounts", accounts);
         return "forderClient/profileUser/profile";

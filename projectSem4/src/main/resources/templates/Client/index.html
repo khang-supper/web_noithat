@@ -23,7 +23,7 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
                   <span>Tất cả danh mục</span>
                 </div>
                 <ul>
-                    <li th:each="category : ${categories}"><a th:href="@{/{url}(path=${category.path})}">[[${category.name}]]</a></li>
+                    <li th:each="category : ${categories}"><a th:href="@{/{path}(path=${category.path})}">[[${category.name}]]</a></li>
                 </ul>
               </div>
             </div>
@@ -68,11 +68,19 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
         <div class="container">
             <div class="row">
                 <div class="categories__slider owl-carousel">
-                    <div class="col-lg-3" th:each="product, iterStat : ${productNew}" th:if="${iterStat.index &lt; 6}" >
-                        <div class="categories__item set-bg" data-setbg="../../client/img/categories/cat-2.jpg" >
-                            <h5 th:text="${product.name}"><a href="#">Dried Fruit</a></h5>
+                    <div class="col-lg-3" th:each="category: ${categories}"  >
+                        <div class="categories__item set-bg" th:data-setbg="'/uploads/' + ${category.image}" >
+                            <h5 ><a th:href="@{/{path}(path=${category.path})}">[[${category.name}]]</a></h5>
                         </div>
                     </div>
+                    <!-- <div class="col-lg-3">
+                        <div
+                          class="categories__item set-bg"
+                          data-setbg="img/categories/cat-1.jpg"
+                        >
+                          <h5><a href="#">Fresh Fruit</a></h5>
+                        </div>
+                      </div> -->
                 </div>
             </div>
         </div>
@@ -146,17 +154,33 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
                     <div class="latest-product__text">
                         <h4>Sản phẩm mới</h4>
                         <div class="latest-product__slider owl-carousel" >
-                            <div class="latest-prdouct__slider__item" th:each="product, iterStat : ${products}" th:if="${iterStat.index &lt; 3}">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="../../client/img/latest-product/lp-1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6 th:text="${product.name}">Crab Pool Security</h6>
-                                        <span th:text="${product.price}">$30.00</span>
-                                    </div>
-                                </a>
-                              
+                            <div class="latest-prdouct__slider__item" >
+                                <div th:each="product, iterStat : ${productNew}" th:if="${iterStat.index &lt; 3}">
+                                    <!-- Hiển thị sản phẩm -->
+                                    <a th:href="@{'/san-pham/' + ${product.path}}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img th:src="'/uploads/' + ${product.image}" alt="" />
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6 th:text="${product.name}"></h6>
+                                            <span>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="latest-prdouct__slider__item" >
+                                <div th:each="product, iterStat : ${productNew}" th:if="${iterStat.index >= 3 and iterStat.index < 6 }">
+                                    <!-- Hiển thị sản phẩm -->
+                                    <a th:href="@{'/san-pham/' + ${product.path}}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img th:src="'/uploads/' + ${product.image}" alt="" />
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6 th:text="${product.name}"></h6>
+                                            <span>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                           
                         </div>
@@ -166,16 +190,33 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
                     <div class="latest-product__text">
                         <h4>Sản phẩm đang sale</h4>
                         <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item" th:each="product, iterStat : ${products}" th:if="${iterStat.index >= 3 and iterStat.index <6 }"> 
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="../../client/img/latest-product/lp-1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6 th:text="${product.name}">Crab Pool Security</h6>
-                                        <span th:text="${product.price}">$30.00</span>
-                                    </div>
-                                </a>
+                            <div class="latest-prdouct__slider__item" >
+                                <div th:each="product, iterStat : ${products}" th:if="${iterStat.index >= 6 and iterStat.index < 9 }">
+                                    <!-- Hiển thị sản phẩm -->
+                                    <a th:href="@{'/san-pham/' + ${product.path}}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img th:src="'/uploads/' + ${product.image}" alt="" />
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6 th:text="${product.name}"></h6>
+                                            <span>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                        </div>
+                                    </a>
+                                </div> 
+                            </div>
+                            <div class="latest-prdouct__slider__item" >
+                                <div th:each="product, iterStat : ${products}" th:if="${iterStat.index >= 9 and iterStat.index < 12 }">
+                                    <!-- Hiển thị sản phẩm -->
+                                    <a th:href="@{'/san-pham/' + ${product.path}}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img th:src="'/uploads/' + ${product.image}" alt="" />
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6 th:text="${product.name}"></h6>
+                                            <span>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                        </div>
+                                    </a>
+                                </div> 
                             </div>
                         </div>
                     </div>
@@ -184,16 +225,34 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
                     <div class="latest-product__text">
                         <h4>sản phẩm hot nhất năm</h4>
                         <div class="latest-product__slider owl-carousel">
-                            <div class="latest-prdouct__slider__item" th:each="product, iterStat : ${products}" th:if="${iterStat.index >= 6 and iterStat.index <12 }">
-                                <a href="#" class="latest-product__item">
-                                    <div class="latest-product__item__pic">
-                                        <img src="../../client/img/latest-product/lp-1.jpg" alt="">
-                                    </div>
-                                    <div class="latest-product__item__text">
-                                        <h6 th:text="${product.name}">Crab Pool Security</h6>
-                                        <span th:text="${product.price}">$30.00</span>
-                                    </div>
-                                </a>
+                            <div class="latest-prdouct__slider__item" >
+                                <div th:each="product, iterStat : ${products}" th:if="${iterStat.index >= 12 and iterStat.index < 15 }">
+                                    <!-- Hiển thị sản phẩm -->
+                                    <a th:href="@{'/san-pham/' + ${product.path}}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img th:src="'/uploads/' + ${product.image}" alt="" />
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6 th:text="${product.name}"></h6>
+                                            <span>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                        </div>
+                                    </a>
+                                </div> 
+                            </div>
+                            <div class="latest-prdouct__slider__item" >
+                                <div th:each="product, iterStat : ${products}" th:if="${iterStat.index >= 15 and iterStat.index < 18 }">
+                                    <!-- Hiển thị sản phẩm -->
+                                    <a th:href="@{'/san-pham/' + ${product.path}}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img th:src="'/uploads/' + ${product.image}" alt="" />
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6 th:text="${product.name}"></h6>
+                                            <span>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                        </div>
+                                    </a>
+                                </div> 
+                            </div>
                                
                             </div>
                             
@@ -211,15 +270,15 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title from-blog__title">
-                        <h2>From The Blog</h2>
+                        <h2>Bình luận </h2>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-6" >
-                    <div class="blog__item"  >
+                    <div class="blog__item" th:each="news, iterStat : ${newsRecent}" th:if="${iterStat.index &lt; 1}" >
                         <div class="blog__item__pic" >
-                            <img src="../../client/img/blog/blog-1.jpg" alt="">
+                            <img th:src="'/uploads/' + ${news.image}" alt="">
                         </div>
                         <div class="blog__item__text">
                             <ul>
@@ -227,7 +286,37 @@ xmlns:layout="http://www.thymeleaf.org/thymeleaf-extras-layout">
                                 <li><i class="fa fa-comment-o"></i> 5</li>
                             </ul>
                             <h5 ><a href="#" ></a></h5>
-                            <p>Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+                            <p th:text="${news.description}">Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6" >
+                    <div class="blog__item" th:each="news, iterStat : ${newsRecent}" th:if="${iterStat.index >= 1 and iterStat.index < 2 }" >
+                        <div class="blog__item__pic" >
+                            <img th:src="'/uploads/' + ${news.image}" alt="">
+                        </div>
+                        <div class="blog__item__text">
+                            <ul>
+                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+                                <li><i class="fa fa-comment-o"></i> 5</li>
+                            </ul>
+                            <h5 ><a href="#" ></a></h5>
+                            <p th:text="${news.description}">Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6" >
+                    <div class="blog__item" th:each="news, iterStat : ${newsRecent}" th:if="${iterStat.index >= 2 and iterStat.index < 3 }" >
+                        <div class="blog__item__pic" >
+                            <img th:src="'/uploads/' + ${news.image}" alt="">
+                        </div>
+                        <div class="blog__item__text">
+                            <ul>
+                                <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+                                <li><i class="fa fa-comment-o"></i> 5</li>
+                            </ul>
+                            <h5 ><a href="#" ></a></h5>
+                            <p th:text="${news.description}">Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam quaerat </p>
                         </div>
                     </div>
                 </div>
