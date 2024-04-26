@@ -73,7 +73,7 @@ a:hover{
 }
 .header-main h1 {
     font-size: 64px;
-    color: #050505;
+    color: #7E4922;
     text-align: center;
     padding-bottom: 0.8em;
 }
@@ -96,7 +96,7 @@ span.hed-white {
     color: #fff;
     font-family: 'Roboto Condensed', sans-serif;
     text-align: center;
-    background:#ff3366;
+    background:#7E4922;
     width: 40px;
     height: 40px;
     line-height: 1.7em;
@@ -145,7 +145,7 @@ span.login-color {
   display: inline-block;
 }
 .header-left-bottom input[type="submit"] {
-    background: #ff3366;
+    background: #7E4922;
     color: #FFF;
     font-size: 26px;
     padding: 0.3em 1.2em;
@@ -479,7 +479,7 @@ span.sin-color {
     color:#efe8e8;
 }
 .forgot h6 a:hover{
-    color:#ff3366;
+    color:#7E4922;
 }
 .log-user h6 {
     font-size: 1em;
@@ -566,7 +566,7 @@ span.sin-color {
   color: #fff;
 }
 .copyright p a:hover{
-	color:#ff3366;
+	color:#7E4922;
 	text-decoration:none;
 }
 /*--footer end here--*/

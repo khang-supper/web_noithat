@@ -923,6 +923,43 @@ ol {
   -ms-transition: all, 0.3s;
   -o-transition: all, 0.3s;
   transition: all, 0.3s;
+} 
+.featured__item__pic__hover li:hover button {
+  background: #7E4922;
+  border-color: #7E4922;
+}
+
+.featured__item__pic__hover li:hover button i {
+  color: #ffffff;
+  transform: rotate(360deg);
+}
+
+.featured__item__pic__hover li button {
+  font-size: 16px;
+  color: #1c1c1c;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  text-align: center;
+  border: 1px solid #ebebeb;
+  background: #ffffff;
+  display: block;
+  border-radius: 50%;
+  -webkit-transition: all, 0.5s;
+  -moz-transition: all, 0.5s;
+  -ms-transition: all, 0.5s;
+  -o-transition: all, 0.5s;
+  transition: all, 0.5s;
+}
+
+.featured__item__pic__hover li button i {
+  position: relative;
+  transform: rotate(0);
+  -webkit-transition: all, 0.3s;
+  -moz-transition: all, 0.3s;
+  -ms-transition: all, 0.3s;
+  -o-transition: all, 0.3s;
+  transition: all, 0.3s;
 }
 
 .featured__item__text {

@@ -65,9 +65,6 @@
                           <td th:text="${account.status}">Trạng thái</td> 
                           <td>
                             <div class="form-button-action">
-                              <button type="button" data-toggle="tooltip" title="Chỉnh sửa" class="btn btn-link btn-primary btn-lg edit-btn" data-original-title="Chỉnh sửa" th:data-account-id="${account.id}">
-                                <i class="fa fa-edit"></i>
-                              </button>
                               <button type="button" title="Xóa" class="btn btn-link btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal" th:data-account-id="${account.id}">
                                 <i class="fa fa-times"></i>
                               </button>

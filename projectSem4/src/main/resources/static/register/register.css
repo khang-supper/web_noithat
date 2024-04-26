@@ -58,7 +58,7 @@ a:hover {
 
 .header-main h1 {
     font-size: 64px;
-    color: #3b5d50;
+    color: #7E4922;
     text-align: center;
     padding-bottom: 0.8em;
 }
@@ -68,7 +68,7 @@ a:hover {
 }
 
 span.hed-white {
-    color: #3b5d50;
+    color: #7E4922;
 }
 
 .style1 {
@@ -77,16 +77,16 @@ span.hed-white {
 }
 
 .header-left {
-    background: #3b5d50;
+    background: #7E4922;
     padding: 0px;
 }
 
 .sign-up h2 {
     font-size: 22px;
-    color: #3b5d50;
+    color: #7E4922;
     font-family: 'Roboto Condensed', sans-serif;
     text-align: center;
-    background: #3b5d50;
+    background: #7E4922;
     width: 40px;
     height: 40px;
     line-height: 1.7em;
@@ -99,14 +99,14 @@ span.hed-white {
 .header-left-bottom h3 {
     font-size: 16px;
     font-weight: 400;
-    color: #3b5d50;
+    color: #7E4922;
     line-height: 1.5em;
     margin: 0px 0px 25px 0px;
     font-family: 'Roboto Condensed', sans-serif;
 }
 
 span.login-color {
-    color: #3b5d50;
+    color: #7E4922;
     font-weight: 700;
 }
 
@@ -115,10 +115,10 @@ span.login-color {
     outline: none;
     font-size: 15px;
     font-weight: 400;
-    color: #3b5d50;
+    color: #7E4922;
     padding: 12px 13px 20px 44px;
     border: none;
-    border-bottom: 1px solid #3b5d50;
+    border-bottom: 1px solid #7E4922;
     width: 100%;
     margin: 0 0 20px;
     display: inline-block;
@@ -129,9 +129,9 @@ span.login-color {
     outline: none;
     font-size: 15px;
     font-weight: 400;
-    color: #3b5d50;
+    color: #7E4922;
     border: none;
-    border-bottom: 1px solid #3b5d50;
+    border-bottom: 1px solid #7E4922;
     padding: 12px 13px 20px 44px;
     width: 100%;
     margin: 0 0 20px;
@@ -177,7 +177,7 @@ input[type="password"] {
 button[type="submit"] {
     width: 100%;
     padding: 10px;
-    background-color: #3b5d50;
+    background-color: #7E4922;
     border: none;
     border-radius: 5px;
     color: white;
@@ -186,7 +186,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #3b5d50;
+    background-color: #7E4922;
 }
 
 /* Điều chỉnh kiểu cho checkbox và quên mật khẩu */
@@ -225,18 +225,18 @@ button[type="submit"]:hover {
     position: absolute;
     top: -1px;
     left: 2px;
-    color: #3b5d50;
+    color: #7E4922;
 }
 
 /* Điều chỉnh kiểu cho link "Bạn đã có tài khoản?" */
 .forgot h6 a {
-    color: #3b5d50;
+    color: #7E4922;
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .forgot h6 a:hover {
-    color: #3b5d50;
+    color: #7E4922;
 }
 
 /*--meadia quries end here--*/

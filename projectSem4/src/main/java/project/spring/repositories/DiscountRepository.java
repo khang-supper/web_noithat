@@ -4,6 +4,7 @@ package project.spring.repositories;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -54,15 +55,26 @@ public class DiscountRepository {
     public int insert(Discount newDiscount) {
     return jdbcTemplate.update("INSERT INTO discounts (name, startDate, endDate, accountId) VALUES (?,?, ?, ?)",
             new Object[] { newDiscount.getName(), newDiscount.getStartDate(), newDiscount.getEndDate(), newDiscount.getAccountId()});
-}
+    }
 
-public int update(Discount upPro) {
-    return jdbcTemplate.update("UPDATE discounts SET name = ?, startDate = ?, endDate = ?, accountId = ?, WHERE Id = ?",
-            new Object[] { upPro.getName(), upPro.getStartDate(), upPro.getEndDate(), upPro.getAccountId(), upPro.getId() });
-}
+    public int update(Discount upPro) {
+        return jdbcTemplate.update("UPDATE discounts SET name = ?, startDate = ?, endDate = ?, accountId = ? WHERE Id = ?",
+                new Object[] { upPro.getName(), upPro.getStartDate(), upPro.getEndDate(), upPro.getAccountId(), upPro.getId() });
+    }
+    
 
-public int deleteById(int id) {
-    return jdbcTemplate.update("UPDATE discounts SET name = 1  WHERE Id = ?", new Object[] { id });
-}
+    public int deleteById(int id) {
+        return jdbcTemplate.update("UPDATE discounts SET name = 1  WHERE Id = ?", new Object[] { id });
+    }
+    public List<Map<String, Object>> showDiscount(){
+        String query = "SELECT d.*, dp.discountPrice, p.name AS productName, p.price AS productPrice, i.path AS imagePath " +
+                        "FROM discounts d " +
+                        "INNER JOIN discount_products dp ON d.id = dp.discountId " +
+                        "INNER JOIN products p ON dp.productId = p.id " +
+                        "INNER JOIN image_products ip ON p.id = ip.productId " +
+                        "INNER JOIN images i ON ip.imageId = i.id AND ip.status = 1 " +
+                        "WHERE d.startDate < CURDATE() AND d.endDate > CURDATE()";
+        return jdbcTemplate.queryForList(query);                
+    }
 
 }

@@ -3,6 +3,7 @@ package project.spring.repositories;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -48,10 +49,43 @@ public class CommentRepository {
         return db.query("select * from comments order by id desc", new CommentRowMapper());
     }
 
+    public List<Map<String, Object>> findByProduct(int productId) {
+        String sql =   "SELECT c.*, a.fullName " +
+                        "FROM comments c " +
+                        "INNER JOIN accounts a ON c.accountId = a.id " +
+                        "WHERE c.productId = ? " +
+                        "ORDER BY c.id DESC";
+                        
+        return db.queryForList(sql, new Object[] { productId });
+    }
+
+    public double avgStart(int productId) {
+        String sql = "SELECT ROUND(AVG(ratingStar), 1) AS avgStar FROM comments WHERE productId = ?";
+        List<Double> results = db.queryForList(sql, Double.class, productId);
+        if (results.isEmpty()) {
+            return 0.0; 
+        }
+        return results.get(0);
+    }
     
 
     public int insert(Comment newComment) {
-        return db.update("insert into comments (ratingStar, content, accountId, producId)" + "value(?,?,?,?)",
+        return db.update("insert into comments (ratingStar, content, accountId, productId) values (?,?,?,?)",
                 new Object[] { newComment.getRatingStar(), newComment.getContent(), newComment.getAccountId(), newComment.getProductId() });
     }
+
+    public boolean hasPurchasedProduct(int accountId, int productId) {
+        // Viết truy vấn SQL để kiểm tra xem người dùng có mua sản phẩm không
+        String sql = "SELECT COUNT(*) FROM orders o " +
+                     "JOIN order_details od ON o.id = od.orderId " +
+                     "WHERE o.accountId = ? AND od.productId = ?";
+        
+        // Thực hiện truy vấn và kiểm tra kết quả
+        int count = db.queryForObject(sql, Integer.class, accountId, productId);
+        
+        // Trả về true nếu người dùng đã mua sản phẩm, ngược lại trả về false
+        return count > 0;
+    }
+    
+    
 }

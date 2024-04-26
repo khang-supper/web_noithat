@@ -21,7 +21,7 @@
           <h4 class="page-title">Thống kê</h4>
           <ul class="breadcrumbs">
             <li class="nav-home">
-              <a href="#">
+              <a href="/admin">
                 <i class="flaticon-home"></i>
               </a>
             </li>
@@ -29,13 +29,13 @@
               <i class="flaticon-right-arrow"></i>
             </li>
             <li class="nav-item">
-              <a href="#">Base</a>
+              <a href="/admin/order">Đơn hàng</a>
             </li>
             <li class="separator">
               <i class="flaticon-right-arrow"></i>
             </li>
             <li class="nav-item">
-              <a href="#">Avatars</a>
+              <a href="/admin/order/report">Thống kê bán hàng</a>
             </li>
           </ul>
         </div>
@@ -182,6 +182,7 @@
         var revenueData = []; //Mảng chứa doanh thu tương ứng với mỗi ngày
         var totalOrders = 0; //Tổng số đơn hàng
         var totalRevenue = 0; //Tổng số Doanh thu
+        totalRevenue = totalRevenue.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
 
         // Cập nhật tổng số lượng đơn hàng, doanh thu vào thẻ <span id="totalOrders"></span>
         document.getElementById("totalOrders").innerText = totalOrders;
@@ -393,6 +394,7 @@
       }
       totalOrders = ordersData.reduce((acc, number) => acc + number, 0 );
       totalRevenue = revenueData.reduce((acc, number) => acc + number, 0 );
+      totalRevenue = totalRevenue.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
       //console.log(totalOrders);
       document.getElementById("totalOrders").innerText = totalOrders;
       document.getElementById("totalRevenue").innerText = totalRevenue;

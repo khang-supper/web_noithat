@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import project.spring.model.Account;
 import project.spring.model.Discount;
 import project.spring.model.Product;
@@ -33,16 +34,7 @@ public class DiscountController {
 private AccountRepository accountRepository;
 @Autowired
 private ProductRepository productRepository;
-    
-/////
-	private String getRole() {
-        return (String) request.getSession().getAttribute("role");
-    }
-    private boolean isAdmin() {
-        String role = getRole();
-        return role != null && role.equals("1");
-    }
-////////
+
 @GetMapping("")
 public String getAlldiscounts(Model model) {
     List<Discount> discounts = discountRepository.findAll();
@@ -62,7 +54,9 @@ public String showAddForm(Model model) {
 }
 
 @PostMapping("/add")
-public String adddiscount(@ModelAttribute("discount") Discount discount) {
+public String adddiscount(@ModelAttribute("discount") Discount discount, HttpSession session) {
+    Integer accountId = (Integer) session.getAttribute("accountId");
+    discount.setAccountId(accountId);
     discountRepository.insert(discount);
     return "redirect:/admin/discount";
 }

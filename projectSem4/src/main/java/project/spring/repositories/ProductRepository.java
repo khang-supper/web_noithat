@@ -43,7 +43,7 @@ public final class ProductRepository {
     }
 
     public List<Map<String, Object>> findAll2() {
-        return jdbcTemplate.queryForList("SELECT p.id, p.name, p.price, p.path, i.path AS image " +
+        return jdbcTemplate.queryForList("SELECT p.id, p.name, p.price, p.code, p.isDelete, p.path, i.path AS image " +
                                         "FROM products p " +
                                         "JOIN image_products ip ON p.id = ip.productId " +
                                         "JOIN images i ON ip.imageId = i.id " +

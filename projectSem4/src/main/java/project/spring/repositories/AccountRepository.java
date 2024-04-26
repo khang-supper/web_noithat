@@ -62,23 +62,28 @@ public class AccountRepository {
     public int insert(Account newAccount) {
     return jdbcTemplate.update("INSERT INTO accounts (Username, Password, Email, FullName, Phone,Address, Avatar, Role) VALUES (?,?, ?, ?, ?, ?, ?, ?)",
             new Object[] { newAccount.getUsername(), newAccount.getPassword(), newAccount.getEmail(), newAccount.getFullName(), newAccount.getPhone(),newAccount.getAddress(), newAccount.getAvatar(), newAccount.getRole() });
-}
+    }
 
-public int update(Account upPro) {
-    return jdbcTemplate.update("UPDATE accounts SET Username = ?, Email = ?, FullName = ?, Phone = ?,Address=?, Role = ? WHERE Id = ?",
-            new Object[] { upPro.getUsername(), upPro.getEmail(), upPro.getFullName(), upPro.getPhone(),upPro.getAddress(), upPro.getRole(), upPro.getId() });
-}
+    public int update(Account upPro) {
+        return jdbcTemplate.update("UPDATE accounts SET Username = ?, Email = ?, FullName = ?, Phone = ?,Address=?, Role = ? WHERE Id = ?",
+                new Object[] { upPro.getUsername(), upPro.getEmail(), upPro.getFullName(), upPro.getPhone(),upPro.getAddress(), upPro.getRole(), upPro.getId() });
+    }
 
-public int deleteById(int id) {
-    return jdbcTemplate.update("UPDATE accounts SET Status = false WHERE Id = ?", new Object[] { id });
-}
+    public int deleteById(int id) {
+        return jdbcTemplate.update("UPDATE accounts SET Status = false WHERE Id = ?", new Object[] { id });
+    }
 
-public Account findByUserName(String username) {
-    return jdbcTemplate.queryForObject("select * from accounts where username=?", new AccountRowMapper(), new Object[] { username });
-}
+    public Account findByUserName(String username) {
+        return jdbcTemplate.queryForObject("select * from accounts where username=?", new AccountRowMapper(), new Object[] { username });
+    }
 
-public List<Account> findAccountsByUsername(String username) {
-    return jdbcTemplate.query("select * from accounts where username=?", new AccountRowMapper(), new Object[] { username });
-}
+    public List<Account> findAccountsByUsername(String username) {
+        return jdbcTemplate.query("select * from accounts where username=?", new AccountRowMapper(), new Object[] { username });
+    }
+    
+    public int updateUser(Account upPro) {
+        return jdbcTemplate.update("UPDATE accounts SET  Email = ?, FullName = ?, Phone = ?,Address=?, Role = ? WHERE Username = ?",
+                new Object[] { upPro.getUsername(), upPro.getEmail(), upPro.getFullName(), upPro.getPhone(),upPro.getAddress(), upPro.getRole(), upPro.getId() });
+    }
 
 }

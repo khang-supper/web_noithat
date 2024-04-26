@@ -85,19 +85,19 @@
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>Họ và tên<span>*</span></p>
-                                    <input type="text" name="customerName" required>
+                                    <input type="text" name="customerName" th:value="${account.fullName}" required>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>Số điện thoại<span>*</span></p>
-                                    <input type="text" name="shippingPhone" required>
+                                    <input type="text" name="shippingPhone" th:value="${account.phone}" required>
                                 </div>
                             </div>
                         </div>
                         <div class="checkout__input">
                             <p>Địa chỉ<span>*</span></p>
-                            <input type="text" name="shippingAddress" placeholder="Nhập đầy đủ địa chỉ" required>
+                            <input type="text" name="shippingAddress" placeholder="Nhập đầy đủ địa chỉ" th:value="${account.address}" required>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">
@@ -190,7 +190,8 @@
                         clearCart();
                         $("#notification").html("Đơn hàng đã được tạo thành công.").addClass("show");
                         setTimeout(function() {
-                            window.location.href = "/";
+                            var url = "/dat-hang/order_return?orderId="+response.orderId;
+                            window.location.href = url;
                         }, 3000);
                     },
                     error: function (e) {

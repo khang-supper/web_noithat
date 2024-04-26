@@ -42,7 +42,7 @@ public class LoginController {
             session.setAttribute("role", role);
             return (role.equals("1")) ? "redirect:/admin" : "redirect:/";
         } else {
-            model.addAttribute("error", "Incorrect UserName & Password");
+            model.addAttribute("error", "Tên người dùng hoặc mật khẩu không chính xác");
             return "/forderClient/login";
         }
         

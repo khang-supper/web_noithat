@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import project.spring.model.Account;
 import project.spring.model.Cart;
 import project.spring.model.Category;
 import project.spring.model.Order;
@@ -120,7 +121,9 @@ public class CartController {
         if(accountId != null){
             List<Category> categories = CategoryRepository.Instance().findAll();
             List<Map<String, Object>> cart = CartRepository.Instance().find(accountId);
+            Account account = accountRepository.findById(accountId);
             double total = CartRepository.Instance().getTotal(accountId);
+            model.addAttribute("account", account);
             model.addAttribute("carts", cart);
             model.addAttribute("total", total);
             session.setAttribute("totalOrder", total);
@@ -193,12 +196,25 @@ public class CartController {
     ){
         Integer orderId = (Integer) session.getAttribute("orderId");
         OrderRepository.Instance().updatePaymentOrder(orderId, vnpCode);
-        List<Map<String, Object>> orders = OrderRepository.Instance().getProuctWithOrderDetail(orderId);
-        model.addAttribute("orders", orders);
+        Order order = OrderRepository.Instance().findById(orderId);
+        List<Map<String, Object>> orderDetail = OrderRepository.Instance().getProuctWithOrderDetail(orderId);
+        model.addAttribute("order", order);
+        model.addAttribute("orderDetail", orderDetail);
         model.addAttribute("bankCode", bankCode);
         model.addAttribute("vnpCode", vnpCode);
         model.addAttribute("amount", amount);
         return "forderClient/vnpay_return";
+    }
+
+    @GetMapping("/dat-hang/order_return")
+    public String getOrderReturn(@RequestParam(value = "orderId") int orderId, Model model
+    ){
+        Order order = OrderRepository.Instance().findById(orderId);
+        List<Map<String, Object>> orderDetail = OrderRepository.Instance().getProuctWithOrderDetail(orderId);
+        model.addAttribute("order", order);
+        model.addAttribute("orderDetail", orderDetail);
+
+        return "forderClient/order_return";
     }
 
 

@@ -1,6 +1,7 @@
 package project.spring.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import jakarta.servlet.http.HttpServletRequest;
 import project.spring.model.Category;
 import project.spring.model.Product;
 import project.spring.repositories.CategoryRepository;
@@ -21,24 +21,13 @@ import project.spring.repositories.ProductRepository;
 @Controller
 @RequestMapping("/admin/product")
 public class ProductController {
-  @Autowired
-    private HttpServletRequest request;
 
     @Autowired
     private ProductRepository productRepository;
     
-/////
-	private String getRole() {
-        return (String) request.getSession().getAttribute("role");
-    }
-    private boolean isAdmin() {
-        String role = getRole();
-        return role != null && role.equals("1");
-    }
-////////
 @GetMapping("")
 public String getAllCategories(Model model) {
-    List<Product> products = productRepository.findAll();
+    List<Map<String, Object>> products = productRepository.findAll2();
     model.addAttribute("products", products);
 return "forderAdmin/product/products";
 }

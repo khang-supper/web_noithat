@@ -145,6 +145,17 @@ public class OrderRepository {
         return db.queryForList(query);
     }
     
+    //Lấy ra đơn hàng theo account
+    public List<Map<String, Object>> getOrdersAccount(String username){
+        String query =  "SELECT o.*, GROUP_CONCAT(p.name SEPARATOR ',') AS product_names " +
+                        "FROM orders o " +
+                        "JOIN order_details od ON o.id = od.orderId " +
+                        "JOIN products p ON od.productId = p.id " +
+                        "JOIN accounts a ON o.accountId = a.id " +
+                        "WHERE a.username = ? " +
+                        "GROUP BY o.id Order by id desc";
+                return db.queryForList(query, username);
+    }
     //lấy ra chi tiết order, tên mã sản phẩm, ảnh, kích thước trog chi tiết đó
     public List<Map<String, Object>> getProuctWithOrderDetail(int id){
         String query = "SELECT " +

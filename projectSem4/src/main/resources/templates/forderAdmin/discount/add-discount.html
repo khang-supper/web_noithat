@@ -26,7 +26,7 @@
               <i class="flaticon-right-arrow"></i>
             </li>
             <li class="nav-item">
-              <a href="/admin/discount/add">trang chương trình khuyến mãi</a>
+              <a href="/admin/discount/add"> Chương trình khuyến mãi</a>
             </li>
           </ul>
         </div>
@@ -38,12 +38,12 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Tiêu đề mục</h4>
+                <h4 class="card-title">Thêm khuyến mãi</h4>
                 
               </div>
               <!-- content body -->
               <div class="card-body">
-                <form action="#" th:action="@{/admin/discount/add}" th:object="${discount}" method="post">
+                <form th:action="@{/admin/discount/add}" th:object="${discount}" method="post">
                   <!-- <div class="form-group">
                     <label for="category">chọn sản
                       phẩm sẽ khuyến mãi</label>
@@ -60,7 +60,7 @@
                             type="text"
                             class="form-control"
                             id="name" 
-                            placeholder="Nhập tên sản phẩm khuyến mãi"
+                            placeholder="Nhập chương trình khuyến mãi"
                             th:field="*{name}"
                         />
                     </div>
@@ -92,7 +92,7 @@
                         </select> -->
                     </div>
                     <hr>
-                    <button type="submit" style="background-color: blue; color: azure;">Thêm chương trình khuyến mãi.</button>
+                    <button type="submit" class="btn btn-primary">Lưu.</button>
                 </form>
               </div>
               <!-- end content body -->

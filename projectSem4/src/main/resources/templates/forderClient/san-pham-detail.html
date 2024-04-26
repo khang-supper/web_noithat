@@ -96,13 +96,18 @@
                     <div class="product__details__text">
                         <h3 th:text="${product.name}"></h3>
                         <div class="product__details__rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half-o"></i>
-                            <span>(18 reviews)</span>
-                        </div>
+                          <!-- Loop to display filled stars (maximum 5 stars) -->
+                          <span th:each="star : ${#numbers.sequence(1, avgStart)}" th:if="${star &lt;= 5}">
+                              <i class="fa fa-star"></i>
+                          </span>
+                          <!-- If avgStart has a fractional part, display a half star -->
+                          <span th:if="${avgStart % 1 != 0 && avgStart > 0}">
+                              <i class="fa fa-star-half-o"></i>
+                          </span>
+                          <span>(<span th:text="${#lists.size(comments)}"></span> lượt đánh giá)</span>
+                       </div>
+                      
+                      
                         <div class="product__details__price">[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</div>
                         <p th:text="${product.description}"></p>
                         <div class="product__details__quantity">
@@ -139,7 +144,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
-                                    aria-selected="false">Đánh giá <span>(1)</span></a>
+                                    aria-selected="false">Đánh giá (<span th:text="${#lists.size(comments)}"></span>)</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -155,114 +160,46 @@
             
                                 <div class="col-lg-6 reviews_col">
                                   <div class="tab_title reviews_title">
-                                    <h4>Reviews (2)</h4>
+                                    <h4>Đánh giá [[${avgStart}]]/5</h4>
                                   </div>
             
                                   <!-- User Review -->
             
-                                  <div
-                                    class="user_review_container d-flex flex-column flex-sm-row"
-                                  >
+                                  <div class="user_review_container d-flex flex-column flex-sm-row" th:each="comment : ${comments}">
                                     <div class="user">
                                       <div class="user_pic"></div>
                                       <div class="user_rating">
                                         <ul class="star_rating">
-                                          <li>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                          </li>
-                                          <li>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                          </li>
-                                          <li>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                          </li>
-                                          <li>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                          </li>
-                                          <li>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                                          <!-- Loop to display star rating (maximum 5 stars) -->
+                                          <li th:each="star : ${#numbers.sequence(1, 5)}">
+                                              <!-- Check if ratingStar is greater than or equal to the current star index -->
+                                              <i class="fa fa-star" aria-hidden="true" th:if="${comment.ratingStar &gt;= star}"></i>
+                                              <!-- If ratingStar is less than the current star index, display an empty star -->
+                                              <i class="fa fa-star-o" aria-hidden="true" th:unless="${comment.ratingStar &gt;= star}"></i>
                                           </li>
                                         </ul>
                                       </div>
                                     </div>
                                     <div class="review">
-                                      <div class="review_date">27 Aug 2016</div>
-                                      <div class="user_name">Brandon William</div>
-                                      <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                                        elit, sed do eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua.
-                                      </p>
+                                      <div class="review_author" th:text="${comment.fullName}"></div>
+                                      <p th:text="${comment.content}"></p>
+                                      <!-- Display review author -->
                                     </div>
                                   </div>
-            
-                                  <!-- User Review -->
-            
-                                  <div
-                                    class="user_review_container d-flex flex-column flex-sm-row"
-                                  >
-                                    <div class="user">
-                                      <div class="user_pic"></div>
-                                      <div class="user_rating">
-                                        <ul class="star_rating">
-                                          <li>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                          </li>
-                                          <li>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                          </li>
-                                          <li>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                          </li>
-                                          <li>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                          </li>
-                                          <li>
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </div>
-                                    <div class="review">
-                                      <div class="review_date">27 Aug 2016</div>
-                                      <div class="user_name">Brandon William</div>
-                                      <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                                        elit, sed do eiusmod tempor incididunt ut labore et
-                                        dolore magna aliqua.
-                                      </p>
-                                    </div>
-                                  </div>
+
                                 </div>
+
+                                <!-- end  -->
             
                                 <!-- Add Review -->
             
                                 <div class="col-lg-6 add_review_col">
                                   <div class="add_review">
-                                    <form id="review_form" action="post">
+                                    <form id="review_form">
                                       <div>
-                                        <h1>Add Review</h1>
-                                        <input
-                                          id="review_name"
-                                          class="form_input input_name"
-                                          type="text"
-                                          name="name"
-                                          placeholder="Name*"
-                                          required="required"
-                                          data-error="Name is required."
-                                        />
-                                        <input
-                                          id="review_email"
-                                          class="form_input input_email"
-                                          type="email"
-                                          name="email"
-                                          placeholder="Email*"
-                                          required="required"
-                                          data-error="Valid email is required."
-                                        />
-                                      </div>
+                                        <h1>Thêm đánh giá</h1>
                                       <div>
-                                        <h1>Your Rating:</h1>
+                                        <h1>Số sao:</h1>
                                         <ul class="user_star_rating">
                                           <li>
                                             <i class="fa fa-star" aria-hidden="true"></i>
@@ -284,7 +221,7 @@
                                           id="review_message"
                                           class="input_review"
                                           name="message"
-                                          placeholder="Your Review"
+                                          placeholder="Đánh giá của bạn"
                                           rows="4"
                                           required
                                           data-error="Please, leave us a review."
@@ -294,10 +231,10 @@
                                         <button
                                           id="review_submit"
                                           type="submit"
-                                          class="red_button review_submit_btn trans_300"
+                                          class="red_button review_submit_btn trans_300 primary-btn"
                                           value="Submit"
                                         >
-                                          submit
+                                          gửi
                                         </button>
                                       </div>
                                     </form>
@@ -349,6 +286,77 @@
             var productId = $("#id-product").val();
             // console.log(quantity, productId);
             addToCart(productId, quantity);
+       });
+    </script>
+    <script th:inline="javascript">
+      $(document).ready(function(){
+        var ratingStar = 4;
+        initStarRating();
+
+        function initStarRating() {
+          if ($('.user_star_rating li').length) {
+            var stars = $('.user_star_rating li');
+
+            stars.each(function () {
+              var star = $(this);
+
+              star.on('click', function () {
+                var i = star.index() + 1; // Lấy index của sao chọn và cộng thêm 1 vì index bắt đầu từ 0
+
+                stars.find('i').removeClass('fa-star').addClass('fa-star-o'); // Đặt tất cả các sao về trạng thái không chọn
+
+                for (var x = 0; x < i; x++) {
+                  $(stars[x]).find('i').removeClass('fa-star-o').addClass('fa-star'); // Đặt lại các sao đã chọn
+                }
+                ratingStar = i;
+                //console.log(ratingStar); // Log ra số sao đang chọn
+              });
+            });
+          }
+        }
+
+          
+        $('#review_form').submit(function(e) {
+            e.preventDefault();
+            
+            var content = $('#review_message').val();
+            var productId = /*[[${product.id}]]*/ 0;
+            var accountId = /*[[${session.accountId}]]*/ 0;
+
+          var comment = {
+              ratingStar: ratingStar,
+              content: content,
+              productId: productId,
+              accountId: accountId
+          };
+          console.log(comment);
+          $.ajax({
+              type: 'POST',
+              url: '/api/comments/add',
+              contentType: 'application/json',
+              data: JSON.stringify(comment),
+              success: function(response) {
+                  $("#notification").html(response).addClass("show");
+                  setTimeout(function() {
+                      $("#notification").removeClass("show");
+                      if (response === "Đánh giá thành công.") {
+                          window.location.reload(); 
+                      }
+                  }, 2000);
+              },
+              error: function(xhr, status, error) {
+                  console.error(xhr.responseText);
+                  $("#notification").html("Bạn cần mua sản phẩm mới được đánh giá.").addClass("show");
+                  setTimeout(function() {
+                      $("#notification").removeClass("show");
+                  }, 2000);
+              }
+          });
+
+
+      });
+ 
+
        });
     </script>
     

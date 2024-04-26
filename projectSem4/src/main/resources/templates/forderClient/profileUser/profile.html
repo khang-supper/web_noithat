@@ -1,156 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>trang profile</title>
     <style th:replace="/common/_Head_tag_client"></style>
     <style>
         body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-.conten{
-    display: flex;
-    justify-content: space-between;
-}
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+        }
 
-.contenn {
-  width: 60%;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-}
+        .contenn {
+          width: 60%;
+          margin: 0 auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          border-radius: 20px;
+        }
 
-.profile {
-  text-align: center;
-  margin-bottom: 20px;
-}
+        .profile {
+          text-align: center;
+          margin-bottom: 20px;
+        }
 
-.profile img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  margin-bottom: 10px;
-}
+        .profile img {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          margin-bottom: 10px;
+        }
 
-.profile h2 {
-  font-size: 24px;
-  margin-bottom: 5px;
-}
+        .profile h2 {
+          font-size: 24px;
+          margin-bottom: 5px;
+        }
 
-.profile p {
-  font-size: 16px;
-  color: #666;
-}
-
-.stats {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.stat {
-  text-align: center;
-}
-
-.stat span {
-  font-size: 36px;
-  font-weight: bold;
-  color: #333;
-}
-
-.stat p {
-  font-size: 14px;
-  color: #666;
-  margin-top: 5px;
-}
-
-.contests {
-  margin-bottom: 20px;
-  
-}
-
-.contests h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
- 
-}
-
-.contests ul {
-  list-style: none;
-  padding: 0;
-}
-
-.contests li {
-  margin-bottom: 5px;
-  border-bottom: 1px solid #ddd;
-  padding: 10px;
-}
-.account-form{
-  text-align: center;
-}
-/* //////// */
-#history {
-        display: none;
-        /* additional styling */
-        text-align: center;
-    }
-
+        .profile p {
+          font-size: 16px;
+          color: #666;
+        }
     </style>
   </head>
   <body>
     <header th:replace="common/_Header_Client"></header>
-    <body>
       <div class="contenn">
-        <div class="profile" th:each="account : ${accounts}">
-          <img th:src="'/uploads/' + ${account.avatar}" alt="Ảnh đại diện">
-          <h2 th:text="${session.username}"></h2>
-          <p th:if="${account != null}"
-            th:text="${account.email}">huythietpro@gmail.com</p>
+        <div class="profile">
+          <img th:src="'/uploads/' + ${accounts.avatar}" alt="Ảnh đại diện"> <br />
+          <a href="/editUser" style="color: black; font-weight: 700; font-size: 20px;" th:text="${session.username}"></a>
+          <p th:if="${accounts != null}"
+            th:text="${accounts.email}"></p>
         </div>
         <div class="stats">
-          <div class="stat">
-            <span>0</span>
-            <p>số lượng sản phẩm</p>
-          </div>
-        </div>
-        <div class="conten">
-          <div class="contests">
-            <a href="javascript:void(0)" onclick="toggleHistory()" style="color: black;">Lịch sử mua hàng</a>
-        </div>
-          <div class="contests">
-            <a id="account-button">Tài khoản</a>
-          </div>
-        </div>
-        <!-- ////// -->
-        <div id="history">
-          <h3>Lịch sử mua hàng</h3>
-          <ul>
-              <!-- <li th:each="orders : ${order}">
-                  <p th:text="${order.code}">nguyen vi khang</p>
-              </li> -->
-          </ul>
-      </div>
-      <!-- ////// -->
-      </div>
+          <div class="row">
+            <div class="col">
+                <ul class="nav nav-tabs" id="myTabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">Tài khoản</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">Lịch sử mua hàng</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="username">Username</label>
+                                    <p th:text="${accounts.username}"></p>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="email">Email</label>
+                                    <p th:text="${accounts.email}"></p>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="phoneNumber">Phone Number</label>
+                                    <p th:text="${accounts.phone}"></p>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="fullName">Full Name</label>
+                                    <p th:text="${accounts.fullName}"></p>
+                                </div>
+                            </div>
+                            <a class="btn btn-danger" th:href="@{/logout}"><i class="fa fa-sign-out"></i>đăng xuất</a>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                      <table
+                    id="add-row"
+                    class="display table table-striped table-hover"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Đơn hàng</th>
+                        <th>Ngày đặt</th>
+                        <th>Sản phẩm</th>
+                        <th>Tổng tiền</th>
+                        <th>Hình thức thanh toán</th>
+                      </tr>
+                    </thead>
 
-    </body>
+                    <tbody>
+                      <tr th:each="order : ${orders}">
+                        <td><a th:href="@{/dat-hang/order_return?orderId={path}(path=${order.id})}" th:text="${order['code']}"> </a></td>
+                        <td th:text="${order['orderDate']}"></td>
+                        <td th:text="${order['product_names']}"></td>
+                        <td>[[${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'POINT')}]]đ</td>
+                        <td
+                          th:text="${order['paymentStatus'] ? 'Thanh toán qua VNPAY' : 'Giao & thu tiền tận nơi - COD'}"
+                        ></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
     <footer th:replace="common/_footer_Client"></footer>
-    <script>
-      function toggleHistory() {
-          var historyDiv = document.getElementById('history');
-          if (historyDiv.style.display === 'none') {
-              historyDiv.style.display = 'block';
-          } else {
-              historyDiv.style.display = 'none';
-          }
-      }
-      </script>
+
   </body>
 </html>

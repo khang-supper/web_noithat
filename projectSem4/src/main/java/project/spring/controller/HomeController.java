@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import project.spring.model.Account;
 import project.spring.model.Category;
+import project.spring.model.Comment;
 import project.spring.model.News;
 import project.spring.model.Order;
 import project.spring.model.Product;
 import project.spring.repositories.AccountRepository;
 import project.spring.repositories.CategoryRepository;
+import project.spring.repositories.CommentRepository;
+import project.spring.repositories.DiscountProductRepository;
+import project.spring.repositories.DiscountRepository;
 import project.spring.repositories.ImageRepository;
 import project.spring.repositories.NewsRepository;
 import project.spring.repositories.OrderRepository;
@@ -211,6 +215,12 @@ public class HomeController {
 		List<Map<String, Object>> image = ImageRepository.Instance().getImageByProduct(product.getId());
 		Map<String, Object> mainImage = ImageRepository.Instance().getMainImage(product.getId());
 
+		//bình luận đánh giá
+		List<Map<String, Object>> comments = CommentRepository.Instance().findByProduct(product.getId());
+		double avgStart = CommentRepository.Instance().avgStart(product.getId());
+		model.addAttribute("comments", comments); 
+		model.addAttribute("avgStart", avgStart); 
+
 		if(product != null) {
 			model.addAttribute("product", product); 
 			model.addAttribute("image", image); 
@@ -232,12 +242,12 @@ public class HomeController {
 						@RequestParam(required = false) Double priceFrom,
 						@RequestParam(required = false) Double priceTo,
 						Model model) {
-		List<News> newsRecent = NewsRepository.Instance().findRecent();
+		List<News> newsRand = NewsRepository.Instance().findRand();//3 bài viết ngẫu nhiên
 		List<Category> categories = CategoryRepository.Instance().findAll();
 		List<Map<String, Object>> productNew = productRepository.findNewProduct();		
 		List<Map<String, Object>> products = productRepository.find4ProductByCategory();		
 
-		model.addAttribute("newsRecent", newsRecent);
+		model.addAttribute("newsRand", newsRand);
 		model.addAttribute("categories", categories); // Danh sách Loại sản phẩm
 		model.addAttribute("productNew", productNew); // Danh sách 6 sản phẩm mới
 		model.addAttribute("products", products); // Danh sách sản phẩm
@@ -245,15 +255,28 @@ public class HomeController {
 		return "Client/index";
 	}
 
-	// @Autowired
-	// private OrderRepository orderRepository;
-@GetMapping("/profile/{username}")
-public String profile(@PathVariable String username, Model model) {
-    List<Account> accounts = accountRepository.findAccountsByUsername(username);
-	// List<Order> order = orderRepository.
-    
-        model.addAttribute("accounts", accounts);
-        return "forderClient/profileUser/profile";
-  
-}
+	@GetMapping("/profile/{username}")
+	public String profile(@PathVariable String username, Model model) {
+		Account accounts = accountRepository.findByUserName(username);
+		// List<Order> order = orderRepository.
+		List<Map<String, Object>> orders = OrderRepository.Instance().getOrdersAccount(username);
+		
+		model.addAttribute("orders", orders);
+		model.addAttribute("accounts", accounts);
+		return "forderClient/profileUser/profile";
+	
+	}
+	@Autowired
+	private DiscountRepository discountRepository;
+	@GetMapping("/khuyen-mai")
+	public String discount(Model model) {
+		List<Map<String, Object>> discounts = discountRepository.showDiscount();
+		List<Category> categories = CategoryRepository.Instance().findAll();
+		List<Map<String, Object>> productNew = productRepository.findNewProduct();
+		model.addAttribute("productNew", productNew);
+		model.addAttribute("discounts", discounts);
+		model.addAttribute("categories", categories);
+		return "forderClient/khuyen-mai";
+	
+	}
 }

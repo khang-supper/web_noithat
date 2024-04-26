@@ -37,7 +37,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Danh sách bài viết</h4>
+                <h4 class="card-title">Danh sách sản phẩm</h4>
               </div>
               <!-- content body -->
 
@@ -48,20 +48,20 @@
                       <tr>
                         <th>Id</th>
                         <th>ảnh </th>
-                        <th>Tên bài viết</th>
+                        <th>Tên sản phẩm</th>
                         <th>SKU</th>
-                        <th>giá</th>
+                        <th>Giá</th>
                         <th style="width: 10%">Hành động</th>
                       </tr>
                     </thead>
                       <tbody>
                         <tr th:each="product : ${products}"   th:unless="${product.isDelete}">
                           <td th:text="${product.id}">ID</td>
-                          <td  ><img th:src="@{/uploads/{image}(image=${product.path})}" width="70px" class="thumbnail" style="margin: 10px;"> </td>
-                          <td th:text="${product.name}">Tên bài viết</td>
+                          <td  ><img th:src="@{/uploads/{image}(image=${product.image})}" width="70px" class="thumbnail" style="margin: 10px;"> </td>
+                          <td th:text="${product.name}">Tên sản phẩm</td>
                           <td th:text="${product.code}">Người tạo</td>
                           <!-- <td th:text="${product.content}">Nội dung</td> -->
-                          <td th:text="${product.price}">giá</td>
+                          <td>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</td>
                           <td>
                           <div class="form-button-action">
                             <button type="button" data-toggle="tooltip" title="Chỉnh sửa" class="btn btn-link btn-primary btn-lg edit-btn" data-original-title="Chỉnh sửa" th:data-product-id="${product.id}">
@@ -122,7 +122,7 @@
         // Xử lý sự kiện khi click vào nút xóa
         $('.delete-btn').on('click', function() {
             var id = $(this).attr('data-product-id'); 
-            var name = $(this).closest('tr').find('td:nth-child(2)').text();
+            var name = $(this).closest('tr').find('td:nth-child(3)').text();
             $('#deleteModal').modal('show'); // Hiển thị modal xác nhận xóa
             $('#deleteModal .modal-body').text('Bạn có chắc muốn xóa "' + name + '"?'); // Đặt nội dung modal
             // Xác nhận xóa

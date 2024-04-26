@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User Profile</title>
+    <style th:replace="/common/_Head_tag_client"></style>
+    <link rel="stylesheet" href="../../register/register.css">
+</head>
+<body>
+    <header th:replace="common/_Header_Client"></header>
+    <div class="header-main">
+        <h1 > <a href="/changePassword" style="color: #7E4922;"><i class="fa fa-user"></i></a> </h1>
+        <div class="header-bottom">
+            <div class="header-right w3agile">
+                <div class="header-left-bottom agileinfo">
+                    <div th:if="${message}">
+                        <p style="color: green;" th:text="${message}"></p>
+                        <h1><input type="button" value="name">ham tao </h1>
+                    </div>
+
+                    <div th:if="${error}">
+                        <p style="color: red;" th:text="${error}"></p>
+                    </div>
+                    <form th:action="@{/updateProfile}" method="post" th:object="${account}" enctype="multipart/form-data">
+                        <label for="currentUsername">Tên người dùng hiện tại</label>
+                        <input type="text" id="currentUsername" name="currentUsername" required>
+                    
+                        <label for="newUsername">Tên đăng nhập mới</label>
+                        <input type="text" id="newUsername" name="newUsername" required>
+                        <label for="email">email</label>
+                        <input type="text"
+                        id="email"
+                            th:field="*{email}" />
+                            <label for="fullName">họ và tên</label>
+                        <input type="text"
+                        id="fullName"
+                            th:field="*{fullName}" />
+                            <label for="phone">Sdt</label>
+                        <input type="text"
+                        id="phone"
+                            th:field="*{phone}" />
+                            <label for="address">địa chỉ</label>
+                        <input type="text" 
+                        id="address"
+                            th:field="*{address}" />
+                        
+                        <div class="form-group btn-container">
+                            <button type="submit" >thay đổi</button>
+                        </div>
+                    </form>
+                   
+                <!-- Success Modal -->
+             
+                </div>
+            </div>
+        </div>
+    </div>
+     
+    <footer th:replace="common/_footer_Client"></footer>
+</body>
+</html>
