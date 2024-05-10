@@ -102,7 +102,7 @@
                                             </div>
                                             <div class="latest-product__item__text">
                                                 <h6 th:text="${product.name}"></h6>
-                                                <span>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                                <span>[[${#numbers.formatDecimal(product.priceDiscount, 0, 'COMMA', 0, 'POINT')}]]đ</span>
                                             </div>
                                         </a>
                                     </div>
@@ -118,7 +118,7 @@
                                             </div>
                                             <div class="latest-product__item__text">
                                                 <h6 th:text="${product.name}"></h6>
-                                                <span>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                                <span>[[${#numbers.formatDecimal(product.priceDiscount, 0, 'COMMA', 0, 'POINT')}]]đ</span>
                                             </div>
                                         </a>
                                     </div>
@@ -145,7 +145,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6" th:each="product : ${products}"> 
+                    <div class="col-lg-4 col-md-6 col-sm-6" th:each="product : ${products}">
                         <div class="product__item">
                             <div class="product__item__pic set-bg" th:data-setbg="'/uploads/' + ${product.image}">
                                 <ul class="product__item__pic__hover">
@@ -153,10 +153,17 @@
                                     <input type="hidden" class="productIdCart" th:value="${product.id}">
                                     <li><button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i></button></li>
                                 </ul>
+                                <div class="discount-percent-badge" th:if="${product.percent != null}">-[[${product.percent}]]%</div>
                             </div>
                             <div class="product__item__text">
                                 <h6><a th:href="@{/san-pham/{path}(path=${product.path})}">[[${product.name}]]</a></h6>
-                                <h5>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</h5>
+                                <h5 th:if="${product.percent == null}">
+                                    [[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ
+                                </h5>
+                                <h5 th:if="${product.percent != null}">
+                                    <del>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</del>
+                                    <span class="discounted-price">[[${#numbers.formatDecimal(product.priceDiscount, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                </h5>
                             </div>
                         </div>
                     </div>

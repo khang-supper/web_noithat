@@ -21,7 +21,9 @@ import project.spring.model.OrderDetail;
 import project.spring.repositories.AccountRepository;
 import project.spring.repositories.CartRepository;
 import project.spring.repositories.CategoryRepository;
+import project.spring.repositories.OrderDetailRepository;
 import project.spring.repositories.OrderRepository;
+import project.spring.repositories.ProductRepository;
 
 
 @Controller
@@ -31,6 +33,9 @@ public class CartController {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    ProductRepository productRepository;
 
     @PostMapping("/add-to-cart")
     public String addToCart(@RequestParam("productId") int productId, @RequestParam("quantity") int quantity, HttpSession session, Model model) {
@@ -70,9 +75,16 @@ public class CartController {
         if(accountId != null){
             List<Category> categories = CategoryRepository.Instance().findAll();
             List<Map<String, Object>> cart = CartRepository.Instance().find(accountId);
-            double total = CartRepository.Instance().getTotal(accountId);
-            model.addAttribute("carts", cart);
-            model.addAttribute("total", total);
+            if(cart != null){
+                double total = CartRepository.Instance().getTotal(accountId);
+                double totalBefore = CartRepository.Instance().getTotal2(accountId);
+                model.addAttribute("carts", cart);
+                model.addAttribute("totalBefore", totalBefore);
+                model.addAttribute("total", total);
+            } else{
+                model.addAttribute("carts", null);
+                model.addAttribute("total", 0.0); 
+            }
             model.addAttribute("categories", categories);
             return "forderClient/shoping-cart";
         }else{
@@ -166,9 +178,15 @@ public class CartController {
     @PostMapping("/create-order-detail")
     @ResponseBody
     public Map<String, Object> createOrderDetail(@RequestBody OrderDetail orderDetail) {
-        // Thực hiện tạo chi tiết đơn hàng
-        int result = OrderRepository.Instance().insertDetail(orderDetail);
+        int productId = orderDetail.getProductId();
+        int quantity = orderDetail.getQuantity();
+        int currentStock = productRepository.findStock(productId);
+        int updatedStock = currentStock - quantity; // Cập nhật số lượng tồn kho
+        productRepository.updateStock(productId, updatedStock); // Cập nhật số lượng tồn kho của sản phẩm
         
+        // Thực hiện tạo chi tiết đơn hàng
+        int result = OrderDetailRepository.Instance().insertDetail(orderDetail);
+
         // Trả về kết quả
         Map<String, Object> response = new HashMap<>();
         response.put("result", result);
@@ -207,16 +225,55 @@ public class CartController {
     }
 
     @GetMapping("/dat-hang/order_return")
-    public String getOrderReturn(@RequestParam(value = "orderId") int orderId, Model model
-    ){
+    public String getOrderReturn(@RequestParam(value = "orderId") int orderId, Model model) {
         Order order = OrderRepository.Instance().findById(orderId);
         List<Map<String, Object>> orderDetail = OrderRepository.Instance().getProuctWithOrderDetail(orderId);
         model.addAttribute("order", order);
         model.addAttribute("orderDetail", orderDetail);
-
         return "forderClient/order_return";
     }
 
+    @PostMapping("/dat-hang/cancel_order")
+    @ResponseBody
+    public String cancelOrder(@RequestParam(value = "orderId") int orderId) {
+        Order order = OrderRepository.Instance().findById(orderId);
+        if (order.getStatus().equals("Đơn hàng mới")) {
+            // Lấy danh sách các chi tiết đơn hàng
+            List<OrderDetail> orderDetails = OrderDetailRepository.Instance().findByOrderId(orderId);
+            
+            // Tiến hành cập nhật lại số lượng tồn kho của sản phẩm và xóa các chi tiết đơn hàng
+            for (OrderDetail orderDetail : orderDetails) {
+                int productId = orderDetail.getProductId();
+                int quantity = orderDetail.getQuantity();
+                int currentStock = productRepository.findStock(productId);
+                int updatedStock = currentStock + quantity; // Cập nhật số lượng tồn kho
+                productRepository.updateStock(productId, updatedStock); // Cập nhật số lượng tồn kho của sản phẩm
+                OrderDetailRepository.Instance().deleteOrderDetails(orderId); // Xóa các chi tiết đơn hàng
+            }
+            
+            // Tiến hành xóa đơn hàng chính
+            OrderRepository.Instance().deleteById(orderId);
+            
+            return "Đã hủy đơn hàng thành công!";
+        } else {
+            return "Không thể hủy đơn hàng!";
+        }
+    }
+
+
+    @PostMapping("/dat-hang/edit_order")
+    @ResponseBody
+    public String editOrder(@RequestParam(value = "orderId") int orderId, 
+                            @RequestParam(value = "customerName") String customerName, 
+                            @RequestParam(value = "shippingPhone") String shippingPhone, 
+                            @RequestParam(value = "shippingAddress") String shippingAddress) {
+        Order order = OrderRepository.Instance().findById(orderId);
+        order.setCustomerName(customerName);
+        order.setShippingPhone(shippingPhone);
+        order.setShippingAddress(shippingAddress);
+        OrderRepository.Instance().updateShipmentDetails(order);
+        return "Cập nhật thông tin đơn hàng thành công!";
+    }
 
 
 }

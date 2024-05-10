@@ -102,6 +102,7 @@
                         <th>Sản phẩm</th>
                         <th>Tổng tiền</th>
                         <th>Hình thức thanh toán</th>
+                        <th>Trạng thái</th>
                       </tr>
                     </thead>
 
@@ -114,6 +115,7 @@
                         <td
                           th:text="${order['paymentStatus'] ? 'Thanh toán qua VNPAY' : 'Giao & thu tiền tận nơi - COD'}"
                         ></td>
+                        <td th:text="${order.status}"></td>
                       </tr>
                     </tbody>
                   </table>

@@ -49,6 +49,7 @@
                   >
                     <thead>
                       <tr>
+                        <th style="display: none;">Id</th>
                         <th>Đơn hàng</th>
                         <th>Ngày đặt</th>
                         <th>Khách hàng</th>
@@ -62,6 +63,7 @@
 
                     <tbody>
                       <tr th:each="order : ${orders}">
+                        <td th:text="${order['id']}" style="display: none;"></td>
                         <td th:text="${order['code']}"></td>
                         <td th:text="${order['orderDate']}"></td>
                         <td th:text="${order['customerName']}"></td>

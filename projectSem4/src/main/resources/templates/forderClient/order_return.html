@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Thanh toán</title>
+<title>Đơn hàng</title>
 <style th:replace="/common/_Head_tag_client"></style>
 
 </head>
@@ -147,15 +147,155 @@
                       <th>Phương thức thanh toán</th>
                       <td th:text="${order.paymentStatus ? 'Thanh toán qua VNPAY' : 'Giao & thu tiền tận nơi - COD'}"></td>
                     </tr>
+                    <tr>
+                      <td> 
+                        <button type="button" class="btn btn-danger" onclick="confirmCancelOrder()">Hủy đơn</button>
+                      </td>
+                      <td th:if="${order.status == 'Đơn hàng mới'}">
+                        <button type="button" class="btn btn-primary" onclick="showEditForm()">Chỉnh sửa đơn hàng</button>
+                      </td>
+                    </tr>
                   </table>
                 </div>
               </div>
             </div>
         </div>
     </div>
+    <!-- edit đơn hàng -->
+    <div class="container">
+      <div id="editOrderFormWrapper" style="display: none;">
+        <form id="editOrderForm">
+          <div class="form-group">
+            <label for="customerName">Họ tên:</label>
+            <input type="text" class="form-control" id="customerName" name="customerName" th:value="${order.customerName}">
+            <div id="customerNameError" class="error-message"></div>
+          </div>
+          <div class="form-group">
+            <label for="shippingPhone">Số điện thoại:</label>
+            <input type="text" class="form-control" id="shippingPhone" name="shippingPhone" th:value="${order.shippingPhone}">
+            <div id="shippingPhoneError" class="error-message"></div>
+          </div>
+          <div class="form-group">
+            <label for="shippingAddress">Địa chỉ giao hàng:</label>
+            <input type="text" class="form-control" id="shippingAddress" name="shippingAddress" th:value="${order.shippingAddress}">
+            <div id="shippingAddressError" class="error-message"></div>
+          </div>
+          <button type="button" class="btn btn-secondary" onclick="cancelEdit()">Hủy</button>
+          <button type="button" class="btn btn-primary" onclick="saveEdit()">Lưu thay đổi</button>
+        </form>
+      </div>
+    </div>
+    <!-- END  -->
 </section>
 
  <footer th:replace="common/_footer_Client"></footer>
+ <!-- JavaScript kiểm tra người dùng nhập form -->
 
+ <script th:inline="javascript">
+  var orderId = /*[[${order.id}]]*/ 0;
+  var username = /*[[${session.username}]]*/ 0;
+    // Hiển thị form chỉnh sửa
+  function showEditForm() {
+    document.getElementById("editOrderFormWrapper").style.display = "block";
+  }
+
+  // Ẩn form chỉnh sửa
+  function hideEditForm() {
+    document.getElementById("editOrderFormWrapper").style.display = "none";
+  }
+
+  // Hủy chỉnh sửa
+  function cancelEdit() {
+    hideEditForm();
+  }
+
+  // Hàm xác nhận hủy đơn hàng
+  function confirmCancelOrder() {
+      if (confirm("Bạn có chắc chắn muốn hủy đơn hàng không?")) {
+          cancelOrder();
+      } else {
+          return false;
+      }
+  }
+
+  //Xóa đơn hàng
+  function cancelOrder() {
+    $.ajax({
+        type: "POST",
+        url: "/dat-hang/cancel_order",
+        data: { orderId: orderId },
+        success: function (response) {
+          $("#notification").html(response).addClass("show");
+          setTimeout(function() {
+              $("#notification").removeClass("show");
+                window.location.href="/profile/" + username;
+          }, 2000);
+        },
+        error: function (xhr, status, error) {
+            alert("Đã xảy ra lỗi: " + error);
+        }
+    });
+}
+
+  function saveEdit() {
+      var customerName = document.getElementById('customerName').value.trim();
+      var shippingPhone = document.getElementById('shippingPhone').value.trim();
+      var shippingAddress = document.getElementById('shippingAddress').value.trim();
+
+      var customerNameError = document.getElementById('customerNameError');
+      var shippingPhoneError = document.getElementById('shippingPhoneError');
+      var shippingAddressError = document.getElementById('shippingAddressError');
+
+      customerNameError.innerHTML = "";
+      shippingPhoneError.innerHTML = "";
+      shippingAddressError.innerHTML = "";
+
+      var isValid = true;
+
+      if (customerName === "") {
+          customerNameError.innerHTML = "Vui lòng nhập tên của bạn";
+          isValid = false;
+      }
+      if (shippingPhone === "") {
+          shippingPhoneError.innerHTML = "Vui lòng nhập số điện thoại nhận hàng";
+          isValid = false;
+      }
+      if (shippingAddress === "") {
+          shippingAddressError.innerHTML = "Vui lòng nhập địa chỉ giao hàng";
+          isValid = false;
+      }
+
+      if (!isValid) {
+          return; // Không gửi AJAX nếu dữ liệu không hợp lệ
+      }
+
+      $.ajax({
+          type: "POST",
+          url: "/dat-hang/edit_order",
+          data: {
+              orderId: orderId,
+              customerName: customerName,
+              shippingPhone: shippingPhone,
+              shippingAddress: shippingAddress
+          },
+          success: function (response) {
+              $("#notification").html(response).addClass("show");
+              setTimeout(function () {
+                  $("#notification").removeClass("show");
+                  if (response === "Cập nhật thông tin đơn hàng thành công!") {
+                      window.location.reload();
+                  }
+              }, 2000);
+          },
+          error: function (xhr, status, error) {
+              $("#notification").html("Đã xảy ra lỗi: " + error).addClass("show");
+              setTimeout(function () {
+                  $("#notification").removeClass("show");
+              }, 2000);
+          }
+      });
+  }
+
+</script>
 </body>
 </html>

@@ -74,6 +74,7 @@ public class CommentRepository {
                 new Object[] { newComment.getRatingStar(), newComment.getContent(), newComment.getAccountId(), newComment.getProductId() });
     }
 
+    //kiểm tra xem người dùng có mua sản phẩm không
     public boolean hasPurchasedProduct(int accountId, int productId) {
         // Viết truy vấn SQL để kiểm tra xem người dùng có mua sản phẩm không
         String sql = "SELECT COUNT(*) FROM orders o " +
@@ -86,6 +87,14 @@ public class CommentRepository {
         // Trả về true nếu người dùng đã mua sản phẩm, ngược lại trả về false
         return count > 0;
     }
+
+    //kiểm tra xem người dùng đã đánh giá sản phẩm này chưa
+    public boolean hasReviewedProduct(int accountId, int productId) {
+        String sql = "SELECT COUNT(*) FROM comments WHERE accountId = ? AND productId = ?";
+        int count = db.queryForObject(sql, Integer.class, accountId, productId);
+        return count > 0;
+    }
+    
     
     
 }

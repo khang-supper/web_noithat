@@ -112,7 +112,7 @@
                                 <tr th:each="cart : ${carts}">
                                     <td class="cart_name">[[${cart.name}]]</td>
                                     <td >[[${cart.quantity}]]</td>
-                                    <td class="cart_price">[[${#numbers.formatDecimal(cart.total, 0, 'COMMA', 0, 'POINT')}]]đ</td>
+                                    <td class="cart_price">[[${#numbers.formatDecimal(cart.totalDiscount, 0, 'COMMA', 0, 'POINT')}]]đ</td>
                                 </tr>
                             </table>
                             <div class="checkout__order__subtotal">Tạm tính <span>[[${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}]]đ</span></div>
@@ -261,9 +261,9 @@
                 var orderDetailData = {
                     "orderId": orderId,
                     "productId": cartItem.productId,
-                    "price": cartItem.price,
+                    "price": cartItem.discountPrice,
                     "quantity": cartItem.quantity,
-                    "totalPrice": cartItem.total
+                    "totalPrice": cartItem.totalDiscount
                 };
 
                 $.ajax({

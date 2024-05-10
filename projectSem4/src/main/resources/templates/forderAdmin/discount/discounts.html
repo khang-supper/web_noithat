@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title th:fragment="TitlePage">trang người dùng</title>
+    <title th:fragment="TitlePage">Khuyến mãi</title>
     <style th:replace="/common/_Head_tag"></style>
   </head>
 
@@ -25,7 +25,7 @@
               <i class="flaticon-right-arrow"></i>
             </li>
             <li class="nav-item">
-              <a href="/admin/account">trang người dùng</a>
+              <a href="/admin/discount">Khuyến mãi</a>
             </li>
           </ul>
         </div>
@@ -37,7 +37,14 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Danh sách bài viết</h4>
+                <h4 class="card-title">Danh sách khuyến mãi
+                  <a
+                    href="/admin/discount/add"
+                    class="btn btn-primary"
+                    style="float: right; color: white"
+                    >Tạo khuyến mãi</a
+                  >
+                </h4>
               </div>
               <!-- content body -->
 
@@ -46,21 +53,19 @@
                   <table id="add-row" class="display table table-striped table-hover">
                     <thead>
                         <tr>
-                          <th>ID</th>
+                          <th>Id</th>
                           <th>Chương trình khuyến mãi</th>
-                          <th>ngày bất đầu </th>
-                          <th>ngày kết thúc</th>
-                          <th>người tạo</th>
+                          <th>Giảm giá (%)</th>
+                          <th>Trạng thái</th>
                           <th style="width: 10%">Hành động</th>
                       </tr>
                   </thead>
                   <tbody>
                       <tr th:each="discount : ${discounts}">
-                          <td th:text="${discount.id}">ID</td>
-                          <td th:text="${discount.name}">Chương trình khuyến mãi</td>
-                          <td th:text="${discount.startDate}">ngày bất đầu</td>
-                          <td th:text="${discount.endDate}">ngày kết thúc</td>
-                          <td th:text="${discount.accountId}">người tạo</td>
+                          <td th:text="${discount.id}"></td>
+                          <td th:text="${discount.name}"></td>
+                          <td>[[${discount.percent}]]%</td>
+                          <td th:text="${discount.status ? 'Đang hoạt động' : 'Đã tắt'}">Trạng thái</td>
                          
                           <td>
                             <div class="form-button-action">
@@ -91,7 +96,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">Xóa bài viết</h5>
+            <h5 class="modal-title" id="deleteModalLabel">Xóa khuyến mãi này</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

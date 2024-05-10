@@ -11,10 +11,7 @@ import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-
 import project.spring.model.Order;
-import project.spring.model.OrderDetail;
-
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
@@ -111,18 +108,18 @@ public class OrderRepository {
     }
     
 
-    public int insertDetail(OrderDetail newOrder) {
-        return db.update(
-                "insert into order_details (`orderId`, `productId`, `price`, `quantity`, `totalPrice`) values (?, ?, ?, ?, ?)",
-                new Object[] { newOrder.getOrderId(), newOrder.getProductId(), newOrder.getPrice(), newOrder.getQuantity(), newOrder.getTotalPrice()});
-    }
-
     public int update(Order upOrder) {
         return db.update(
                 "update orders set shippingAddress = ?, shippingPhone = ?, total = ?, status = ?, paymentStatus = ?, paymentGateway = ? where Id = ?",
                 new Object[] { upOrder.getShippingAddress(), upOrder.getShippingPhone(), upOrder.getTotal(),
                         upOrder.getStatus(), upOrder.getPaymentStatus(), upOrder.getPaymentGateway(),
                         upOrder.getId() });
+    }
+
+    public int updateShipmentDetails(Order upOrder) {
+        return db.update(
+                "update orders set shippingAddress = ?, shippingPhone = ?, customerName = ? where Id = ?",
+                new Object[] { upOrder.getShippingAddress(), upOrder.getShippingPhone(), upOrder.getCustomerName(), upOrder.getId() });
     }
 
     public int updateStatus(Order upOrder) {

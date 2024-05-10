@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,6 @@ import project.spring.model.Product;
 import project.spring.repositories.AccountRepository;
 import project.spring.repositories.CategoryRepository;
 import project.spring.repositories.CommentRepository;
-import project.spring.repositories.DiscountProductRepository;
 import project.spring.repositories.DiscountRepository;
 import project.spring.repositories.ImageRepository;
 import project.spring.repositories.NewsRepository;
@@ -29,34 +29,6 @@ import project.spring.repositories.ProductRepository;
 
 @Controller
 public class HomeController {
-	@RequestMapping("/")
-	public String index(Model model) {
-		model.addAttribute("title", "Trang home");
-		return "Client/index";
-	}	
-	
-	@RequestMapping("/pages")
-	public String pages(Model model) {
-		model.addAttribute("title", "Trang pages");
-		return "forderClient/pages";
-	}
-	@RequestMapping("/shop")
-	public String shop(Model model) {
-		model.addAttribute("title", "Trang shop");
-		return "forderClient/shop";
-	}
-	@RequestMapping("/details")
-	public String details(Model model) {
-		model.addAttribute("title", "Trang shop-details");
-		return "forderClient/shop-details";
-	}
-
-	// @RequestMapping("/checkout")
-	// public String checkout(Model model) {
-	// 	model.addAttribute("title", "Trang checkout");
-	// 	return "forderClient/checkout";
-	// }
-
 	@Autowired
 	private AccountRepository accountRepository;
 	@GetMapping("/tin-tuc")
@@ -208,7 +180,7 @@ public class HomeController {
 	@GetMapping("/san-pham/{path}") 
 	public String sanpham_detail(@PathVariable("path") String path, Model model) {
 		Product product = productRepository.findByPath(path);
-		//List<Product> productRand = productRepository.findRand2(product.getCategoryId());//4 sản phẩm thuộc loại ngẫu nhiên
+		Map<String, Object> discount = productRepository.findByPath2(path);
 		List<Map<String, Object>> productRand = productRepository.findRand(product.getCategoryId());//4 sản phẩm thuộc loại ngẫu nhiên
 		Category categoryDetail = CategoryRepository.Instance().findById(product.getCategoryId());
 		List<Category> categories = CategoryRepository.Instance().findAll();
@@ -222,6 +194,7 @@ public class HomeController {
 		model.addAttribute("avgStart", avgStart); 
 
 		if(product != null) {
+			model.addAttribute("discount", discount); 
 			model.addAttribute("product", product); 
 			model.addAttribute("image", image); 
 			model.addAttribute("mainImage", mainImage); 
@@ -266,17 +239,23 @@ public class HomeController {
 		return "forderClient/profileUser/profile";
 	
 	}
-	@Autowired
-	private DiscountRepository discountRepository;
+
 	@GetMapping("/khuyen-mai")
 	public String discount(Model model) {
-		List<Map<String, Object>> discounts = discountRepository.showDiscount();
+		List<Map<String, Object>> discounts = productRepository.findProductByDiscount();
 		List<Category> categories = CategoryRepository.Instance().findAll();
 		List<Map<String, Object>> productNew = productRepository.findNewProduct();
 		model.addAttribute("productNew", productNew);
-		model.addAttribute("discounts", discounts);
+		model.addAttribute("products", discounts);
 		model.addAttribute("categories", categories);
 		return "forderClient/khuyen-mai";
 	
 	}
+
+
+
+
+
+
+
 }

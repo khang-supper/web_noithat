@@ -49,6 +49,22 @@ public class CartRepository {
         return db.query("Select * from carts where accountId =? ",new Object[]{accountId}, new CartRowMapper());
     }
 
+    // public List<Map<String, Object>> find2(int accountId) {
+    //     String query = "SELECT i.path AS image, " +
+    //                    "p.name, " +
+    //                    "p.id AS productId, " +
+    //                    "p.price, " +
+    //                    "c.accountId, " +
+    //                    "c.quantity, " +
+    //                    "(p.price * c.quantity) AS total " + 
+    //                    "FROM carts c " +
+    //                    "JOIN products p ON c.productId = p.id " +
+    //                    "JOIN image_products ip ON p.id = ip.productId AND ip.status = 1 " +
+    //                    "JOIN images i ON ip.imageId = i.id " +
+    //                    "WHERE c.accountId = ? order by c.id desc";
+    //     return db.queryForList(query, accountId);
+    // }
+
     public List<Map<String, Object>> find(int accountId) {
         String query = "SELECT i.path AS image, " +
                        "p.name, " +
@@ -56,22 +72,36 @@ public class CartRepository {
                        "p.price, " +
                        "c.accountId, " +
                        "c.quantity, " +
-                       "(p.price * c.quantity) AS total " + 
+                       "(CASE WHEN d.percent IS NOT NULL THEN (p.price * (1 - d.percent / 100)) ELSE p.price END) AS discountPrice, " +
+                       "d.percent AS percent, " +
+                       "(p.price * c.quantity) AS total, " + 
+                       "(CASE WHEN d.percent IS NOT NULL THEN (p.price * (1 - d.percent / 100)) ELSE p.price END * c.quantity) AS totalDiscount " + 
                        "FROM carts c " +
                        "JOIN products p ON c.productId = p.id " +
                        "JOIN image_products ip ON p.id = ip.productId AND ip.status = 1 " +
                        "JOIN images i ON ip.imageId = i.id " +
-                       "WHERE c.accountId = ? order by c.id desc";
+                       "LEFT JOIN discounts d ON p.discountId = d.id AND d.status = 1 " +
+                       "WHERE c.accountId = ? ORDER BY c.id DESC";
         return db.queryForList(query, accountId);
     }
     
-    public double getTotal(int accountId) {
+    public double getTotal2(int accountId) {
         String query = "SELECT SUM(p.price * c.quantity) AS total " +
                        "FROM carts c " +
                        "JOIN products p ON c.productId = p.id " +
                        "WHERE c.accountId = ?";
         return db.queryForObject(query, Double.class, accountId);
     }
+
+    public double getTotal(int accountId) {
+        String query = "SELECT SUM((CASE WHEN d.percent IS NOT NULL THEN (p.price * (1 - d.percent / 100)) ELSE p.price END) * c.quantity) AS total " +
+                       "FROM carts c " +
+                       "JOIN products p ON c.productId = p.id " +
+                       "LEFT JOIN discounts d ON p.discountId = d.id AND d.status = 1 " +
+                       "WHERE c.accountId = ?";
+        return db.queryForObject(query, Double.class, accountId);
+    }
+    
     
     public int deleteById(int id) {
         return db.update("delete from carts where Id=?", new Object[] { id });

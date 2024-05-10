@@ -36,75 +36,78 @@
   
         <div class="row">
           <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">Thêm khuyến mãi</h4>
-                
+              <div class="card">
+                  <div class="card-header">
+                      <h4 class="card-title">Thêm khuyến mãi</h4>
+                  </div>
+                  <!-- content body -->
+                  <div class="card-body">
+                      <form th:action="@{/admin/discount/add}" th:object="${discount}" method="post" id="discountForm">
+                          <div class="form-group">
+                              <label for="name">Tên khuyến mãi:</label>
+                              <input type="text" class="form-control" id="name" th:field="*{name}" />
+                              <div id="nameError" class="error-message"></div>
+                          </div>
+                          <div class="form-group">
+                              <label for="percent">Phần trăm giảm giá:</label>
+                              <input type="number" id="percent" th:field="*{percent}" />
+                              <div id="percentError" class="error-message"></div>
+                          </div>
+                          <div class="form-group">
+                              <label for="status">Kích hoạt:</label>
+                              <input type="checkbox" id="status" th:field="*{status}" />
+                          </div>
+                          <div class="form-group">
+                              <button type="submit" class="btn btn-primary">Lưu</button>
+                          </div>
+                      </form>
+                  </div>
+                  <!-- end content body -->
               </div>
-              <!-- content body -->
-              <div class="card-body">
-                <form th:action="@{/admin/discount/add}" th:object="${discount}" method="post">
-                  <!-- <div class="form-group">
-                    <label for="category">chọn sản
-                      phẩm sẽ khuyến mãi</label>
-                  <select id="category" name="categoryId"
-                      class="form-control">
-                      <option
-                          th:each="product: ${products}"
-                          th:value="${product.id}"
-                          th:text="${product.name}"></option>
-                  </select>  -->
-                    <div class="form-group">
-                        <label for="name">Tên sản phẩm khuyến mãi</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="name" 
-                            placeholder="Nhập chương trình khuyến mãi"
-                            th:field="*{name}"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label for="startDate">ngày bắt đầu </label>
-                        <input
-                            type="date"
-                            class="form-control"
-                            id="startDate" 
-                            placeholder="Nhập ngày bắt đầu "
-                            th:field="*{startDate}"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label for="endDate">ngày kết thúc </label>
-                        <input
-                            type="date"
-                            class="form-control"
-                            id="endDate" 
-                            placeholder="Nhập ngày kết thúc "
-                            th:field="*{endDate}"
-                        />
-                    </div>
-                    <div class="form-group">
-                        <label for="account">người tạo</label> <br>
-                        <span style="color: black;" th:text="${session.username}"></span>
-                        <!-- <select class="form-control" th:field="*{accountId}">
-                            <option th:each="account : ${accounts}" th:value="${account.id}" th:text="${account.username}"></option>
-                        </select> -->
-                    </div>
-                    <hr>
-                    <button type="submit" class="btn btn-primary">Lưu.</button>
-                </form>
-              </div>
-              <!-- end content body -->
-            </div>
           </div>
-        </div>
-        <!-- End body -->
       </div>
-    </div>
-    <!-- End Modal -->
+      <!-- End body -->
+  </div>
+  </div>
+  <!-- End Modal -->
 
-    <!-- footer-->
-    <footer th:replace="common/_footer_admin"></footer>
+  <!-- footer-->
+  <footer th:replace="common/_footer_admin"></footer>
+  <!-- JavaScript kiểm tra người dùng nhập form -->
+  <script>
+    document.getElementById('discountForm').addEventListener('submit', function(event) {
+        var name = document.getElementById('name').value.trim();
+        var percent = document.getElementById('percent').value.trim();
+
+        var nameError = document.getElementById('nameError');
+        var percentError = document.getElementById('percentError');
+
+        nameError.innerHTML = "";
+        percentError.innerHTML = "";
+
+        if (name === "") {
+            nameError.innerHTML = "Vui lòng nhập tên khuyến mãi";
+            event.preventDefault();
+        }
+        if (percent === "") {
+                percentError.innerHTML = "Vui lòng nhập phần trăm giảm giá";
+                event.preventDefault();
+            }
+        else if (isNaN(percent) || parseInt(percent) < 0 || parseInt(percent) > 100) {
+            percentError.innerHTML = "Phần trăm giảm giá phải là một số từ 0 đến 100";
+            event.preventDefault();
+        }
+    });
+
+    // Ẩn thông báo lỗi khi người dùng bắt đầu nhập lại trường đó
+    document.getElementById('name').addEventListener('input', function() {
+        document.getElementById('nameError').innerHTML = "";
+    });
+
+    document.getElementById('percent').addEventListener('input', function() {
+        document.getElementById('percentError').innerHTML = "";
+    });
+
+  </script>
   </body>
 </html>

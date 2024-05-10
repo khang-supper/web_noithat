@@ -89,39 +89,39 @@
                       <div class="latest-product__text">
                           <h4>Sản phẩm mới </h4>
                           <div class="latest-product__slider owl-carousel">
-                              <!-- Slider 1 -->
-                              <div class="latest-prdouct__slider__item">
-                                  <!-- Lặp qua 3 sản phẩm đầu tiên -->
-                                  <div th:each="product, iterStat : ${productNew}" th:if="${iterStat.index &lt; 3}">
-                                      <!-- Hiển thị sản phẩm -->
-                                      <a th:href="@{'/san-pham/' + ${product.path}}" class="latest-product__item">
-                                          <div class="latest-product__item__pic">
-                                              <img th:src="'/uploads/' + ${product.image}" alt="" />
-                                          </div>
-                                          <div class="latest-product__item__text">
-                                              <h6 th:text="${product.name}"></h6>
-                                              <span>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</span>
-                                          </div>
-                                      </a>
-                                  </div>
-                              </div>
-                              <!-- Slider 2 -->
-                              <div class="latest-prdouct__slider__item">
-                                  <!-- Lặp qua 3 sản phẩm tiếp theo -->
-                                  <div th:each="product, iterStat : ${productNew}" th:if="${iterStat.index &gt;= 3}">
-                                      <!-- Hiển thị sản phẩm -->
-                                      <a th:href="@{'/san-pham/' + ${product.path}}" class="latest-product__item">
-                                          <div class="latest-product__item__pic">
-                                              <img th:src="'/uploads/' + ${product.image}" alt="" />
-                                          </div>
-                                          <div class="latest-product__item__text">
-                                              <h6 th:text="${product.name}"></h6>
-                                              <span>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</span>
-                                          </div>
-                                      </a>
-                                  </div>
-                              </div>
-                          </div>
+                            <!-- Slider 1 -->
+                            <div class="latest-prdouct__slider__item">
+                                <!-- Lặp qua 3 sản phẩm đầu tiên -->
+                                <div th:each="product, iterStat : ${productNew}" th:if="${iterStat.index &lt; 3}">
+                                    <!-- Hiển thị sản phẩm -->
+                                    <a th:href="@{'/san-pham/' + ${product.path}}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img th:src="'/uploads/' + ${product.image}" alt="" />
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6 th:text="${product.name}"></h6>
+                                            <span>[[${#numbers.formatDecimal(product.priceDiscount, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- Slider 2 -->
+                            <div class="latest-prdouct__slider__item">
+                                <!-- Lặp qua 3 sản phẩm tiếp theo -->
+                                <div th:each="product, iterStat : ${productNew}" th:if="${iterStat.index &gt;= 3}">
+                                    <!-- Hiển thị sản phẩm -->
+                                    <a th:href="@{'/san-pham/' + ${product.path}}" class="latest-product__item">
+                                        <div class="latest-product__item__pic">
+                                            <img th:src="'/uploads/' + ${product.image}" alt="" />
+                                        </div>
+                                        <div class="latest-product__item__text">
+                                            <h6 th:text="${product.name}"></h6>
+                                            <span>[[${#numbers.formatDecimal(product.priceDiscount, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                           
                       </div>
                   </div>
@@ -136,7 +136,7 @@
                       </div>
                       <div class="col-lg-4 col-md-4">
                         <div class="filter__found">
-                          <h6><span></span> Sản phẩm đang khuyến mãi</h6>
+                          <h6><span th:text="${#lists.size(products)}"></span> Sản phẩm đang khuyến mãi</h6>
                       </div>
                       </div>
                       <div class="col-lg-4 col-md-3">
@@ -145,24 +145,29 @@
                   </div>
               </div>
               <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6" th:each="discount : ${discounts}">
-                  <div class="blog__item">
-                      <div class="blog__item__pic">
-                              <img th:src="@{/uploads/{path}(path=${discount.imagePath})}" alt="">
-                      </div>
-                      <div class="blog__item__text">
-                          <ul>
-                              <li><i class="fa fa-calendar-o"></i> [[${discount.startDate}]] đến</li>
-                              <li><i class="fa fa-calendar-o"></i> [[${discount.endDate}]]</li>
-                          </ul>
-                          <h5><a>[[${discount.productName}]]</a></h5>
-                          <h5><a>Giá gốc: [[${#numbers.formatDecimal(discount.productPrice, 0, 'COMMA', 0, 'POINT')}]]đ</a></h5>
-                          <h5><a>Giảm còn: [[${#numbers.formatDecimal(discount.discountPrice, 0, 'COMMA', 0, 'POINT')}]]đ</a></h5>
-                          <p>Khuyến mãi: [[${discount.name}]]</p>
-                          <a href="/lien-he" class="blog__btn">Đến cửa hàng nhận ngay ưu đãi <span class="arrow_right"></span></a>
-                      </div>
-                  </div>
-              </div>
+                <div class="col-lg-4 col-md-6 col-sm-6" th:each="product : ${products}">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" th:data-setbg="'/uploads/' + ${product.image}">
+                            <ul class="product__item__pic__hover">
+                                <li><a th:href="@{/san-pham/{path}(path=${product.path})}"><i class="fa fa-eye"></i></a></li>
+                                <input type="hidden" class="productIdCart" th:value="${product.id}">
+                                <li><button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i></button></li>
+                            </ul>
+                            <div class="discount-percent-badge" th:if="${product.percent != null}">-[[${product.percent}]]%</div>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a th:href="@{/san-pham/{path}(path=${product.path})}">[[${product.name}]]</a></h6>
+                            <h5 th:if="${product.percent == null}">
+                                [[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ
+                            </h5>
+                            <h5 th:if="${product.percent != null}">
+                                <del>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</del>
+                                <span class="discounted-price">[[${#numbers.formatDecimal(product.priceDiscount, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                
               </div>
               
           </div>
@@ -173,8 +178,8 @@
 <footer th:replace="common/_footer_Client"></footer>
  
 <script th:inline="javascript">
-     var discounts = /*[[${discounts}]]*/ [];
-     console.log(discounts);
+    // var discounts = /*[[${products}]]*/ [];
+    // console.log(discounts);
 </script>
 
 

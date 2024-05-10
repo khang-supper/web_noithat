@@ -35,13 +35,19 @@ public class CommentControler {
     	CommentRepository.Instance().insert(comment);
         return "redirect:/comment";
     }
+    //hàm đánh giá sản phẩm
     @PostMapping("/api/comments/add")
     public ResponseEntity<String> addReview(@RequestBody Comment comment, HttpSession session) {
         int accountId = (int) session.getAttribute("accountId");
         
+        // Kiểm tra xem người dùng đã đánh giá sản phẩm này chưa
+        boolean hasReviewed = CommentRepository.Instance().hasReviewedProduct(accountId, comment.getProductId());
+        if (hasReviewed) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bạn đã đánh giá sản phẩm này.");
+        }
+    
         // Kiểm tra xem người dùng đã mua sản phẩm này chưa
         boolean hasPurchased = CommentRepository.Instance().hasPurchasedProduct(accountId, comment.getProductId());
-        
         if (hasPurchased) {
             int rowsAffected = CommentRepository.Instance().insert(comment);
             if (rowsAffected > 0) {
@@ -52,7 +58,8 @@ public class CommentControler {
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bạn cần mua sản phẩm mới được đánh giá.");
         }
-    }
+}
+
 
     
     

@@ -3,9 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title th:fragment="TitlePage">Chỉnh sửa sản phẩm</title>
+    <title th:fragment="TitlePage">Chỉnh sửa khuyến mãi</title>
     <style th:replace="/common/_Head_tag"></style>
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.css">
   </head>
   
   <body>
@@ -47,43 +46,70 @@
                 <h4 class="card-title">Chỉnh sửa khuyến mãi</h4>
               </div>
               <!-- content body -->
-              <div class="card-body" style="text-align: left;">
-                <form
-                  action="/admin/discount/edit"
-                  method="post"
-                  th:object="${discount}"
-                >
-                  <input type="hidden" th:field="*{id}" />
-                  
+              <div class="card-body">
+                <form th:action="@{/admin/discount/edit}" th:object="${discount}" method="post" id="discountForm">
+                    <input type="hidden" th:field="*{id}" />
                     <div class="form-group">
-                        <label for="name">Chương trình khuyến mãi</label>
-                        <input
-                        type="text"
-                        class="form-control"
-                        id="name"
-                        placeholder="Nhập code"
-                        th:field="*{name}"/>
-                  </div>
-                  <div class="form-group">
-                    <label for="startDate">ngày hết bắt đầu</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="startDate"
-                      placeholder="Nhập tên loại"
-                      th:field="*{startDate}"
-                    />
+                        <label for="name">Tên khuyến mãi:</label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" />
+                        <div id="nameError" class="error-message"></div>
+                    </div>
                     <div class="form-group">
-                        <label for="endDate">ngày kết thúc</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="endDate"
-                          placeholder="Nhập code"
-                          th:field="*{endDate}"/>
-                  <hr />
-                  <button class="btn btn-info" style="color: red;" type="submit">Lưu</button>
+                        <label for="percent">Phần trăm giảm giá:</label>
+                        <input type="number" id="percent" th:field="*{percent}" />
+                        <div id="percentError" class="error-message"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Kích hoạt:</label>
+                        <input type="checkbox" id="status" th:field="*{status}" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                    </div>
                 </form>
+              </div>
+              <!-- end content body -->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Thêm sản phẩm vào chương trình khuyến mãi</h4>
+              </div>
+              <!-- content body -->
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table id="add-row" class="display table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>Ảnh </th>
+                        <th>Tên sản phẩm</th>
+                        <th>SKU</th>
+                        <th>Giá</th>
+                        <th style="width: 10%">Trạng thái</th>
+                      </tr>
+                    </thead>
+                      <tbody>
+                        <tr th:each="product : ${products}" th:unless="${product.isDelete}">
+                          <td  ><img th:src="@{/uploads/{image}(image=${product.image})}" width="70px" class="thumbnail" style="margin: 10px;"> </td>
+                          <td th:text="${product.name}">Tên sản phẩm</td>
+                          <td th:text="${product.code}">Người tạo</td>
+                          <td>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</td>
+                          <td>
+                            <button id="activeDiscount" class="btn btn-danger btn-border" th:if="${product.isAddedToDiscount}" th:onclick="'addOrRemoveProductFromDiscount(' + ${product.id} + ', ' + ${discount.id} + ', ' + ${product.isAddedToDiscount} + ')'" >
+                              Bỏ chọn
+                            </button>
+                            <button id="activeDiscount" class="btn btn-info btn-border" th:if="${!product.isAddedToDiscount}" th:onclick="'addOrRemoveProductFromDiscount(' + ${product.id} + ', ' + ${discount.id} + ', ' + ${product.isAddedToDiscount} + ')'" >
+                              Thêm vào
+                            </button>
+                          </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+                </div>
               </div>
               <!-- end content body -->
             </div>
@@ -96,151 +122,68 @@
     <footer th:replace="common/_footer_admin"></footer>
 
     <!-- //////// -->
-
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.1.0/classic/ckeditor.js"></script>
     <script>
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
-    <!-- Tạo url từ tên bài viết  -->
-    <script language="javascript">
-        function ChangeToSlug()
-        {
-            var title, slug;
-
-            //Lấy text từ thẻ input title 
-            title = document.getElementById("name").value;
-
-            //Đổi chữ hoa thành chữ thường
-            slug = title.toLowerCase();
-
-            //Đổi ký tự có dấu thành không dấu
-            slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
-            slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
-            slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
-            slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
-            slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
-            slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
-            slug = slug.replace(/đ/gi, 'd');
-            //Xóa các ký tự đặt biệt
-            slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
-            //Đổi khoảng trắng thành ký tự gạch ngang
-            slug = slug.replace(/ /gi, "-");
-            //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
-            //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
-            slug = slug.replace(/\-\-\-\-\-/gi, '-');
-            slug = slug.replace(/\-\-\-\-/gi, '-');
-            slug = slug.replace(/\-\-\-/gi, '-');
-            slug = slug.replace(/\-\-/gi, '-');
-            //Xóa các ký tự gạch ngang ở đầu và cuối
-            slug = '@' + slug + '@';
-            slug = slug.replace(/\@\-|\-\@|\@/gi, '');
-            //In slug ra textbox có id “slug”
-            document.getElementById('path').value = slug;
-        }
-    </script>
-    <!-- JavaScript kiểm tra người dùng nhập form -->
-    <script>
-        document.getElementById('newsForm').addEventListener('submit', function(event) {
-            var name = document.getElementById('name').value.trim();
-            var description = document.getElementById('description').value.trim();
-            var content = document.getElementById('editor').value.trim();
-            var path = document.getElementById('path').value.trim();
-            var image = document.getElementById('image').value.trim();
-
-            var nameError = document.getElementById('nameError');
-            var descriptionError = document.getElementById('descriptionError');
-            var contentError = document.getElementById('contentError');
-            var pathError = document.getElementById('pathError');
-            var imageError = document.getElementById('imageError');
-
-            nameError.innerHTML = "";
-            descriptionError.innerHTML = "";
-            contentError.innerHTML = "";
-            pathError.innerHTML = "";
-            imageError.innerHTML = "";
-
-            if (name === "") {
-                nameError.innerHTML = "Vui lòng nhập tên bài viết";
-                event.preventDefault();
-            }
-            if (description === "") {
-                descriptionError.innerHTML = "Vui lòng nhập mô tả ngắn";
-                event.preventDefault();
-            }
-            if (content === "") {
-                contentError.innerHTML = "Vui lòng nhập nội dung";
-                event.preventDefault();
-            }
-            if (path === "") {
-                pathError.innerHTML = "Vui lòng nhập đường dẫn (URL)";
-                event.preventDefault();
-            }
-            if (image === "") {
-                imageError.innerHTML = "Vui lòng chọn hình đại diện";
-                event.preventDefault();
-            }
-        });
-
-        // Ẩn thông báo lỗi khi người dùng bắt đầu nhập lại trường đó
-        document.getElementById('name').addEventListener('input', function() {
-            document.getElementById('nameError').innerHTML = "";
-        });
-
-        document.getElementById('description').addEventListener('input', function() {
-            document.getElementById('descriptionError').innerHTML = "";
-        });
-
-        document.getElementById('editor').addEventListener('input', function() {
-            document.getElementById('contentError').innerHTML = "";
-        });
-
-        document.getElementById('path').addEventListener('input', function() {
-            document.getElementById('pathError').innerHTML = "";
-        });
-
-        document.getElementById('image').addEventListener('input', function() {
-            document.getElementById('imageError').innerHTML = "";
-        });
-    </script>
-    <script type="text/javascript">
-      $('#uploadButton').on('click', function() {
-         $('#image').click(); // Mở hộp thoại tải lên tệp khi nút được nhấp
-     });
-
-     $('#image').on('change', function(){
-     var formData = new FormData();
-     formData.append('file', $('#image')[0].files[0]);
-
-     $.ajax({
-         url: '/images/upload',
-         type: 'POST',
-         data: formData,
-         contentType: false,
-         processData: false,
-         success: function(data){
-             // Kiểm tra nếu phản hồi là một chuỗi JSON chứa thông tin hình ảnh
-             if (typeof data === 'object' && data.url && data.message && data.name) {
-                 // Nếu tải lên thành công, hiển thị hình ảnh và tên hình ảnh
-                 $('#filePreview').attr('src', data.url);
-                 $('#filePreview').attr('alt', data.message);
-                 $('#imageName').val(data.name); 
-                 console.log(data);
-             } else {
-                 console.log(data); // Phản hồi không chứa thông tin hình ảnh
-             }
-         },
-         error: function(xhr, status, error) {
-             // Xử lý lỗi nếu có
-             console.log(error);
-         }
-     });
- });
-
+      document.getElementById('discountForm').addEventListener('submit', function(event) {
+          var name = document.getElementById('name').value.trim();
+          var percent = document.getElementById('percent').value.trim();
   
- </script>
+          var nameError = document.getElementById('nameError');
+          var percentError = document.getElementById('percentError');
+  
+          nameError.innerHTML = "";
+          percentError.innerHTML = "";
+  
+          if (name === "") {
+              nameError.innerHTML = "Vui lòng nhập tên khuyến mãi";
+              event.preventDefault();
+          }
+          if (percent === "") {
+                  percentError.innerHTML = "Vui lòng nhập phần trăm giảm giá";
+                  event.preventDefault();
+              }
+          else if (isNaN(percent) || parseInt(percent) < 0 || parseInt(percent) > 100) {
+              percentError.innerHTML = "Phần trăm giảm giá phải là một số từ 0 đến 100";
+              event.preventDefault();
+          }
+      });
+  
+      // Ẩn thông báo lỗi khi người dùng bắt đầu nhập lại trường đó
+      document.getElementById('name').addEventListener('input', function() {
+          document.getElementById('nameError').innerHTML = "";
+      });
+  
+      document.getElementById('percent').addEventListener('input', function() {
+          document.getElementById('percentError').innerHTML = "";
+      });
+  
+    </script>
+
+<script>
+  function addOrRemoveProductFromDiscount(productId, discountId, isAdded) {
+      // Gửi AJAX để thực hiện thêm hoặc bỏ chọn sản phẩm khuyến mãi
+  
+      $.ajax({
+          type: "POST",
+          url: "/admin/discount/add-product-to-discount",
+          data: {
+              productId: productId,
+              discountId: isAdded ? 0 : discountId // Nếu sản phẩm đã được thêm vào, gửi discountId là null để bỏ chọn
+          },
+          success: function(response) {
+              if (response === "success") {
+                  isAdded = !isAdded; // Cập nhật trạng thái của sản phẩm
+                  location.reload(); 
+              } else {
+                  alert("Đã xảy ra lỗi khi thực hiện thao tác. Vui lòng thử lại sau.");
+              }
+          },
+          error: function(xhr, status, error) {
+              alert("Đã xảy ra lỗi: " + error);
+          }
+      });
+  }
+</script>
+
+
   </body>
 </html>

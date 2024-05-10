@@ -108,7 +108,14 @@
                        </div>
                       
                       
-                        <div class="product__details__price">[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</div>
+                        <div class="product__details__price" th:if="${discount.percent != 0}">
+                          [[${#numbers.formatDecimal(discount.discountPrice, 0, 'COMMA', 0, 'POINT')}]]đ &#160; 
+                          <del style="color: #999; font-size: 18px;">[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</del>
+                          <span class="percent__discount">-[[${discount.percent}]]%</span>
+                        </div>
+                        <div class="product__details__price" th:if="${discount.percent == 0}">
+                          [[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ 
+                        </div>
                         <p th:text="${product.description}"></p>
                         <div class="product__details__quantity">
                             <div class="quantity">
@@ -268,11 +275,18 @@
                               <li><a th:href="@{/san-pham/{path}(path=${product_r.path})}"><i class="fa fa-eye"></i></a></li>
                               <li><a th:href="@{/add-to-cart/{id}(id=${product_r.id})}"><i class="fa fa-shopping-cart"></i></a></li>
                             </ul>
+                            <div class="discount-percent-badge" th:if="${product_r.percent != null}">-[[${product_r.percent}]]%</div>
                         </div>
                         <div class="product__item__text">
-                            <h6><a th:href="@{/san-pham/{path}(path=${product_r.path})}" th:text="${product_r.name}"></a></h6>
-                            <h5>[[${#numbers.formatDecimal(product_r.price, 0, 'COMMA', 0, 'POINT')}]]đ</h5>
-                        </div>
+                          <h6><a th:href="@{/san-pham/{path}(path=${product_r.path})}">[[${product_r.name}]]</a></h6>
+                          <h5 th:if="${product_r.percent == null}">
+                              [[${#numbers.formatDecimal(product_r.price, 0, 'COMMA', 0, 'POINT')}]]đ
+                          </h5>
+                          <h5 th:if="${product_r.percent != null}">
+                              <del>[[${#numbers.formatDecimal(product_r.price, 0, 'COMMA', 0, 'POINT')}]]đ</del>
+                              <span class="discounted-price">[[${#numbers.formatDecimal(product_r.priceDiscount, 0, 'COMMA', 0, 'POINT')}]]đ</span>
+                          </h5>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -329,7 +343,7 @@
               productId: productId,
               accountId: accountId
           };
-          console.log(comment);
+          //console.log(comment);
           $.ajax({
               type: 'POST',
               url: '/api/comments/add',
@@ -346,11 +360,12 @@
               },
               error: function(xhr, status, error) {
                   console.error(xhr.responseText);
-                  $("#notification").html("Bạn cần mua sản phẩm mới được đánh giá.").addClass("show");
+                  $("#notification").html(xhr.responseText).addClass("show");
                   setTimeout(function() {
                       $("#notification").removeClass("show");
                   }, 2000);
               }
+
           });
 
 

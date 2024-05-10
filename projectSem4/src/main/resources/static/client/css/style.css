@@ -2150,6 +2150,12 @@ ol {
   float: right;
 }
 
+.shoping__checkout ul li del, .delprice {
+  font-size: 16px;
+  color: #838383;
+  float: right;
+}
+
 .shoping__checkout .primary-btn {
   display: block;
   text-align: center;
@@ -3590,16 +3596,57 @@ ol {
     .show {
       display: block;
       animation: fadeInOut 3s forwards;
-  }
+    }
 
-  @keyframes fadeInOut {
-      0% {
-          opacity: 0;
-      }
-      50% {
-          opacity: 1;
-      }
-      100% {
-          opacity: 0;
-      }
-  }
+    @keyframes fadeInOut {
+        0% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
+    /* discount  */
+
+    /* Adjustments for the discount badge */
+    .discount-percent-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: red;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 14px;
+      font-weight: bold;
+      animation: blink 1.5s infinite alternate;
+    }
+    .percent__discount{
+      position: absolute;
+      background-color: red;
+      color: white;
+      border-radius: 3px;
+      font-size: 14px;
+      font-weight: bold;
+      animation: blink 1.5s infinite alternate;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1.2; }
+      50% { opacity: 0.3; }
+      100% { opacity: 0; }
+    }
+
+    /* Adjustments for the original price */
+    .product__item__text h5 del {
+      color: #999;
+    }
+
+    /* Chữ đỏ trong kiểm tra form  */
+    .error-message {
+      color: red;
+    }

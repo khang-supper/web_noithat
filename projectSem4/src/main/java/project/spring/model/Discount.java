@@ -1,27 +1,22 @@
 package project.spring.model;
 
-import java.util.Date;
-
 public class Discount {
     private int id;  // Khóa chính
-    private String name;  // Tên chương trình (ví dụ 30/4 - 01/05)
-    private Date startDate;  // Ngày bắt đầu
-    private Date endDate;  // Ngày kết thúc
-    private int accountId;  // Người tạo 
+    private String name;  // Tên chương trình 
+    private double percent;  // Ngày bắt đầu
+    private boolean status;  //trạng thái
 	//////////
 	public static String ID = "id";
 	public static String NAME = "name";
-	public static String STARTDATE = "startDate";
-	public static String ENDDATE = "endDate";
-	public static String ACCOUNTID = "accountId";
+	public static String PERCENT = "percent";
+	public static String STATUS = "status";
     
-	public Discount(int id, String name, Date startDate, Date endDate, int accountId) {
+	public Discount(int id, String name, double percent, boolean status) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.accountId = accountId;
+		this.percent = percent;
+		this.status = status;
 	}
 
 	public Discount() {
@@ -44,28 +39,20 @@ public class Discount {
 		this.name = name;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public double getPercent() {
+		return percent;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setPercent(double percent) {
+		this.percent = percent;
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public boolean getStatus() {
+		return status;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public int getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 }

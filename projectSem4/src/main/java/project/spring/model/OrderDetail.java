@@ -7,6 +7,13 @@ public class OrderDetail {
     private double totalPrice;  // Đơn giá (tổng tiền)
     private int orderId;  // Mã đơn hàng - Khóa ngoại
     private int productId;  // Sản phẩm - mã - Khóa ngoại
+
+	public static String ID = "id";
+	public static String PRICE = "price";
+	public static String QUANTITY = "quantity";
+	public static String TOTALPRICE = "totalPrice";
+	public static String ORDREID = "orderId";
+	public static String PRODUCTID = "productId";
     
 	public OrderDetail(int id, double price, int quantity, double totalPrice, int orderId, int productId) {
 		super();

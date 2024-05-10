@@ -2,7 +2,6 @@ package project.spring.model;
 
 import java.util.Date;
 
-import javax.print.DocFlavor.STRING;
 
 public class Order {
 	private int id;  // Khóa chính

@@ -1,80 +1,87 @@
 package project.spring.repositories;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Service;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import project.spring.model.Discount;
-@Service
-public class DiscountRepository {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+
+public final class DiscountRepository {
+    private static DiscountRepository _instance = null;
+    private JdbcTemplate db;
+
+    public DiscountRepository() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl(
+                "jdbc:mysql://localhost:3306/project_sem4?verifyServerCertificate=false&useSSL=false&requireSSL=false");
+        dataSource.setUsername("sem4");
+        dataSource.setPassword("sem4");
+        db = new JdbcTemplate(dataSource);
+    }
+
+    public static DiscountRepository Instance() {
+        if (_instance == null) {
+            _instance = new DiscountRepository();
+        }
+        return _instance;
+    }
+
     class DiscountRowMapper implements RowMapper<Discount> {
         @Override
         public Discount mapRow(ResultSet rs, int rowNum) throws SQLException {
             Discount item = new Discount();
             item.setId(rs.getInt(Discount.ID));
             item.setName(rs.getString(Discount.NAME));
-            item.setStartDate(rs.getDate(Discount.STARTDATE));
-            item.setEndDate(rs.getDate(Discount.ENDDATE));
-            item.setAccountId(rs.getInt(Discount.ACCOUNTID));
-          
-            
+            item.setPercent(rs.getDouble(Discount.PERCENT));
+            item.setStatus(rs.getBoolean(Discount.STATUS));
             return item;
         }
     }
 
     public List<Discount> findAll() {
-        return jdbcTemplate.query("select * from discounts ", new DiscountRowMapper());
-    }
-
-
-    @SuppressWarnings("deprecation")
-    public List<Discount> findAllByPage(int page, int pageSize) {
-        int start = page * pageSize;
-        return jdbcTemplate.query("SELECT * FROM discounts LIMIT ?, ? ", new Object[] { start, pageSize }, new DiscountRowMapper());
-    }
-
-
-    public int getTotalPages(int pageSize) {
-        int totalCount = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM discounts", Integer.class);
-        return (int) Math.ceil((double) totalCount / pageSize);
+        return db.query("select * from discounts order by id desc", new DiscountRowMapper());
     }
 
     public Discount findById(int id) {
-        return jdbcTemplate.queryForObject("select * from discounts where Id=?", new DiscountRowMapper(), new Object[] { id });
+        return db.queryForObject("select * from discounts where Id=?", new DiscountRowMapper(), new Object[] { id });
+    
+    }
+
+    public int deleteById(int id) {
+    return db.update("delete from discounts where Id=?", new Object[] { id });
     }
 
     public int insert(Discount newDiscount) {
-    return jdbcTemplate.update("INSERT INTO discounts (name, startDate, endDate, accountId) VALUES (?,?, ?, ?)",
-            new Object[] { newDiscount.getName(), newDiscount.getStartDate(), newDiscount.getEndDate(), newDiscount.getAccountId()});
+        return db.update("insert into discounts (name, percent, status)" + "value(?,?,?)",
+                new Object[] { newDiscount.getName(), newDiscount.getPercent(), newDiscount.getStatus() });
     }
 
-    public int update(Discount upPro) {
-        return jdbcTemplate.update("UPDATE discounts SET name = ?, startDate = ?, endDate = ?, accountId = ? WHERE Id = ?",
-                new Object[] { upPro.getName(), upPro.getStartDate(), upPro.getEndDate(), upPro.getAccountId(), upPro.getId() });
+    public int update(Discount upDiscount) {
+        return db.update("update discounts set name = ?, percent = ?, status = ? where Id = ?",
+                new Object[] { upDiscount.getName(), upDiscount.getPercent(), upDiscount.getStatus(),
+                        upDiscount.getId() });
     }
-    
 
-    public int deleteById(int id) {
-        return jdbcTemplate.update("UPDATE discounts SET name = 1  WHERE Id = ?", new Object[] { id });
+    public int updateDiscountId(int discountId, int productId) {
+        return db.update("update products set discountId = ? where Id = ?",
+                new Object[] {discountId, productId });
     }
-    public List<Map<String, Object>> showDiscount(){
-        String query = "SELECT d.*, dp.discountPrice, p.name AS productName, p.price AS productPrice, i.path AS imagePath " +
-                        "FROM discounts d " +
-                        "INNER JOIN discount_products dp ON d.id = dp.discountId " +
-                        "INNER JOIN products p ON dp.productId = p.id " +
-                        "INNER JOIN image_products ip ON p.id = ip.productId " +
-                        "INNER JOIN images i ON ip.imageId = i.id AND ip.status = 1 " +
-                        "WHERE d.startDate < CURDATE() AND d.endDate > CURDATE()";
-        return jdbcTemplate.queryForList(query);                
+
+    public boolean isProductAddedToDiscount(int discountId, int productId) {
+        try {
+            Integer result = db.queryForObject("SELECT COUNT(*) FROM products WHERE discountId = ? AND id = ?",
+                    Integer.class, discountId, productId);
+            return result != null && result > 0;
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        }
     }
+
 
 }

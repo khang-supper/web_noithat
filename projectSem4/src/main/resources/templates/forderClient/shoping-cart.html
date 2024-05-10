@@ -91,26 +91,28 @@
                                 </thead>
                                 <tbody>
                                     <!-- Kiểm tra nếu giỏ hàng không có sản phẩm -->
-                                    <!-- <tr th:if="${carts.isEmpty()}">
+                                    <tr th:if="${carts == null}">
                                         <td colspan="5">Giỏ hàng của bạn đang trống.</td>
-                                    </tr> -->
-                                    <tr th:each="cart : ${carts}">
+                                    </tr>
+                                    <tr th:if="${carts != null}" th:each="cart : ${carts}">
                                         <td class="shoping__cart__item">
                                             <img th:src="'/uploads/' + ${cart.image}" alt="" width="100px"/>
                                             <h5 th:text="${cart.name}"></h5>
                                         </td>
                                         <td class="shoping__cart__price">
-                                            [[${#numbers.formatDecimal(cart.price, 0, 'COMMA', 0, 'POINT')}]]đ
+                                            <del class="delprice" th:if="${cart.percent != null}">[[${#numbers.formatDecimal(cart.price, 0, 'COMMA', 0, 'POINT')}]]đ</del>
+                                            [[${#numbers.formatDecimal(cart.discountPrice, 0, 'COMMA', 0, 'POINT')}]]đ
                                         </td>
                                         <td class="shoping__cart__quantity">
                                             <div class="quantity">
                                                 <div class="pro-qty">
                                                     <input type="text" th:value="${cart.quantity}">
                                                 </div>
-                                            </div>
+                                            </div>  
                                         </td>
                                         <td class="shoping__cart__total">
-                                            [[${#numbers.formatDecimal(cart.total, 0, 'COMMA', 0, 'POINT')}]]đ
+                                            <del class="delprice" th:if="${cart.percent != null}">[[${#numbers.formatDecimal(cart.total, 0, 'COMMA', 0, 'POINT')}]]đ</del>
+                                            [[${#numbers.formatDecimal(cart.totalDiscount, 0, 'COMMA', 0, 'POINT')}]]đ
                                         </td>
                                         <td class="shoping__cart__item__close">
                                             <span class="icon_close"></span>
@@ -144,7 +146,8 @@
                         <div class="shoping__checkout">
                             <h5>Tổng tiền</h5>
                             <ul>
-                                <li>Tổng<span>[[${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}]]đ</span></li>
+                                <li>Tổng trước giảm<del>[[${#numbers.formatDecimal(totalBefore, 0, 'COMMA', 0, 'POINT')}]]đ</del></li>
+                                <li>Tổng thanh toán<span>[[${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'POINT')}]]đ</span></li>
                             </ul>
                             <a href="/dat-hang" class="primary-btn">ĐẶT HÀNG</a>
                         </div>

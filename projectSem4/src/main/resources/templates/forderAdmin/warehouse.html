@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title th:fragment="TitlePage">Quản lý kho</title>
+	<style th:replace="/common/_Head_tag"></style>
+</head>
+<body>	
+
+	<!-- header-->
+	<header th:replace="common/_Header_admin"></header>
+
+	<div class="content">
+		<div class="page-inner">
+			<!-- breadcrumbs -->
+			<div class="page-header">
+    			<ul class="breadcrumbs">
+					<li class="nav-home">
+						<a href="/admin">
+							<i class="flaticon-home"></i>
+						</a>
+					</li>
+					<li class="separator">
+						<i class="flaticon-right-arrow"></i>
+					</li>
+					<li class="nav-item">
+						<a href="#">Quản lý kho</a>
+					</li>
+				</ul>
+			</div>
+			<!-- end breadcrumbs -->
+
+		<!-- body-->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">Sản phẩm &amp; Tồn kho</h4>
+						</div>
+                        <div class="card-body">
+                            <div class="col-md-4 d-flex flex-column justify-content-around">
+                                <div>
+                                    <h6 class="fw-bold text-uppercase text-success op-8">Số lượng sản phẩm</h6>
+                                    <h3 class="fw-bold">[[${getProductCount}]]</h3>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold text-uppercase text-danger op-8">Số lượng tồn kho</h6>
+                                    <h3 class="fw-bold">[[${getTotalStock}]]</h3> 
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold text-uppercase text-danger op-8">Giá trị tồn kho</h6>
+                                    <h3 class="fw-bold">[[${#numbers.formatDecimal(getTotalStockValue, 0, 'COMMA', 0, 'POINT')}]]đ</h3> 
+                                </div>
+                            </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">Sản phẩm sắp hết hàng, chuẩn bị nhập hàng</h4>
+						</div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="add-row" class="display table table-striped table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th>Id</th>
+                                      <th>ảnh </th>
+                                      <th>Tên sản phẩm</th>
+                                      <th>SKU</th>
+                                      <th>Tồn kho</th>
+                                      <th>Giá</th>
+                                      <th style="width: 10%">Hành động</th>
+                                    </tr>
+                                  </thead>
+                                    <tbody>
+                                      <tr th:each="product : ${productOutStock10}"   th:unless="${product.isDelete}">
+                                        <td th:text="${product.id}">ID</td>
+                                        <td  ><img th:src="@{/uploads/{image}(image=${product.image})}" width="70px" class="thumbnail" style="margin: 10px;"> </td>
+                                        <td th:text="${product.name}">Tên sản phẩm</td>
+                                        <td th:text="${product.code}">Người tạo</td>
+                                        <td th:text="${product.stock}">Tồn kho</td>
+                                        <td>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</td>
+                                        <td>
+                                        <div class="form-button-action">
+                                          <button type="button" data-toggle="tooltip" title="Chỉnh sửa" class="btn btn-link btn-primary btn-lg edit-btn" data-original-title="Chỉnh sửa" th:data-product-id="${product.id}">
+                                            <i class="fa fa-edit"></i>
+                                          </button>
+                                          <button type="button" title="Xóa" class="btn btn-link btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal" th:data-product-id="${product.id}">
+                                            <i class="fa fa-times"></i>
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">Sản phẩm hết hàng, cần nhập hàng</h4>
+						</div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="add-row" class="display table table-striped table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th>Id</th>
+                                      <th>ảnh </th>
+                                      <th>Tên sản phẩm</th>
+                                      <th>SKU</th>
+                                      <th>Tồn kho</th>
+                                      <th>Giá</th>
+                                      <th style="width: 10%">Hành động</th>
+                                    </tr>
+                                  </thead>
+                                    <tbody>
+                                      <tr th:each="product : ${productOutStock}"   th:unless="${product.isDelete}">
+                                        <td th:text="${product.id}">ID</td>
+                                        <td  ><img th:src="@{/uploads/{image}(image=${product.image})}" width="70px" class="thumbnail" style="margin: 10px;"> </td>
+                                        <td th:text="${product.name}">Tên sản phẩm</td>
+                                        <td th:text="${product.code}">Người tạo</td>
+                                        <td th:text="${product.stock}">Tồn kho</td>
+                                        <td>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</td>
+                                        <td>
+                                        <div class="form-button-action">
+                                          <button type="button" data-toggle="tooltip" title="Chỉnh sửa" class="btn btn-link btn-primary btn-lg edit-btn" data-original-title="Chỉnh sửa" th:data-product-id="${product.id}">
+                                            <i class="fa fa-edit"></i>
+                                          </button>
+                                          <button type="button" title="Xóa" class="btn btn-link btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal" th:data-product-id="${product.id}">
+                                            <i class="fa fa-times"></i>
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">Sản phẩm bán chạy nhất</h4>
+						</div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="add-row" class="display table table-striped table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th>Id</th>
+                                      <th>ảnh </th>
+                                      <th>Tên sản phẩm</th>
+                                      <th>SKU</th>
+                                      <th>Tồn kho</th>
+                                      <th>Số lượng bán ra</th>
+                                    </tr>
+                                  </thead>
+                                    <tbody>
+                                      <tr th:each="product : ${productSale}"   th:unless="${product.isDelete}">
+                                        <td th:text="${product.id}">ID</td>
+                                        <td  ><img th:src="@{/uploads/{image}(image=${product.image})}" width="70px" class="thumbnail" style="margin: 10px;"> </td>
+                                        <td th:text="${product.name}">Tên sản phẩm</td>
+                                        <td th:text="${product.code}">Người tạo</td>
+                                        <td th:text="${product.stock}">Tồn kho</td>
+                                        <td  th:text="${product.total_sales}">Bán ra</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+		<!-- End body -->
+		</div>
+	</div>
+
+    <!-- Modal  Delete-->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteModalLabel">Xóa bài viết</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+             
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+              <button type="button" class="btn btn-danger">Xóa</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--END Modal  Delete-->
+
+	<!-- footer-->
+	<footer th:replace="common/_footer_admin"></footer>
+	<script>
+        // Xử lý sự kiện khi click vào nút chỉnh sửa
+        $('.edit-btn').on('click', function() {
+            var id = $(this).attr('data-product-id'); 
+            window.location.href = '/admin/product/edit?id=' + id; 
+        });
+
+        // Xử lý sự kiện khi click vào nút xóa
+        $('.delete-btn').on('click', function() {
+            var id = $(this).attr('data-product-id'); 
+            var name = $(this).closest('tr').find('td:nth-child(3)').text();
+            $('#deleteModal').modal('show'); // Hiển thị modal xác nhận xóa
+            $('#deleteModal .modal-body').text('Bạn có chắc muốn xóa "' + name + '"?'); // Đặt nội dung modal
+            // Xác nhận xóa
+            $('#deleteModal .btn-danger').on('click', function() { 
+                window.location.href = '/admin/product/delete/' + id; // Gửi yêu cầu xóa với id tương ứng
+            });
+        });
+        
+    </script>
+</body>
+</html>

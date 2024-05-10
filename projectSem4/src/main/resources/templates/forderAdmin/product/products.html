@@ -50,6 +50,7 @@
                         <th>ảnh </th>
                         <th>Tên sản phẩm</th>
                         <th>SKU</th>
+                        <th>Tồn kho</th>
                         <th>Giá</th>
                         <th style="width: 10%">Hành động</th>
                       </tr>
@@ -60,6 +61,7 @@
                           <td  ><img th:src="@{/uploads/{image}(image=${product.image})}" width="70px" class="thumbnail" style="margin: 10px;"> </td>
                           <td th:text="${product.name}">Tên sản phẩm</td>
                           <td th:text="${product.code}">Người tạo</td>
+                          <td th:text="${product.stock}">Tồn kho</td>
                           <!-- <td th:text="${product.content}">Nội dung</td> -->
                           <td>[[${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}]]đ</td>
                           <td>
